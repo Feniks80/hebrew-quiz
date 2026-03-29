@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест: ивритская терминология инженера</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f9;
+    color: #1a1a2e;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  .container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    max-width: 600px;
+    width: 100%;
+    padding: 36px 32px 32px;
+  }
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 28px;
+  }
+  .progress-bar-bg {
+    background: #e8ecf0;
+    border-radius: 8px;
+    height: 7px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 7px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #2563eb, #4f8ef7);
+    transition: width 0.4s ease;
+  }
+  .question-counter {
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 14px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .hebrew-word {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    text-align: center;
+    direction: rtl;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .transliteration {
+    font-size: 1.0rem;
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 26px;
+    font-style: italic;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin-bottom: 24px;
+  }
+  .option-btn {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 13px 18px;
+    font-size: 0.97rem;
+    color: #1a1a2e;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+    font-family: inherit;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
+  }
+  .option-btn.correct {
+    background: #f0fdf4;
+    border-color: #16a34a;
+    color: #15803d;
+    font-weight: 600;
+  }
+  .option-btn.wrong {
+    background: #fff1f2;
+    border-color: #dc2626;
+    color: #b91c1c;
+  }
+  .option-btn:disabled { cursor: default; }
+  .feedback {
+    min-height: 40px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 18px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .feedback.show { display: flex; }
+  .feedback.correct-fb { background: #f0fdf4; color: #15803d; }
+  .feedback.wrong-fb { background: #fff1f2; color: #b91c1c; }
+  .next-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.18s;
+    display: none;
+    font-family: inherit;
+  }
+  .next-btn:hover { background: #1d4ed8; }
+  /* Results */
+  .results {
+    display: none;
+    text-align: center;
+  }
+  .score-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #4f8ef7);
+    color: white;
+    font-size: 2rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 20px rgba(37,99,235,0.25);
+  }
+  .results h2 { font-size: 1.35rem; margin-bottom: 8px; }
+  .results .verdict {
+    font-size: 1.0rem;
+    color: #555;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .breakdown {
+    text-align: left;
+    margin-bottom: 24px;
+  }
+  .breakdown h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #888;
+    margin-bottom: 12px;
+  }
+  .term-result {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 7px;
+    font-size: 0.93rem;
+  }
+  .term-result.ok { background: #f0fdf4; }
+  .term-result.miss { background: #fff1f2; }
+  .term-result .heb { font-weight: 700; direction: rtl; font-size: 1.05rem; min-width: 120px; }
+  .term-result .ru { color: #444; }
+  .icon { font-size: 1.1rem; }
+  .restart-btn {
+    background: #f1f5f9;
+    color: #1a1a2e;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-size: 0.97rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+    transition: background 0.18s;
+  }
+  .restart-btn:hover { background: #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Quiz screen -->
+  <div id="quiz-screen">
+    <h1>Проверка терминологии</h1>
+    <p class="subtitle">Выберите правильный перевод ивритского термина</p>
+    <div class="progress-bar-bg"><div class="progress-bar" id="progress"></div></div>
+    <div class="question-counter" id="counter"></div>
+    <div class="hebrew-word" id="heb-word"></div>
+    <div class="transliteration" id="translit"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn">Следующий вопрос →</button>
+  </div>
+
+  <!-- Results screen -->
+  <div class="results" id="results-screen">
+    <div class="score-circle" id="score-circle"></div>
+    <h2 id="results-title"></h2>
+    <p class="verdict" id="verdict"></p>
+    <div class="breakdown">
+      <h3>Детально</h3>
+      <div id="breakdown-list"></div>
+    </div>
+    <button class="restart-btn" onclick="restart()">Пройти ещё раз</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { heb: "עוֹמֶס", translit: "óмес", correct: "Нагрузка", options: ["Давление", "Нагрузка", "Напряжение", "Равновесие"], shoresh: "ע-מ-ס" },
+  { heb: "לחץ", translit: "лáхац", correct: "Давление / Сжатие", options: ["Давление / Сжатие", "Растяжение", "Вес", "Изгиб"], shoresh: "ל-ח-ץ" },
+  { heb: "כפיפה", translit: "кфифá", correct: "Изгиб", options: ["Срез", "Сжатие", "Изгиб", "Деформация"], shoresh: "כ-פ-פ" },
+  { heb: "גזירה", translit: "гзирá", correct: "Срез / Сдвиг", options: ["Изгиב", "Срез / Сдвиг", "Растяжение", "Скручивание"], shoresh: "ג-ז-ר" },
+  { heb: "בטון מזוין", translit: "бетóн мезуян", correct: "Железобетон", options: ["Лёгкий бетон", "Железобетон", "Предварительно напряжённый бетон", "Монолитный бетон"], shoresh: "ז-י-ן" },
+  { heb: "חישוב סטטי", translit: "хишýв стáти", correct: "Статический расчёт", options: ["Статический расчёт", "Расчёт нагрузок", "Динамический анализ", "Проверка сечения"], shoresh: "ח-ש-ב" },
+  { heb: "מומנט כפיפה", translit: "момéнт кфифá", correct: "Изгибающий момент", options: ["Момент инерции", "Изгибающий момент", "Крутящий момент", "Опорный момент"], shoresh: "כ-פ-פ" },
+  { heb: "כוח גזירה", translit: "кóах гзирá", correct: "Поперечная сила", options: ["Продольная сила", "Опорная реакция", "Поперечная сила", "Сила трения"], shoresh: "ג-ז-ר" },
+  { heb: "חוזק", translit: "хóзек", correct: "Прочность", options: ["Жёсткость", "Прочность", "Устойчивость", "Деформация"], shoresh: "ח-ז-ק" },
+  { heb: "מאמץ", translit: "маамáц", correct: "Напряжение (мех.)", options: ["Нагрузка", "Усилие", "Напряжение (мех.)", "Деформация"], shoresh: "א-מ-ץ" },
+  { heb: "סמך קבוע", translit: "сéмех кавýа", correct: "Неподвижная опора", options: ["Подвижная опора", "Неподвижная опора", "Шарнирная опора", "Промежуточная опора"], shoresh: "ס-מ-כ" },
+  { heb: "עומס מפורס", translit: "óмес мефурáс", correct: "Распределённая нагрузка", options: ["Распределённая нагрузка", "Сосредоточенная нагрузка", "Временная нагрузка", "Нормативная нагрузка"], shoresh: "ע-מ-ס" },
+  { heb: "תכן מבנים", translit: "тéхен миванúм", correct: "Проектирование конструкций", options: ["Строительство зданий", "Проектирование конструкций", "Расчёт конструкций", "Обследование зданий"], shoresh: "ת-כ-נ" },
+  { heb: "מקדם בטיחות", translit: "мекадéм бтихýт", correct: "Коэффициент безопасности", options: ["Коэффициент надёжности", "Коэффициент безопасности", "Запас прочности", "Коэффициент нагрузки"], shoresh: "" },
+  { heb: "שיווי משקל", translit: "шивýй мишкáль", correct: "Равновесие", options: ["Равновесие", "Центр тяжести", "Вес конструкции", "Момент сил"], shoresh: "ש-ק-ל" },
+];
+
+let current = 0;
+let score = 0;
+let answered = [];
+let shuffled = [];
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function start() {
+  shuffled = shuffle(questions);
+  current = 0; score = 0; answered = [];
+  document.getElementById('quiz-screen').style.display = '';
+  document.getElementById('results-screen').style.display = 'none';
+  loadQuestion();
+}
+
+function loadQuestion() {
+  const q = shuffled[current];
+  const total = shuffled.length;
+  document.getElementById('progress').style.width = ((current / total) * 100) + '%';
+  document.getElementById('counter').textContent = `Вопрос ${current + 1} из ${total}`;
+  document.getElementById('heb-word').textContent = q.heb;
+  document.getElementById('translit').textContent = q.translit;
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback'; fb.textContent = '';
+  document.getElementById('next-btn').style.display = 'none';
+
+  const optContainer = document.getElementById('options');
+  optContainer.innerHTML = '';
+  shuffle(q.options).forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(opt, q);
+    optContainer.appendChild(btn);
+  });
+}
+
+function selectAnswer(chosen, q) {
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.correct) b.classList.add('correct');
+    else if (b.textContent === chosen && chosen !== q.correct) b.classList.add('wrong');
+  });
+
+  const isCorrect = chosen === q.correct;
+  if (isCorrect) score++;
+  answered.push({ heb: q.heb, correct: q.correct, chosen, ok: isCorrect, shoresh: q.shoresh });
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  fb.textContent = isCorrect
+    ? '✓ Верно!' + (q.shoresh ? `  Корень: ${q.shoresh}` : '')
+    : `✗ Правильный ответ: ${q.correct}` + (q.shoresh ? `  Корень: ${q.shoresh}` : '');
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = current + 1 < shuffled.length ? 'Следующий вопрос →' : 'Посмотреть результаты';
+}
+
+document.getElementById('next-btn').onclick = () => {
+  current++;
+  if (current < shuffled.length) loadQuestion();
+  else showResults();
+};
+
+function showResults() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  const res = document.getElementById('results-screen');
+  res.style.display = 'block';
+  const pct = Math.round((score / shuffled.length) * 100);
+  document.getElementById('score-circle').textContent = score + '/' + shuffled.length;
+
+  let title, verdict;
+  if (pct >= 80) {
+    title = 'Отличный результат!';
+    verdict = 'Вы уже знаете большую часть базовой терминологии. Фокус — на углублении: производные слова от знакомых корней, разговорные шаблоны для совещаний и чтение профессиональных текстов.';
+  } else if (pct >= 50) {
+    title = 'Хорошая база!';
+    verdict = 'Часть терминов вам знакома. Рекомендую начать с корней, к которым относятся ваши ошибки — они дадут наибольший прирост.';
+  } else {
+    title = 'Есть над чем работать.';
+    verdict = 'Терминология только начинает формироваться — это нормально для вашего уровня. Оптимально начать с 5 ключевых корней: ע-מ-ס, ל-ח-ץ, כ-פ-פ, ח-ז-ק, ז-י-ן.';
+  }
+  document.getElementById('results-title').textContent = title;
+  document.getElementById('verdict').textContent = verdict;
+
+  const list = document.getElementById('breakdown-list');
+  list.innerHTML = '';
+  answered.forEach(a => {
+    const div = document.createElement('div');
+    div.className = 'term-result ' + (a.ok ? 'ok' : 'miss');
+    div.innerHTML = `<span class="icon">${a.ok ? '✓' : '✗'}</span><span class="heb">${a.heb}</span><span class="ru">${a.correct}</span>`;
+    list.appendChild(div);
+  });
+}
+
+function restart() { start(); }
+
+start();
+</script>
+</body>
+</html>

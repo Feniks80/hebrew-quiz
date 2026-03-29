@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Иврит для инженера — Квиз v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Hebrew:wght@400;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'IBM Plex Sans', 'Segoe UI', Arial, sans-serif;
+    background: #0f1117;
+    color: #e8e6e3;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px 12px;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+  }
+  .container {
+    background: #1a1d27;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    max-width: 660px;
+    width: 100%;
+    padding: 32px 26px 28px;
+  }
+
+  .heb-text, .opt-heb, .main-display .heb {
+    font-family: 'IBM Plex Sans Hebrew', 'Segoe UI', Arial, sans-serif;
+  }
+
+  /* ── LOBBY ── */
+  #lobby { text-align: center; }
+  #lobby h1 { font-size: 1.55rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.02em; }
+  #lobby h1 span { background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  #lobby .subtitle { font-size: 0.88rem; color: #6b7280; margin-bottom: 24px; line-height: 1.6; }
+  .round-cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .round-card {
+    display: flex; align-items: center; gap: 14px;
+    border: 1.5px solid rgba(255,255,255,0.07); border-radius: 14px;
+    padding: 13px 16px; text-align: left; cursor: pointer;
+    transition: all 0.2s; background: rgba(255,255,255,0.02);
+  }
+  .round-card:hover { border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.04); }
+  .round-card.done  { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.04); }
+  .round-card.locked{ opacity: 0.35; cursor: not-allowed; }
+  .round-card.active-card { border-color: rgba(96,165,250,0.5); box-shadow: 0 0 0 3px rgba(96,165,250,0.1); }
+  .rc-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .rc-title { font-size: 0.93rem; font-weight: 700; color: #e8e6e3; }
+  .rc-sub   { font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
+  .rc-score { margin-left: auto; font-size: 0.93rem; font-weight: 700; color: #22c55e; white-space: nowrap; }
+  .rc-score.pending { color: #4b5563; }
+
+  .start-btn {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white; border: none; border-radius: 12px;
+    padding: 14px 32px; font-size: 1rem; font-weight: 700; cursor: pointer;
+    width: 100%; font-family: inherit; transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+  }
+  .start-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(37,99,235,0.4); }
+  .start-btn:disabled { background: #374151; cursor: not-allowed; box-shadow: none; transform: none; }
+
+  /* ── QUIZ ── */
+  #quiz-screen { display: none; }
+  .round-pill {
+    display: inline-block; font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .pill-1 { background: rgba(37,99,235,0.15); color: #60a5fa; }
+  .pill-2 { background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .pill-3 { background: rgba(234,179,8,0.15); color: #fbbf24; }
+  .pill-4 { background: rgba(239,68,68,0.15); color: #f87171; }
+
+  .progress-bar-bg { background: rgba(255,255,255,0.06); border-radius: 8px; height: 5px; margin-bottom: 20px; overflow: hidden; }
+  .progress-bar { height: 5px; border-radius: 8px; transition: width 0.4s ease; }
+  .bar-1 { background: linear-gradient(90deg,#2563eb,#60a5fa); }
+  .bar-2 { background: linear-gradient(90deg,#7c3aed,#a78bfa); }
+  .bar-3 { background: linear-gradient(90deg,#d97706,#fbbf24); }
+  .bar-4 { background: linear-gradient(90deg,#dc2626,#f87171); }
+
+  .q-counter { font-size: 0.78rem; color: #6b7280; margin-bottom: 16px; }
+  .type-badge {
+    display: inline-block; font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .badge-translate { background:rgba(37,99,235,0.12); color:#60a5fa; }
+  .badge-roots     { background:rgba(124,58,237,0.12); color:#a78bfa; }
+  .badge-phrase    { background:rgba(234,179,8,0.12); color:#fbbf24; }
+  .badge-fill      { background:rgba(34,197,94,0.12); color:#4ade80; }
+  .badge-reverse   { background:rgba(239,68,68,0.12); color:#f87171; }
+  .badge-mistake   { background:rgba(239,68,68,0.12); color:#f87171; }
+
+  .q-label { font-size: 0.94rem; font-weight: 600; color: #d1d5db; margin-bottom: 16px; line-height: 1.55; }
+
+  .main-display {
+    background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 20px; margin-bottom: 18px; text-align: center;
+  }
+  .main-display .heb { font-size: 2rem; font-weight: 700; direction: rtl; color: #f3f4f6; margin-bottom: 4px; line-height: 1.35; }
+  .main-display .translit { font-size: 0.88rem; color: #6b7280; font-style: italic; }
+  .main-display .ru-phrase { font-size: 1.05rem; font-weight: 600; color: #f3f4f6; }
+
+  .context-hint {
+    font-size: 0.82rem; color: #9ca3af; background: rgba(96,165,250,0.06);
+    border-left: 3px solid rgba(96,165,250,0.4); padding: 8px 14px;
+    border-radius: 0 10px 10px 0; margin-bottom: 18px; line-height: 1.55;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .option-btn {
+    background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 12px 16px; font-size: 0.92rem; color: #d1d5db;
+    cursor: pointer; text-align: left; transition: all 0.18s; font-family: inherit; line-height: 1.45;
+  }
+  .option-btn:hover:not(:disabled) { border-color: rgba(96,165,250,0.5); background: rgba(96,165,250,0.06); color: #93c5fd; }
+  .option-btn.correct { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.5); color: #4ade80; font-weight: 600; }
+  .option-btn.wrong   { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.5); color: #f87171; }
+  .option-btn:disabled { cursor: default; }
+  .opt-heb { direction: rtl; display: block; font-size: 1.05rem; font-weight: 700; font-family: 'IBM Plex Sans Hebrew', 'Segoe UI', sans-serif; }
+  .opt-sub { display: block; font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
+
+  .feedback {
+    font-size: 0.88rem; border-radius: 10px; padding: 12px 16px;
+    margin-bottom: 16px; display: none; line-height: 1.55;
+  }
+  .feedback.show { display: block; }
+  .correct-fb { background: rgba(34,197,94,0.08); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+  .wrong-fb   { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+  .next-btn {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white; border: none; border-radius: 10px;
+    padding: 13px 28px; font-size: 0.97rem; font-weight: 600; cursor: pointer;
+    width: 100%; transition: all 0.2s; display: none; font-family: inherit;
+  }
+  .next-btn:hover { transform: translateY(-1px); }
+
+  /* ── ROUND END ── */
+  #round-end { display: none; text-align: center; }
+  .re-circle {
+    width: 96px; height: 96px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: 800; color: white;
+    margin: 0 auto 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+  #round-end h2 { font-size: 1.25rem; margin-bottom: 8px; color: #f3f4f6; }
+  #round-end p  { font-size: 0.9rem; color: #9ca3af; margin-bottom: 24px; line-height: 1.6; }
+  .mistake-list { text-align: left; margin-bottom: 24px; }
+  .mistake-list h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin-bottom: 10px; }
+  .mistake-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px; border-radius: 10px; margin-bottom: 6px;
+    background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.12);
+    font-size: 0.88rem;
+  }
+  .mistake-item .mi-q { font-weight: 600; color: #e8e6e3; }
+  .mistake-item .mi-a { color: #9ca3af; font-size: 0.82rem; margin-top: 2px; }
+  .continue-btn {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white; border: none; border-radius: 12px;
+    padding: 13px 28px; font-size: 1rem; font-weight: 700; cursor: pointer;
+    width: 100%; font-family: inherit; transition: all 0.2s;
+  }
+  .continue-btn:hover { transform: translateY(-1px); }
+
+  /* ── FINAL ── */
+  #final-screen { display: none; }
+  .final-banner {
+    background: linear-gradient(135deg, #1e3a5f, #2d1b69);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 28px 20px; text-align: center;
+    color: white; margin-bottom: 22px;
+  }
+  .final-banner .f-score { font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .final-banner .f-label { font-size: 0.88rem; opacity: 0.65; margin-top: 4px; }
+  .rounds-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+  .rs-box {
+    border-radius: 12px; padding: 14px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);
+  }
+  .rs-box .rs-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280; margin-bottom: 4px; }
+  .rs-box .rs-val { font-size: 1.3rem; font-weight: 800; color: #f3f4f6; }
+  .rs-box .rs-note { font-size: 0.76rem; color: #6b7280; margin-top: 2px; }
+  .final-verdict {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 18px;
+    font-size: 0.9rem; color: #9ca3af; line-height: 1.7; margin-bottom: 22px;
+  }
+  .restart-btn {
+    background: rgba(255,255,255,0.05); color: #d1d5db; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 12px 28px; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; width: 100%; font-family: inherit; transition: all 0.17s;
+  }
+  .restart-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
+
+  /* scroll fix */
+  .options { max-height: 50vh; overflow-y: auto; }
+  @media(max-width:480px){
+    .container{padding:22px 16px 20px;}
+    .main-display .heb{font-size:1.6rem;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="lobby">
+    <h1>🏗️ <span>Иврит для инженера</span> — Квиз v2</h1>
+    <p class="subtitle">45 новых вопросов — строительная терминология, корни, фразы. Четвёртый раунд автоматически собирает ваши ошибки из раундов 1–3.</p>
+    <div class="round-cards" id="round-cards"></div>
+    <button class="start-btn" id="lobby-btn" onclick="startCurrentRound()">Начать раунд 1</button>
+  </div>
+
+  <div id="quiz-screen">
+    <div class="round-pill" id="round-pill"></div>
+    <div class="progress-bar-bg"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="q-counter" id="q-counter"></div>
+    <div class="type-badge" id="type-badge"></div>
+    <div class="q-label" id="q-label"></div>
+    <div class="main-display" id="main-display"></div>
+    <div class="context-hint" id="context-hint" style="display:none"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn"></button>
+  </div>
+
+  <div id="round-end">
+    <div class="re-circle" id="re-circle"></div>
+    <h2 id="re-title"></h2>
+    <p id="re-desc"></p>
+    <div class="mistake-list" id="mistake-list"></div>
+    <button class="continue-btn" id="continue-btn"></button>
+  </div>
+
+  <div id="final-screen">
+    <div class="final-banner">
+      <div class="f-score" id="f-score"></div>
+      <div class="f-label">общий результат по всем раундам</div>
+    </div>
+    <div class="rounds-summary" id="rounds-summary"></div>
+    <div class="final-verdict" id="final-verdict"></div>
+    <button class="restart-btn" onclick="fullRestart()">Начать заново</button>
+  </div>
+
+</div>
+<script>
+// ════════════════════════════════════════════
+// QUESTION BANK — v2 (new words)
+// ════════════════════════════════════════════
+const ROUNDS_DATA = [
+  // ═══════ ROUND 1 — 15 вопросов: перевод строительных терминов ═══════
+  [
+    { id:'v2r1q1', type:'translate', label:'Переведите строительный термин:', display:{heb:'קוֹרָה', translit:'кора́'}, hint:'Горизонтальный элемент, работающий на изгиб.', correct:'Балка', options:['Колонна','Балка','Ригель','Плита'], explain:'קורה = балка. קורת פלדה = стальная балка. קורה ראשית = ригель (главная балка).' },
+    { id:'v2r1q2', type:'translate', label:'Переведите:', display:{heb:'עַמּוּד', translit:'аму́д'}, hint:'Вертикальный несущий элемент конструкции.', correct:'Колонна / столб', options:['Балка','Стена','Колонна / столб','Свая'], explain:'עמוד = колонна/столб. כותרת עמודה = капитель колонны.' },
+    { id:'v2r1q3', type:'translate', label:'Переведите:', display:{heb:'תְּפוּסָה', translit:'тфуса́'}, hint:'Формовочная конструкция для заливки бетона.', correct:'Опалубка', options:['Арматура','Опалубка','Каркас','Кладка'], explain:'תפוסה = опалубка. После набора прочности опалубку снимают — פירוק תפוסה.' },
+    { id:'v2r1q4', type:'translate', label:'Переведите:', display:{heb:'כְּלוֹנָס', translit:'клона́с'}, hint:'Элемент глубокого фундамента, забиваемый в грунт.', correct:'Свая', options:['Фундамент','Анкер','Свая','Ростверк'], explain:'כלונס = свая. כלונסאות = сваи. ראש כלונס = оголовок сваи.' },
+    { id:'v2r1q5', type:'translate', label:'Переведите:', display:{heb:'חֲפִירָה', translit:'хафира́'}, hint:'Выемка грунта перед устройством фундамента.', correct:'Котлован', options:['Траншея','Котлован','Насыпь','Обратная засыпка'], explain:'חפירה = котлован/выемка. דופן בחפיר = ограждение котлована (шпунт).' },
+    { id:'v2r1q6', type:'translate', label:'Переведите:', display:{heb:'מַרְתֵּף', translit:'мартэ́ф'}, hint:'Подземный этаж здания.', correct:'Подвал', options:['Подвал','Чердак','Парковка','Техэтаж'], explain:'מרתף = подвал. Часто совмещён с подземной парковкой — חניון תחתי.' },
+    { id:'v2r1q7', type:'translate', label:'Переведите:', display:{heb:'חָתָך', translit:'хата́х'}, hint:'Его рисуют на чертежах, чтобы показать внутреннее устройство.', correct:'Разрез / сечение', options:['План этажа','Фасад','Разрез / сечение','Развёртка'], explain:'חתך = разрез/сечение. חתכים = разрезы (мн. число).' },
+    { id:'v2r1q8', type:'translate', label:'Переведите:', display:{heb:'רַפְט', translit:'рафт'}, hint:'Монолитная конструкция под всё здание.', correct:'Фундаментная плита', options:['Свайный ростверк','Ленточный фундамент','Фундаментная плита','Плита перекрытия'], explain:'רפט = фундаментная плита (raft foundation). Используется при слабых грунтах.' },
+    { id:'v2r1q9', type:'translate', label:'Переведите:', display:{heb:'חִיפּוּי', translit:'хипу́й'}, hint:'То, чем покрывают поверхность стены или пола.', correct:'Облицовка', options:['Штукатурка','Облицовка','Покраска','Гидроизоляция'], explain:'חיפוי = облицовка/покрытие. Может быть камнем, плиткой и т.д.' },
+    { id:'v2r1q10', type:'translate', label:'Переведите:', display:{heb:'מַעֲקֶה', translit:'маакэ́'}, hint:'Защитный элемент на балконах, лестницах, кровле.', correct:'Ограждение / перила', options:['Парапет','Ограждение / перила','Козырёк','Карниз'], explain:'מעקה = ограждение/перила. מעקה בטיחות = парапет (защитное ограждение).' },
+    { id:'v2r1q11', type:'translate', label:'Переведите:', display:{heb:'הֶיתֵר בְּנִיָּה', translit:'hитэ́р бния́'}, hint:'Документ, без которого строить нельзя.', correct:'Разрешение на строительство', options:['Проект','Разрешение на строительство','Технический надзор','Акт приёмки'], explain:'היתר בנייה = разрешение на строительство. Выдаётся ועדה מקומית (местной комиссией).' },
+    { id:'v2r1q12', type:'translate', label:'Переведите:', display:{heb:'קִיר מְחִיצָּה', translit:'ки́р мехица́'}, hint:'Внутренняя стена, которая не несёт нагрузку.', correct:'Перегородка', options:['Несущая стена','Перегородка','Подпорная стена','Диафрагма'], explain:'מחיצה = перегородка. В отличие от קיר נושא (несущая стена) — не входит в силовую схему.' },
+    { id:'v2r1q13', type:'translate', label:'Переведите:', display:{heb:'תִּקְרָה', translit:'тикра́'}, hint:'То, что над головой в любом помещении.', correct:'Потолок / перекрытие', options:['Крыша','Потолок / перекрытие','Плита','Навес'], explain:'תקרה = потолок. תקרת בטון = плита перекрытия (бетонный потолок). תקרה מונמכת = подвесной потолок.' },
+    { id:'v2r1q14', type:'translate', label:'Переведите:', display:{heb:'קַבְּלָן', translit:'кабла́н'}, hint:'Тот, кто непосредственно выполняет строительные работы.', correct:'Подрядчик', options:['Заказчик','Инспектор','Подрядчик','Проектировщик'], explain:'קבלן = подрядчик. קבלן משנה = субподрядчик. מזמין = заказчик.' },
+    { id:'v2r1q15', type:'translate', label:'Переведите:', display:{heb:'אֻמְדָּן', translit:'умда́н'}, hint:'Документ с расчётом стоимости работ.', correct:'Смета', options:['Спецификация','Смета','Техническое задание','Ведомость'], explain:'אומדן = смета. שמאי = сметчик. תקציב = бюджет.' },
+  ],
+
+  // ═══════ ROUND 2 — 15 вопросов: корни, фразы, рабочая коммуникация ═══════
+  [
+    { id:'v2r2q1', type:'roots', label:'Какой корень у слова בנייה (строительство)?', display:{heb:'בנייה', translit:'бнийа́'}, hint:'Отсюда: בניין, בנאי, היתר בנייה.', correct:'ב-נ-ה (строить)', options:['ב-נ-ה (строить)','ב-ד-ק (проверять)','ב-ט-ח (безопасность)','ב-ר-ח (бежать)'], explain:'בנייה = строительство, בניין = здание, בנאי = строитель. Самый базовый строительный корень.' },
+    { id:'v2r2q2', type:'roots', label:'Что означает корень מ-ד-ד?', display:{heb:'מ-ד-ד', translit:'мем-далет-далет'}, hint:'От него: מידה, מדידה, מודד.', correct:'Измерять', options:['Считать','Измерять','Проверять','Планировать'], explain:'מידה = размер/мера, מדידה = измерение, מודד = геодезист, קנה מידה = масштаб.' },
+    { id:'v2r2q3', type:'roots', label:'Какое слово НЕ от корня ב-ד-ק (проверять)?', display:{heb:'בדיקה / בודק / בקרה / בדיקת קרקע', translit:''}, hint:'Три слова — про проверку. Одно — про контроль, но от другого корня.', correct:'בקרה (контроль — от ב-ק-ר)', options:['בדיקה (проверка)','בודק (проверяющий)','בקרה (контроль — от ב-ק-ר)','בדיקת קרקע (испытание грунта)'], explain:'בקרה от корня ב-ק-ר (контролировать/посещать). Остальные — от ב-ד-ק (проверять).' },
+    { id:'v2r2q4', type:'roots', label:'Корень слова לחץ (давление):', display:{heb:'לחץ', translit:'ла́хац'}, hint:'В сопромате: לחיצה, חוזק בלחיצה.', correct:'ל-ח-ץ (давить)', options:['ל-ח-ץ (давить)','ל-ח-מ (бороться)','ח-צ-ב (высекать)','ל-ק-ח (брать)'], explain:'לחץ = давление, לחיצה = сжатие, מאמץ לחיצה = напряжение сжатия. Ключевой термин для бетона.' },
+    { id:'v2r2q5', type:'roots', label:'Корень слова תכנית (план/чертёж):', display:{heb:'תכנית', translit:'тахни́т'}, hint:'Отсюда: תכנון, מתכנן, תכן.', correct:'ת-כ-נ (планировать)', options:['ת-כ-נ (планировать)','ת-ק-נ (стандарт/ремонт)','כ-ת-ב (писать)','כ-ו-נ (направление)'], explain:'תכנית = план/чертёж, תכנון = проектирование, מתכנן = проектировщик, תכן מבנים = проектирование конструкций.' },
+    { id:'v2r2q6', type:'roots', label:'Слово от корня כ-ב-ד (тяжёлый):', display:{heb:'כ-ב-ד', translit:'каф-бет-далет'}, hint:'Связано с весом и массой в расчётах.', correct:'כובד (тяжесть/вес)', options:['כובד (тяжесть/вес)','כוח (сила)','כפיפה (изгиб)','כיוון (направление)'], explain:'כובד = вес/тяжесть, כבידה = гравитация, מרכז כובד = центр тяжести, משקל עצמי = собственный вес.' },
+    { id:'v2r2q7', type:'roots', label:'Что такое תקן (тéкен)?', display:{heb:'תקן', translit:'тéкен'}, hint:'ת"י 466, ת"י 904 — это всё...', correct:'Стандарт (нормативный документ)', options:['Стандарт (нормативный документ)','Проект','Расчёт','Спецификация'], explain:'תקן ישראלי = израильский стандарт. Корень ת-ק-נ. לתקן также = ремонтировать/исправлять.' },
+    { id:'v2r2q8', type:'phrase', label:'Как сказать «Можно объяснить подробнее?»', display:{ru:'Вы на совещании и не поняли объяснение коллеги.'}, hint:'Ключевое слово — להסביר.', correct:'אפשר להסביר יותר?', options:['אפשר להסביר יותר?','אני לא מבין כלום','תגיד את זה שוב','מה אתה רוצה?'], explain:'אפשר = можно, להסביר = объяснить, יותר = больше/подробнее. Вежливая просьба на совещании.' },
+    { id:'v2r2q9', type:'phrase', label:'Что значит «חסרים לי נתונים»?', display:{heb:'חסרים לי נתונים', translit:'хасери́м ли нетуни́м'}, hint:'Стандартная фраза, когда не можете дать ответ.', correct:'Мне не хватает данных', options:['Мне не хватает данных','Данные неверные','Я потерял файлы','Нужно пересчитать'], explain:'חסרים = не хватает (мн.ч.), לי = мне, נתונים = данные. Частая ситуация в проектировании.' },
+    { id:'v2r2q10', type:'phrase', label:'Как сказать «Есть проблема в чертеже»?', display:{ru:'Вы обнаружили ошибку и хотите сообщить.'}, hint:'בעיה = проблема, תכנית = чертёж.', correct:'יש בעיה בתכנית', options:['יש בעיה בתכנית','התכנית לא נכונה','צריך לשנות הכל','אני לא מסכים עם התכנית'], explain:'יש = есть, בעיה = проблема, ב = в, תכנית = чертёж/план.' },
+    { id:'v2r2q11', type:'phrase', label:'Что значит «אז סיכמנו ש...»?', display:{heb:'אז סיכמנו ש...', translit:'аз сикáмну ше...'}, hint:'Фраза для завершения совещания.', correct:'Итак, мы договорились, что...', options:['Итак, мы договорились, что...','Мы ещё не решили','Подведём итоги завтра','Я не согласен с решением'], explain:'אז = итак, סיכמנו = мы подвели итог / договорились, ש = что. Стандартное завершение совещания.' },
+    { id:'v2r2q12', type:'phrase', label:'Как написать «Обрати внимание, что...» в email?', display:{ru:'Вы хотите выделить важный момент в письме.'}, hint:'שים לב = буквально «положи сердце».', correct:'שים/י לב ש...', options:['שים/י לב ש...','תקשיב/י לי','אני רוצה להגיד ש...','חשוב מאוד ש...'], explain:'שים לב = обрати внимание (муж.), שימי לב = обрати внимание (жен.). ש... = что...' },
+    { id:'v2r2q13', type:'roots', label:'Корень слова פירוק (демонтаж):', display:{heb:'פירוק', translit:'пиру́к'}, hint:'Обратный процесс монтажа.', correct:'פ-ר-ק (разбирать)', options:['פ-ר-ק (разбирать)','פ-ר-ש (объяснять)','פ-ת-ח (открывать)','פ-ר-ס (раскладывать)'], explain:'פירוק = демонтаж/разборка. פירוק תפוסה = снятие опалубки. הריסה = снос (от ה-ר-ס).' },
+    { id:'v2r2q14', type:'roots', label:'Слово от корня מ-ת-ח (тянуть/растягивать):', display:{heb:'מ-ת-ח', translit:'мем-тав-хет'}, hint:'Противоположность сжатия в сопромате.', correct:'מתיחה (растяжение)', options:['מתיחה (растяжение)','מתכת (металл)','מתקן (установка)','מתנה (подарок)'], explain:'מתיחה = растяжение, חוזק במתיחה = прочность на растяжение. Бетон слаб на растяжение — поэтому нужна арматура.' },
+    { id:'v2r2q15', type:'phrase', label:'Как попросить проверить расчёт?', display:{ru:'Вы хотите попросить коллегу проверить ваш расчёт.'}, hint:'אפשר + לבדוק.', correct:'אפשר לבדוק את החישוב שלי?', options:['אפשר לבדוק את החישוב שלי?','תעשה את החישוב בשבילי','אני לא בטוח בחישוב','החישוב שלך לא נכון'], explain:'אפשר = можно, לבדוק = проверить, את = (показатель прямого дополнения), החישוב שלי = мой расчёт.' },
+  ],
+
+  // ═══════ ROUND 3 — 15 вопросов: продвинутый уровень ═══════
+  [
+    { id:'v2r3q1', type:'translate', label:'Переведите:', display:{heb:'בטון טרומי', translit:'бето́н тро́ми'}, hint:'Изготавливается на заводе, а не на площадке.', correct:'Сборный бетон / преднапряжённый', options:['Монолитный бетон','Сборный бетон / преднапряжённый','Лёгкий бетон','Ячеистый бетон'], explain:'טרומי = заводской/предварительный. Противоположность: בטון יצוק במקום = монолитный бетон.' },
+    { id:'v2r3q2', type:'translate', label:'Переведите:', display:{heb:'מִסְגֶּרֶת', translit:'мисгéрет'}, hint:'Структурный элемент в виде замкнутого контура.', correct:'Рама / каркас', options:['Рама / каркас','Ферма','Балка','Арка'], explain:'מסגרת = рама/каркас/обрамление. Также: מסגר = слесарь.' },
+    { id:'v2r3q3', type:'translate', label:'Переведите:', display:{heb:'קוֹנְזוֹלָה', translit:'конзо́ла'}, hint:'Элемент, защемлённый с одного конца.', correct:'Консоль', options:['Консоль','Балкон','Козырёк','Колонна'], explain:'קונזולה = консоль. Типичный пример: балкон, защемлённый в стену здания.' },
+    { id:'v2r3q4', type:'translate', label:'Переведите:', display:{heb:'עֲמִידוּת רְעִידוֹת', translit:'амиду́т рэидо́т'}, hint:'Важнейшее требование к зданиям в Израиле.', correct:'Сейсмостойкость', options:['Огнестойкость','Сейсмостойкость','Водостойкость','Морозостойкость'], explain:'עמידות = стойкость (от ע-מ-ד), רעידות = землетрясения. ת"י 413 = стандарт сейсмостойкости.' },
+    { id:'v2r3q5', type:'translate', label:'Переведите:', display:{heb:'כְּלוּב זִיּוּן', translit:'клу́в зию́н'}, hint:'Пространственная конструкция из арматурных стержней.', correct:'Арматурный каркас', options:['Арматурная сетка','Арматурный каркас','Закладная деталь','Анкерный болт'], explain:'כלוב = клетка/каркас, זיון = армирование. Вяжется на площадке перед заливкой бетона.' },
+    { id:'v2r3q6', type:'roots', label:'Что объединяет слова עמוד, עומד, עמידות?', display:{heb:'ע-מ-ד', translit:'аин-мем-далет'}, hint:'Все связаны с вертикальным положением.', correct:'ע-מ-ד (стоять)', options:['ע-מ-ד (стоять)','ע-מ-ס (нагружать)','ע-ב-ד (работать)','ע-ז-ר (помогать)'], explain:'עמוד = колонна (то, что стоит), עומד = стоит/соответствует, עמידות = стойкость/устойчивость.' },
+    { id:'v2r3q7', type:'roots', label:'Какой корень у הריסה (снос)?', display:{heb:'הריסה', translit:'hариса́'}, hint:'Полное разрушение здания.', correct:'ה-ר-ס (разрушать)', options:['ה-ר-ס (разрушать)','ה-ר-כ (составлять)','ח-ר-ש (пахать)','ה-ר-ג (убивать)'], explain:'הריסה = снос. צו הריסה = приказ о сносе. Противоположность: בנייה = строительство.' },
+    { id:'v2r3q8', type:'fill', label:'Вставьте слово: ___ תכניות צריך לאשר את השינויים', display:{heb:'___ תכניות צריך לאשר את השינויים', translit:'___ тахнийо́т цари́х леашéр эт hа-шинуйи́м'}, hint:'Кто проверяет чертежи перед утверждением?', correct:'בודק (проверяющий)', options:['בודק (проверяющий)','מתכנן (проектировщик)','קבלן (подрядчик)','מזמין (заказчик)'], explain:'בודק תכניות = проверяющий чертежей. Должен утвердить (לאשר) изменения (שינויים).' },
+    { id:'v2r3q9', type:'fill', label:'Вставьте: צריך לבצע ___ קרקע לפני התכנון', display:{heb:'צריך לבצע ___ קרקע לפני התכנון', translit:'цари́х левацé ___ каркá лифнéй hа-тихну́н'}, hint:'Без этого нельзя проектировать фундамент.', correct:'בדיקת (испытание)', options:['בדיקת (испытание)','חפירת (выемка)','מדידת (измерение)','סקירת (обзор)'], explain:'בדיקת קרקע = испытание/исследование грунта. לפני התכנון = перед проектированием.' },
+    { id:'v2r3q10', type:'reverse', label:'Как сказать на иврите: «гидроизоляция»?', display:{ru:'гидроизоляция'}, hint:'Корень א-ט-ם (герметизировать).', correct:'איטום', options:['איטום','בידוד','ציפוי','חיפוי'], explain:'איטום = гидроизоляция, בידוד = теплоизоляция, ציפוי = покрытие, חיפוי = облицовка.' },
+    { id:'v2r3q11', type:'reverse', label:'Как будет на иврите «теплоизоляция»?', display:{ru:'теплоизоляция'}, hint:'Корень ב-ד-ד (изолировать).', correct:'בידוד', options:['בידוד','איטום','בטיחות','ביוב'], explain:'בידוד = теплоизоляция/утепление. מבודד = утеплённый. בידוד אקוסטי = звукоизоляция.' },
+    { id:'v2r3q12', type:'translate', label:'Переведите:', display:{heb:'עֲבוֹדוֹת עָפָר', translit:'аводо́т афа́р'}, hint:'Первый этап на стройплощадке.', correct:'Земляные работы', options:['Земляные работы','Бетонные работы','Отделочные работы','Кровельные работы'], explain:'עבודות = работы (от ע-ב-ד), עפר = грунт/земля. Включает חפירה (выемку) и מילוי (засыпку).' },
+    { id:'v2r3q13', type:'phrase', label:'Что значит «הנגרמים חורגים מהמותר»?', display:{heb:'העומסים חורגים מהמותר', translit:'hа-омаси́м хорги́м мéhа-мута́р'}, hint:'Критическая фраза в расчётах.', correct:'Нагрузки превышают допустимые', options:['Нагрузки превышают допустимые','Нагрузки в пределах нормы','Нужно пересчитать нагрузки','Нагрузки не определены'], explain:'עומסים = нагрузки, חורגים = превышают/выходят за, מהמותר = за допустимое. Сигнал к усилению!' },
+    { id:'v2r3q14', type:'phrase', label:'Как сказать «Нужно усилить сечение»?', display:{ru:'Расчёт показал, что сечение элемента недостаточно.'}, hint:'לחזק = усилить, חתך = сечение.', correct:'צריך לחזק את החתך', options:['צריך לחזק את החתך','צריך לבדוק את החתך','צריך להגדיל את הרוחב','צריך לשנות את התכנית'], explain:'צריך = нужно, לחזק = усилить (от ח-ז-ק), את = (показатель), החתך = сечение.' },
+    { id:'v2r3q15', type:'fill', label:'Вставьте: ___ בנייה מוכנה, אפשר להתחיל', display:{heb:'___ בנייה מוכנה, אפשר להתחיל', translit:'___ бния́ мухана́, эфша́р леhатхи́ль'}, hint:'Без этого документа строить незаконно.', correct:'היתר (разрешение)', options:['היתר (разрешение)','תכנית (план)','חוזה (договор)','אישור (утверждение)'], explain:'היתר בנייה = разрешение на строительство. מוכנה = готова. אפשר להתחיל = можно начинать.' },
+  ],
+];
+
+const BADGE_MAP = {
+  translate:{ cls:'badge-translate', label:'🔤 Перевод' },
+  roots:    { cls:'badge-roots',     label:'🌱 Корни' },
+  phrase:   { cls:'badge-phrase',     label:'💬 Фраза' },
+  fill:     { cls:'badge-fill',      label:'✏️ Вставьте слово' },
+  reverse:  { cls:'badge-reverse',   label:'🔁 На иврит' },
+  mistake:  { cls:'badge-mistake',   label:'🔁 Работа над ошибками' },
+};
+
+const PILL = ['pill-1','pill-2','pill-3','pill-4'];
+const BAR  = ['bar-1','bar-2','bar-3','bar-4'];
+const COLORS = ['#2563eb','#7c3aed','#d97706','#dc2626'];
+const ROUND_NAMES = ['Раунд 1: Стройка и элементы','Раунд 2: Корни и фразы','Раунд 3: Продвинутый','Раунд 4: Работа над ошибками'];
+const ROUND_SUBS  = ['15 терминов — перевод с иврита','15 вопросов — корни и рабочие фразы','15 вопросов — сложный микс','Только ваши ошибки из раундов 1–3'];
+const ROUND_ICONS = ['🧱','🌱','⚙️','🎯'];
+
+let currentRound = 0;
+let currentQ     = 0;
+let roundScores  = [null, null, null, null];
+let mistakes     = [];
+let activeQs     = [];
+let answered_r   = [];
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function renderLobby() {
+  const cards = document.getElementById('round-cards');
+  cards.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const div = document.createElement('div');
+    const isDone   = roundScores[i] !== null;
+    const isActive = i === currentRound && !isDone;
+    const isLocked = i > currentRound || (i === 3 && roundScores[2] === null);
+    div.className = 'round-card' + (isDone ? ' done' : isLocked ? ' locked' : isActive ? ' active-card' : '');
+    const scoreHTML = isDone
+      ? `<span class="rc-score">${roundScores[i][0]}/${roundScores[i][1]}</span>`
+      : `<span class="rc-score pending">${isLocked ? '—' : 'старт'}</span>`;
+    div.innerHTML = `<div class="rc-icon">${isDone ? '✅' : ROUND_ICONS[i]}</div>
+      <div><div class="rc-title">${ROUND_NAMES[i]}</div><div class="rc-sub">${ROUND_SUBS[i]}</div></div>
+      ${scoreHTML}`;
+    cards.appendChild(div);
+  }
+  const btn = document.getElementById('lobby-btn');
+  if (currentRound < 3) {
+    btn.textContent = `Начать раунд ${currentRound + 1}`;
+    btn.disabled = false;
+  } else if (roundScores[2] !== null && roundScores[3] === null) {
+    const mCount = mistakes.length;
+    btn.textContent = mCount > 0 ? `Раунд 4: ${mCount} ошибок — поехали!` : 'Раунд 4: ошибок нет — посмотреть итог';
+    btn.disabled = false;
+  } else if (roundScores[3] !== null) {
+    btn.textContent = 'Посмотреть итоговый результат';
+    btn.disabled = false;
+    btn.onclick = showFinal;
+  }
+}
+
+function startCurrentRound() {
+  if (currentRound === 3) {
+    if (mistakes.length === 0) { showFinal(); return; }
+    activeQs = shuffle(mistakes.map(m => ({
+      ...m.q,
+      type: 'mistake',
+      label: m.q.label,
+      originalCorrect: m.q.correct,
+    })));
+  } else {
+    activeQs = shuffle(ROUNDS_DATA[currentRound]);
+  }
+  currentQ = 0;
+  answered_r = [];
+  document.getElementById('lobby').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  loadQ();
+}
+
+function loadQ() {
+  const q = activeQs[currentQ];
+  const total = activeQs.length;
+  const r = currentRound;
+
+  const pill = document.getElementById('round-pill');
+  pill.textContent = ROUND_NAMES[r];
+  pill.className = 'round-pill ' + PILL[r];
+
+  const bar = document.getElementById('progress-bar');
+  bar.style.width = ((currentQ / total) * 100) + '%';
+  bar.className = 'progress-bar ' + BAR[r];
+
+  document.getElementById('q-counter').textContent = `Вопрос ${currentQ + 1} из ${total}`;
+
+  const type = q.type === 'mistake' ? 'mistake' : q.type;
+  const bm = BADGE_MAP[type] || BADGE_MAP.translate;
+  const tb = document.getElementById('type-badge');
+  tb.textContent = bm.label;
+  tb.className = 'type-badge ' + bm.cls;
+
+  document.getElementById('q-label').textContent = q.label;
+
+  const md = document.getElementById('main-display');
+  if (q.display.heb && q.display.heb !== '?') {
+    md.innerHTML = `<div class="heb">${q.display.heb}</div>${q.display.translit ? `<div class="translit">${q.display.translit}</div>` : ''}`;
+  } else if (q.display.ru) {
+    md.innerHTML = `<div class="ru-phrase">${q.display.ru}</div>`;
+  } else {
+    md.innerHTML = `<div class="heb">${q.display.heb || ''}</div>`;
+  }
+
+  const ch = document.getElementById('context-hint');
+  if (q.hint) { ch.textContent = q.hint; ch.style.display = ''; }
+  else ch.style.display = 'none';
+
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('next-btn').style.display = 'none';
+
+  const oc = document.getElementById('options');
+  oc.innerHTML = '';
+  shuffle(q.options).forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    if (/[\u05D0-\u05EA]/.test(opt)) {
+      const hebMatch = opt.match(/^([\u05D0-\u05EA\u05B0-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\s\-\/\.]+)/);
+      const hebPart = hebMatch ? hebMatch[1].trim() : opt;
+      const ruPart  = opt.slice(hebPart.length).trim();
+      btn.innerHTML = `<span class="opt-heb">${hebPart}</span>${ruPart ? `<span class="opt-sub">${ruPart}</span>` : ''}`;
+    } else {
+      btn.textContent = opt;
+    }
+    btn.dataset.value = opt;
+    btn.onclick = () => selectQ(opt, q);
+    oc.appendChild(btn);
+  });
+}
+
+function selectQ(chosen, q) {
+  document.querySelectorAll('.option-btn').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.value === q.correct) b.classList.add('correct');
+    else if (b.dataset.value === chosen && chosen !== q.correct) b.classList.add('wrong');
+  });
+
+  const ok = chosen === q.correct;
+  answered_r.push({ q, chosen, ok });
+  if (!ok && currentRound < 3) mistakes.push({ q, chosen });
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (ok ? 'correct-fb' : 'wrong-fb');
+  fb.textContent = (ok ? '✓ Верно! ' : `✗ Правильный ответ: ${q.correct}. `) + (q.explain || '');
+
+  const nb = document.getElementById('next-btn');
+  nb.style.display = 'block';
+  nb.textContent = currentQ + 1 < activeQs.length ? 'Следующий →' : 'Завершить раунд';
+}
+
+document.getElementById('next-btn').onclick = () => {
+  currentQ++;
+  if (currentQ < activeQs.length) { loadQ(); }
+  else { endRound(); }
+};
+
+function endRound() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('round-end').style.display = 'block';
+
+  const correct = answered_r.filter(a => a.ok).length;
+  const total   = answered_r.length;
+  roundScores[currentRound] = [correct, total];
+  const pct = Math.round(correct / total * 100);
+
+  const circ = document.getElementById('re-circle');
+  circ.textContent = `${correct}/${total}`;
+  circ.style.background = `linear-gradient(135deg, ${COLORS[currentRound]}, ${COLORS[currentRound]}88)`;
+
+  document.getElementById('re-title').textContent =
+    pct >= 80 ? 'Отличный раунд!' : pct >= 55 ? 'Хорошая работа.' : 'Есть над чем поработать.';
+
+  const roundMistakes = answered_r.filter(a => !a.ok);
+  const ml = document.getElementById('mistake-list');
+  ml.innerHTML = '';
+  if (roundMistakes.length > 0) {
+    ml.innerHTML = '<h3>Ошибки этого раунда</h3>';
+    roundMistakes.forEach(a => {
+      const d = document.createElement('div');
+      d.className = 'mistake-item';
+      const shortQ = (a.q.display?.heb && a.q.display.heb !== '?') ? a.q.display.heb : (a.q.display?.ru || '');
+      d.innerHTML = `<span>✗</span><div><div class="mi-q">${shortQ.slice(0,50)}</div><div class="mi-a">→ ${a.q.correct}</div></div>`;
+      ml.appendChild(d);
+    });
+
+    if (currentRound < 3) {
+      document.getElementById('re-desc').textContent =
+        currentRound === 2
+          ? `Все ошибки из трёх раундов собраны. Раунд 4 включает ${mistakes.length} вопросов.`
+          : `${roundMistakes.length} слов(а) попадут в Раунд 4 — работа над ошибками.`;
+    } else {
+      document.getElementById('re-desc').textContent = 'Теперь эти слова вы знаете лучше!';
+    }
+  } else {
+    document.getElementById('re-desc').textContent = 'Великолепно — ни одной ошибки!';
+  }
+
+  const cb = document.getElementById('continue-btn');
+  if (currentRound < 3) {
+    cb.textContent = `Перейти к раунду ${currentRound + 2} →`;
+    cb.onclick = () => {
+      currentRound++;
+      document.getElementById('round-end').style.display = 'none';
+      renderLobby();
+      document.getElementById('lobby').style.display = 'block';
+    };
+  } else {
+    cb.textContent = 'Посмотреть итог →';
+    cb.onclick = () => {
+      document.getElementById('round-end').style.display = 'none';
+      showFinal();
+    };
+  }
+}
+
+function showFinal() {
+  document.getElementById('lobby').style.display = 'none';
+  document.getElementById('round-end').style.display = 'none';
+  document.getElementById('final-screen').style.display = 'block';
+
+  let totalC = 0, totalT = 0;
+  roundScores.forEach(s => { if (s) { totalC += s[0]; totalT += s[1]; } });
+  const pct = totalT > 0 ? Math.round(totalC / totalT * 100) : 0;
+
+  document.getElementById('f-score').textContent = `${totalC}/${totalT} (${pct}%)`;
+
+  const rs = document.getElementById('rounds-summary');
+  rs.innerHTML = '';
+  ROUND_NAMES.forEach((name, i) => {
+    const s = roundScores[i];
+    const box = document.createElement('div');
+    box.className = 'rs-box';
+    box.innerHTML = `<div class="rs-label">${name.replace(/Раунд \d+: /,'')}</div>
+      <div class="rs-val">${s ? s[0]+'/'+s[1] : '—'}</div>
+      <div class="rs-note">${s ? Math.round(s[0]/s[1]*100)+'%' : 'не пройден'}</div>`;
+    rs.appendChild(box);
+  });
+
+  let verdict = '';
+  if (pct >= 80) verdict = 'Превосходный результат! Строительная терминология, корни и рабочие фразы — на уверенном уровне. Следующий шаг: читайте стандарты (ת"י 466, ת"י 904) и пишите рабочие email на иврите без переводчика.';
+  else if (pct >= 60) verdict = 'Хорошая база. Посмотрите, где процент ниже — там нужна дополнительная практика. Работа над ошибками в Раунде 4 показала слабые места — начните повторение именно с них.';
+  else verdict = 'Прогресс есть! Рекомендую пройти квиз снова через 2–3 дня — интервальное повторение работает. Обратите внимание на корни: выучив один корень, вы автоматически понимаете 4–5 производных слов.';
+
+  if (mistakes.length === 0 && roundScores[2] !== null) {
+    verdict = 'Ноль ошибок за три раунда — исключительный результат! Раунд 4 не понадобился. Вы готовы к чтению стандартов, написанию технических писем и участию в совещаниях на иврите.';
+  }
+
+  document.getElementById('final-verdict').textContent = verdict;
+}
+
+function fullRestart() {
+  currentRound = 0; currentQ = 0;
+  roundScores = [null,null,null,null];
+  mistakes = []; activeQs = []; answered_r = [];
+  document.getElementById('final-screen').style.display = 'none';
+  document.getElementById('lobby-btn').onclick = startCurrentRound;
+  renderLobby();
+  document.getElementById('lobby').style.display = 'block';
+}
+
+document.getElementById('lobby-btn').onclick = startCurrentRound;
+renderLobby();
+</script>
+</body>
+</html>
