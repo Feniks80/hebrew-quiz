@@ -130,6 +130,7 @@ if(showed){if(isOk){o.style.background="#dcfce7";o.style.borderColor="#22c55e";o
 app.appendChild(o)});
 if(showed){const inf=h("div","info",`<span style="direction:rtl;display:inline"><b>${q.item[1]}</b></span> = ${q.item[2]} = ${q.item[0]}`);inf.appendChild(spkBtn(q.item[1]));app.appendChild(inf);setTimeout(()=>say(q.item[1]),120);
 const nb=h("button","btn","",{onclick:()=>{if(ci+1>=qs.length){if(!errMode&&curQi>=0){prog[curQi]=Math.round(resOk.length/qs.length*100);saveProg()}render("result");return}ci++;pick=null;showed=false;render("quiz")},style:{background:cat.c,color:"#fff"}});nb.textContent=ci+1>=qs.length?"Результаты":"Дальше";app.appendChild(nb)}
+app.appendChild(h("button","btn","← Закончить и в меню",{onclick:()=>render("menu"),style:{marginTop:"10px",fontSize:"13px",background:"#fff",color:"#475569",border:"1px solid #e2e8f0"}}));
 return}
 if(page==="result"){const total2=resOk.length+resBad.length;const pct=total2>0?Math.round(resOk.length/total2*100):0;const cat=curQi<0?{c:"#7c3aed"}:getCat(curQi);const qName=errMode?"Работа над ошибками":curQi<0?"Случайный микс":Q[curQi][0];
 app.innerHTML=`<div style="text-align:center;margin-bottom:16px"><div style="font-size:42px;font-weight:800;color:${pct>=70?"#16a34a":pct>=40?"#d97706":"#dc2626"}">${pct}%</div><div style="font-size:14px;color:#64748b">${resOk.length} / ${total2} правильно</div><div style="font-size:13px;color:#94a3b8;margin-top:2px">${qName}</div></div>`;

@@ -222,6 +222,8 @@ function render(page){
       nb.textContent=ci+1>=qs.length?'Результаты':'Дальше';
       app.appendChild(nb);
     }
+    const exit=h('button','btn btn-s','← Закончить и в меню',{onclick:()=>render('menu'),style:{marginTop:'10px',fontSize:'13px'}});
+    app.appendChild(exit);
     return;
   }
 

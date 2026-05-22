@@ -470,6 +470,11 @@ function renderCard(app){
       app.appendChild(h('button','next',correct?'Дальше':'Дальше (запомним)',()=>advance(correct)));
     }
   }
+
+  // Always-available exit button at the bottom of card / quiz screens
+  const exit=h('button','reset','← Закончить и в меню',()=>{state.page='menu';render()});
+  exit.style.marginTop='18px';
+  app.appendChild(exit);
 }
 
 function renderDone(app){
