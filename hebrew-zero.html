@@ -7,7 +7,8 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#f8fafc;color:#1e293b}
-  body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:20px;line-height:1.4;padding:14px;min-height:100vh}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:20px;line-height:1.4;padding:14px;min-height:100vh;-webkit-text-size-adjust:100%}
+  button{touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0.05);user-select:none}
   .w{max-width:560px;margin:0 auto}
   h1{font-size:30px;font-weight:700;margin-bottom:6px;text-align:center}
   .sub{text-align:center;color:#475569;font-size:18px;margin-bottom:24px}
@@ -28,7 +29,7 @@
   .card{background:#fff;border:2px solid #cbd5e1;border-radius:18px;padding:28px 18px;text-align:center;margin-bottom:16px}
   .prompt{font-size:14px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
   .ru-big{font-size:38px;font-weight:700;color:#1e293b;margin-bottom:14px;word-break:break-word}
-  .he-big{font-size:74px;line-height:1.1;font-weight:700;color:#0f172a;direction:rtl;margin:10px 0 14px;font-family:"Frank Ruehl CLM","SBL Hebrew","Times New Roman",serif}
+  .he-big{font-size:74px;line-height:1.15;font-weight:700;color:#0f172a;direction:rtl;margin:10px 0 14px;font-family:"Noto Sans Hebrew","Noto Serif Hebrew","Frank Ruehl CLM","SBL Hebrew","David",serif}
   .he-big.smaller{font-size:54px}
   .tr{font-size:28px;color:#1d4ed8;margin-bottom:14px;font-weight:600}
   .hint{font-size:17px;color:#64748b;padding:0 8px}
@@ -51,7 +52,7 @@
   .opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
   .opt{padding:18px 14px;border:2px solid #cbd5e1;background:#fff;border-radius:14px;font-size:22px;cursor:pointer;text-align:center;font-weight:600;color:#1e293b}
   .opt:active{background:#eef2ff}
-  .opt.he{font-size:34px;direction:rtl;font-family:"Frank Ruehl CLM","SBL Hebrew","Times New Roman",serif}
+  .opt.he{font-size:34px;direction:rtl;font-family:"Noto Sans Hebrew","Noto Serif Hebrew","Frank Ruehl CLM","SBL Hebrew","David",serif}
   .opt.ok{background:#dcfce7;border-color:#16a34a;color:#166534}
   .opt.bad{background:#fee2e2;border-color:#dc2626;color:#991b1b}
   .next{margin-top:14px;width:100%;padding:18px;background:#2563eb;color:#fff;border:none;border-radius:14px;font-size:22px;font-weight:700;cursor:pointer}
@@ -172,27 +173,43 @@ let state={
 try{const s=localStorage.getItem("hz-state");if(s){const p=JSON.parse(s);if(p.known)state.known=p.known;if(p.rate)state.rate=p.rate}}catch(e){}
 const save=()=>{try{localStorage.setItem("hz-state",JSON.stringify({known:state.known,rate:state.rate}))}catch(e){}};
 
-/* ───────── Озвучка ───────── */
+/* ───────── Платформа и озвучка ───────── */
+const UA=navigator.userAgent||'';
+const IS_ANDROID=/Android/i.test(UA);
+const IS_IOS=/iPad|iPhone|iPod/.test(UA)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+
 let voicesReady=false;
 let heVoice=null;
 function pickVoice(){
-  const all=speechSynthesis.getVoices();
-  heVoice=all.find(v=>/^he/i.test(v.lang))||all.find(v=>/iw/i.test(v.lang))||null;
-  voicesReady=true;
+  if(!('speechSynthesis' in window))return;
+  const all=speechSynthesis.getVoices()||[];
+  heVoice=all.find(v=>/^he[-_]?IL/i.test(v.lang))
+       ||all.find(v=>/^iw[-_]?IL/i.test(v.lang))
+       ||all.find(v=>/^(he|iw)/i.test(v.lang))
+       ||null;
+  if(all.length>0)voicesReady=true;
 }
 if('speechSynthesis' in window){
   pickVoice();
+  // Android Chrome иногда не вызывает onvoiceschanged — пробуем повторно через паузу
   speechSynthesis.onvoiceschanged=pickVoice;
+  setTimeout(pickVoice,300);
+  setTimeout(pickVoice,1500);
 }
+
 function speak(text,extraSlow){
   if(!('speechSynthesis' in window))return;
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang='he-IL';
-  if(heVoice)u.voice=heVoice;
-  u.rate=extraSlow?Math.max(0.3,state.rate-0.15):state.rate;
-  u.pitch=1;
-  speechSynthesis.speak(u);
+  try{speechSynthesis.cancel()}catch(e){}
+  // Android Chrome теряет utterance, если speak() сразу после cancel() — даём паузу
+  setTimeout(()=>{
+    pickVoice(); // голоса могут подгрузиться только после первого взаимодействия
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='he-IL';
+    if(heVoice)u.voice=heVoice;
+    u.rate=extraSlow?Math.max(0.3,state.rate-0.15):state.rate;
+    u.pitch=1;u.volume=1;
+    try{speechSynthesis.speak(u)}catch(e){}
+  },60);
 }
 
 /* ───────── Утилиты ───────── */
@@ -253,9 +270,20 @@ function renderMenu(app){
   app.appendChild(h('div','sub','50 слов и алфавит. Не спеша.'));
 
   if(!('speechSynthesis' in window)){
-    app.appendChild(h('div','notice','Браузер не умеет озвучивать. Текст и транслитерация работают, но звука не будет. Попробуйте Chrome или Safari.'));
+    app.appendChild(h('div','notice','Браузер не умеет озвучивать. Текст и транслитерация работают, но звука не будет. Попробуйте Chrome.'));
   }else if(!heVoice && voicesReady){
-    app.appendChild(h('div','notice','В системе нет голоса для иврита. На iPhone: «Настройки → Универс. доступ → Озвучка → Голоса → Иврит». На Windows: «Параметры → Время и язык → Речь».'));
+    let txt='В системе нет голоса для иврита. ';
+    if(IS_ANDROID){
+      txt+='На Android (планшет и телефон): «Настройки → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית (Hebrew)». Затем закройте и снова откройте Chrome. Громкость — медиа, а не звонка.';
+    }else if(IS_IOS){
+      txt+='На iPhone/iPad: «Настройки → Универсальный доступ → Устный контент → Голоса → Иврит» — выберите голос и дайте ему загрузиться.';
+    }else{
+      txt+='На Windows: «Параметры → Время и язык → Речь → Управление голосами → Добавить голоса → עברית».';
+    }
+    app.appendChild(h('div','notice',txt));
+  }else if(!voicesReady){
+    // голоса ещё не подгружены — на Android это нормально до первого нажатия
+    app.appendChild(h('div','notice','Голоса загружаются. Если после первого нажатия «🔊 Послушать» звука нет — проверьте громкость (медиа, не звонка) и что в системе установлен голос «עברית».'));
   }
 
   // Алфавит
