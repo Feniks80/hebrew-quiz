@@ -50,6 +50,18 @@ const h=(tag,cls,inner,attrs)=>{
   return el;
 };
 
+// ── Hebrew TTS via Web Speech API ──
+let heVoice=null;
+function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
+if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
+function say(t,slow){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel()}catch(e){}setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?0.55:0.85;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},50)}
+function spkBtn(text){
+  const b=h('button','',`🔊`,{onclick:e=>{e.stopPropagation();say(text)}});
+  b.style.cssText='margin-left:6px;margin-right:6px;padding:6px 12px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;cursor:pointer;line-height:1;vertical-align:middle';
+  b.title='Произнести';
+  return b;
+}
+
 const CATS=[
   {k:"Стройка",c:"#2563eb",r:[0,16]},
   {k:"Геометрия",c:"#7c3aed",r:[16,18]},
@@ -168,7 +180,11 @@ function render(page){
     card.style.background=cat.c+'0a';card.style.border='1px solid '+cat.c+'22';
     card.innerHTML='<div style="font-size:11px;color:#94a3b8;margin-bottom:4px">'+(q.heRu?'Переведите с иврита':'Переведите на иврит')+'</div>'
       +'<div style="font-size:'+(q.heRu?26:17)+'px;font-weight:600;direction:'+(q.heRu?'rtl':'ltr')+';word-break:break-word">'+prompt+'</div>';
+    const row=h('div','',null,{style:{marginTop:'10px',display:'flex',justifyContent:'center',alignItems:'center',gap:'6px'}});
+    row.appendChild(spkBtn(q.item[1]));
+    card.appendChild(row);
     app.appendChild(card);
+    if(q.heRu&&!showed)setTimeout(()=>say(q.item[1]),200);
 
     q.opts.forEach((opt,i)=>{
       const isOk=opt[af]===q.item[af];
@@ -192,7 +208,9 @@ function render(page){
 
     if(showed){
       const info=h('div','info','<span style="direction:rtl;display:inline"><b>'+q.item[1]+'</b></span> = '+q.item[2]+' = '+q.item[0]);
+      info.appendChild(spkBtn(q.item[1]));
       app.appendChild(info);
+      setTimeout(()=>say(q.item[1]),120);
       const nb=h('button','btn','',{onclick:()=>{
         if(ci+1>=qs.length){
           if(!errMode&&curQi>=0){prog[curQi]=Math.round(resOk.length/qs.length*100);saveProg()}

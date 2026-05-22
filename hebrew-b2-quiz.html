@@ -36,6 +36,13 @@ const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random(
 const mkO=(item,f)=>{const w=sh(pool.filter(x=>x[f]!==item[f])).slice(0,3);return sh([item,...w])};
 const $=id=>document.getElementById(id);
 const h=(tag,cls,inner,attrs)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(typeof inner==="string")el.innerHTML=inner;if(attrs)Object.entries(attrs).forEach(([k,v])=>{if(k==="onclick")el.addEventListener("click",v);else if(k==="style"&&typeof v==="object")Object.assign(el.style,v);else el.setAttribute(k,v)});return el};
+
+// ── Hebrew TTS via Web Speech API ──
+let heVoice=null;
+function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
+if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
+function say(t,slow){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel()}catch(e){}setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?0.55:0.85;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},50)}
+function spkBtn(text){const b=h('button','',`🔊`,{onclick:e=>{e.stopPropagation();say(text)}});b.style.cssText='margin-left:6px;margin-right:6px;padding:6px 12px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;cursor:pointer;line-height:1;vertical-align:middle';b.title='Произнести';return b}
 const CATS=[
   {k:"Врач и купат холим",c:"#d97706",r:[0,2]},
   {k:"Банк и финансы",c:"#ea580c",r:[2,3]},
@@ -116,12 +123,12 @@ return}
 if(page==="quiz"&&qs.length>0){const q=qs[ci];const cat=curQi<0?{k:"Микс",c:"#7c3aed"}:getCat(curQi);const prompt=q.heRu?q.item[1]:q.item[0];const af=q.heRu?0:1;const pct=(ci+1)/qs.length*100;const qName=errMode?"Работа над ошибками":curQi<0?"Случайный микс":Q[curQi][0];
 app.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:${cat.c};font-weight:600">${qName}</span><span style="font-size:12px;color:#94a3b8">${ci+1}/${qs.length}</span></div>`;
 const bar=h("div","bar","");const fill=h("div","bar-fill","");fill.style.width=pct+"%";fill.style.background=cat.c;bar.appendChild(fill);app.appendChild(bar);
-const card=h("div","card","");card.style.background=cat.c+"0a";card.style.border="1px solid "+cat.c+"22";card.innerHTML=`<div style="font-size:11px;color:#94a3b8;margin-bottom:4px">${q.heRu?"Переведите с иврита":"Переведите на иврит"}</div><div style="font-size:${q.heRu?26:17}px;font-weight:600;direction:${q.heRu?"rtl":"ltr"};word-break:break-word">${prompt}</div>`;app.appendChild(card);
+const card=h("div","card","");card.style.background=cat.c+"0a";card.style.border="1px solid "+cat.c+"22";card.innerHTML=`<div style="font-size:11px;color:#94a3b8;margin-bottom:4px">${q.heRu?"Переведите с иврита":"Переведите на иврит"}</div><div style="font-size:${q.heRu?26:17}px;font-weight:600;direction:${q.heRu?"rtl":"ltr"};word-break:break-word">${prompt}</div>`;const row=h("div","",null,{style:{marginTop:"10px",display:"flex",justifyContent:"center",alignItems:"center",gap:"6px"}});row.appendChild(spkBtn(q.item[1]));card.appendChild(row);app.appendChild(card);if(q.heRu&&!showed)setTimeout(()=>say(q.item[1]),200);
 q.opts.forEach((opt,i)=>{const isOk=opt[af]===q.item[af];const isSel=pick&&pick[af]===opt[af];const o=h("div","opt",opt[af],{onclick:()=>{if(showed)return;pick=opt;showed=true;if(isOk)resOk.push(q.item);else resBad.push(q.item);render("quiz")}});
 o.style.fontSize=(q.heRu?"14":"18")+"px";o.style.direction=q.heRu?"ltr":"rtl";
 if(showed){if(isOk){o.style.background="#dcfce7";o.style.borderColor="#22c55e";o.style.color="#166534";o.style.fontWeight="600"}else if(isSel){o.style.background="#fee2e2";o.style.borderColor="#ef4444";o.style.color="#991b1b"}else{o.style.background="#f8fafc";o.style.color="#94a3b8"}o.style.cursor="default"}
 app.appendChild(o)});
-if(showed){app.appendChild(h("div","info",`<span style="direction:rtl;display:inline"><b>${q.item[1]}</b></span> = ${q.item[2]} = ${q.item[0]}`));
+if(showed){const inf=h("div","info",`<span style="direction:rtl;display:inline"><b>${q.item[1]}</b></span> = ${q.item[2]} = ${q.item[0]}`);inf.appendChild(spkBtn(q.item[1]));app.appendChild(inf);setTimeout(()=>say(q.item[1]),120);
 const nb=h("button","btn","",{onclick:()=>{if(ci+1>=qs.length){if(!errMode&&curQi>=0){prog[curQi]=Math.round(resOk.length/qs.length*100);saveProg()}render("result");return}ci++;pick=null;showed=false;render("quiz")},style:{background:cat.c,color:"#fff"}});nb.textContent=ci+1>=qs.length?"Результаты":"Дальше";app.appendChild(nb)}
 return}
 if(page==="result"){const total2=resOk.length+resBad.length;const pct=total2>0?Math.round(resOk.length/total2*100):0;const cat=curQi<0?{c:"#7c3aed"}:getCat(curQi);const qName=errMode?"Работа над ошибками":curQi<0?"Случайный микс":Q[curQi][0];
