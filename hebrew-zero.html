@@ -78,29 +78,30 @@
 <div class="w" id="app"></div>
 <script>
 /* ───────── Данные ───────── */
+// LETTERS: [показ, транслит, пояснение, текст для озвучки]
 const LETTERS=[
- ["א","алеф","опора гласной (немая)"],
- ["ב","бэт / вэт","Б с точкой ‎בּ‎, В без точки ‎ב‎"],
- ["ג","гимель","Г"],
- ["ד","далет","Д"],
- ["ה","хей","придых, как английское H; в конце слова обычно немая"],
- ["ו","вав","В, или О / У как гласная"],
- ["ז","зайн","З"],
- ["ח","хет","Х гортанное, из глубины горла"],
- ["ט","тэт","Т (твёрдое)"],
- ["י","йуд","Й, или И как гласная"],
- ["כ","каф / хаф","К с точкой ‎כּ‎, Х без точки ‎כ‎"],
- ["ל","ламед","Л"],
- ["מ","мэм","М"],
- ["נ","нун","Н"],
- ["ס","самех","С"],
- ["ע","айн","гортанная, для начала ≈ как алеф (опора гласной)"],
- ["פ","пэй / фэй","П с точкой ‎פּ‎, Ф без точки ‎פ‎"],
- ["צ","цади","Ц"],
- ["ק","куф","К"],
- ["ר","рейш","Р (мягкое, картавое)"],
- ["ש","шин / син","Ш с точкой справа ‎שׁ‎, С с точкой слева ‎שׂ‎"],
- ["ת","тав","Т"]
+ ["א","алеф","опора гласной (немая)","אָלֶף"],
+ ["ב","бэт / вэт","Б с точкой ‎בּ‎, В без точки ‎ב‎","בֵּית"],
+ ["ג","гимель","Г","גִּימֶל"],
+ ["ד","далет","Д","דָּלֶת"],
+ ["ה","хей","придых, как английское H; в конце слова обычно немая","הֵא"],
+ ["ו","вав","В, или О / У как гласная","וָו"],
+ ["ז","зайн","З","זַיִן"],
+ ["ח","хет","Х гортанное, из глубины горла","חֵית"],
+ ["ט","тэт","Т (твёрдое)","טֵית"],
+ ["י","йуд","Й, или И как гласная","יוֹד"],
+ ["כ","каф / хаф","К с точкой ‎כּ‎, Х без точки ‎כ‎","כַּף"],
+ ["ל","ламед","Л","לָמֶד"],
+ ["מ","мэм","М","מֵם"],
+ ["נ","нун","Н","נוּן"],
+ ["ס","самех","С","סָמֶךְ"],
+ ["ע","айн","гортанная, для начала ≈ как алеф (опора гласной)","עַיִן"],
+ ["פ","пэй / фэй","П с точкой ‎פּ‎, Ф без точки ‎פ‎","פֵּא"],
+ ["צ","цади","Ц","צַדִּי"],
+ ["ק","куф","К","קוֹף"],
+ ["ר","рейш","Р (мягкое, картавое)","רֵישׁ"],
+ ["ש","шин / син","Ш с точкой справа ‎שׁ‎, С с точкой слева ‎שׂ‎","שִׁין"],
+ ["ת","тав","Т","תָּו"]
 ];
 
 const WORDS=[
@@ -197,12 +198,23 @@ if('speechSynthesis' in window){
   setTimeout(pickVoice,1500);
 }
 
-function speak(text,extraSlow){
-  if(!('speechSynthesis' in window))return;
+function ttsText(item){return state.scope==='letters'?item[3]:item[0]}
+function audioPath(arrIdx){
+  const pad=String(arrIdx+1).padStart(2,'0');
+  return state.scope==='letters'?('audio/letters/L'+pad+'.mp3'):('audio/words/W'+pad+'.mp3');
+}
+
+// One reusable Audio element for the MP3 fallback
+const fbAudio=new Audio();
+fbAudio.preload='auto';
+try{fbAudio.preservesPitch=true;fbAudio.mozPreservesPitch=true;fbAudio.webkitPreservesPitch=true}catch(e){}
+
+let lastMp3Err=null;
+
+function speakNative(text,extraSlow){
   try{speechSynthesis.cancel()}catch(e){}
-  // Android Chrome теряет utterance, если speak() сразу после cancel() — даём паузу
   setTimeout(()=>{
-    pickVoice(); // голоса могут подгрузиться только после первого взаимодействия
+    pickVoice();
     const u=new SpeechSynthesisUtterance(text);
     u.lang='he-IL';
     if(heVoice)u.voice=heVoice;
@@ -210,6 +222,23 @@ function speak(text,extraSlow){
     u.pitch=1;u.volume=1;
     try{speechSynthesis.speak(u)}catch(e){}
   },60);
+}
+
+function playMp3(arrIdx,extraSlow){
+  try{fbAudio.pause();fbAudio.currentTime=0}catch(e){}
+  fbAudio.src=audioPath(arrIdx);
+  fbAudio.playbackRate=extraSlow?0.7:1.0;
+  const p=fbAudio.play();
+  if(p&&p.catch)p.catch(e=>{lastMp3Err=e&&e.message||String(e)});
+}
+
+// Main entry: takes the data item AND its index in WORDS/LETTERS
+function speak(item,arrIdx,extraSlow){
+  if(heVoice){
+    if('speechSynthesis' in window)return speakNative(ttsText(item),extraSlow);
+  }
+  // No native Hebrew voice — use the bundled MP3
+  playMp3(arrIdx,extraSlow);
 }
 
 /* ───────── Утилиты ───────── */
@@ -269,21 +298,17 @@ function renderMenu(app){
   app.appendChild(h('h1','','Иврит с нуля'));
   app.appendChild(h('div','sub','50 слов и алфавит. Не спеша.'));
 
-  if(!('speechSynthesis' in window)){
-    app.appendChild(h('div','notice','Браузер не умеет озвучивать. Текст и транслитерация работают, но звука не будет. Попробуйте Chrome.'));
-  }else if(!heVoice && voicesReady){
-    let txt='В системе нет голоса для иврита. ';
+  if(!heVoice && voicesReady){
+    // Used MP3 fallback — works, but robotic. Suggest installing OS voice.
+    let txt='Голос иврита в системе не найден — звук идёт из встроенных записей (звучит роботично). Чтобы голос стал живым: ';
     if(IS_ANDROID){
-      txt+='На Android (планшет и телефон): «Настройки → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית (Hebrew)». Затем закройте и снова откройте Chrome. Громкость — медиа, а не звонка.';
+      txt+='«Настройки → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית». Затем перезапустить Chrome.';
     }else if(IS_IOS){
-      txt+='На iPhone/iPad: «Настройки → Универсальный доступ → Устный контент → Голоса → Иврит» — выберите голос и дайте ему загрузиться.';
+      txt+='«Настройки → Универсальный доступ → Устный контент → Голоса → Иврит» — выбрать голос и подождать загрузки.';
     }else{
-      txt+='На Windows: «Параметры → Время и язык → Речь → Управление голосами → Добавить голоса → עברית».';
+      txt+='«Параметры → Время и язык → Речь → Управление голосами → Добавить голоса → עברית».';
     }
     app.appendChild(h('div','notice',txt));
-  }else if(!voicesReady){
-    // голоса ещё не подгружены — на Android это нормально до первого нажатия
-    app.appendChild(h('div','notice','Голоса загружаются. Если после первого нажатия «🔊 Послушать» звука нет — проверьте громкость (медиа, не звонка) и что в системе установлен голос «עברית».'));
   }
 
   // Алфавит
@@ -339,7 +364,8 @@ function renderTopBar(app,total,doneIdx){
 
 function renderCard(app){
   const data=dataFor();
-  const item=data[state.order[state.idx]];
+  const arrIdx=state.order[state.idx];
+  const item=data[arrIdx];
   renderTopBar(app,state.order.length,state.idx);
 
   // Speed selector
@@ -389,15 +415,15 @@ function renderCard(app){
 
     // Audio
     const ar=h('div','audio-row');
-    ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(heText,false)));
-    ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(heText,true)));
+    ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(item,arrIdx,false)));
+    ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(item,arrIdx,true)));
     card.appendChild(ar);
 
     app.appendChild(card);
 
     // Actions
     if(!state.reveal){
-      app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(heText,false),120)}));
+      app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(item,arrIdx,false),120)}));
     }else{
       const ac=h('div','actions');
       ac.appendChild(h('button','act no','Ещё не знаю',()=>advance(false)));
@@ -415,8 +441,8 @@ function renderCard(app){
       card.appendChild(h('div',heCls,heText));
       card.appendChild(h('div','tr',tr));
       const ar=h('div','audio-row');
-      ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(heText,false)));
-      ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(heText,true)));
+      ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(item,arrIdx,false)));
+      ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(item,arrIdx,true)));
       card.appendChild(ar);
     }
     app.appendChild(card);
@@ -432,7 +458,7 @@ function renderCard(app){
       const ob=h('button',cls,label,()=>{
         if(state.pick)return;
         state.pick=o;
-        if(o===item)speak(item[0],false);
+        if(o===item)speak(item,arrIdx,false);
         render();
       });
       opts.appendChild(ob);
