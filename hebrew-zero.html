@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
+<title>Иврит с нуля — 50 слов и алфавит</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f8fafc;color:#1e293b}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:20px;line-height:1.4;padding:14px;min-height:100vh}
+  .w{max-width:560px;margin:0 auto}
+  h1{font-size:30px;font-weight:700;margin-bottom:6px;text-align:center}
+  .sub{text-align:center;color:#475569;font-size:18px;margin-bottom:24px}
+  .menu-btn{display:block;width:100%;background:#fff;border:2px solid #cbd5e1;border-radius:14px;padding:22px 18px;margin-bottom:14px;cursor:pointer;text-align:left;transition:none}
+  .menu-btn:active{background:#eef2ff}
+  .menu-btn .t{font-size:24px;font-weight:700;color:#1e293b;margin-bottom:6px}
+  .menu-btn .d{font-size:18px;color:#475569}
+  .menu-btn .p{font-size:18px;color:#2563eb;margin-top:8px;font-weight:600}
+
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .back{background:#fff;border:2px solid #cbd5e1;border-radius:10px;padding:10px 14px;font-size:18px;cursor:pointer;font-weight:600;color:#1e293b}
+  .back:active{background:#eef2ff}
+  .pgwrap{flex:1}
+  .pgnum{font-size:16px;color:#475569;text-align:right;margin-bottom:4px}
+  .pgbar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden}
+  .pgbar div{height:100%;background:#16a34a;transition:width .25s}
+
+  .card{background:#fff;border:2px solid #cbd5e1;border-radius:18px;padding:28px 18px;text-align:center;margin-bottom:16px}
+  .prompt{font-size:14px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+  .ru-big{font-size:38px;font-weight:700;color:#1e293b;margin-bottom:14px;word-break:break-word}
+  .he-big{font-size:74px;line-height:1.1;font-weight:700;color:#0f172a;direction:rtl;margin:10px 0 14px;font-family:"Frank Ruehl CLM","SBL Hebrew","Times New Roman",serif}
+  .he-big.smaller{font-size:54px}
+  .tr{font-size:28px;color:#1d4ed8;margin-bottom:14px;font-weight:600}
+  .hint{font-size:17px;color:#64748b;padding:0 8px}
+  .divider{height:2px;background:#e2e8f0;margin:18px 0}
+
+  .audio-row{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+  .abtn{width:100%;padding:16px;border:2px solid #2563eb;background:#fff;color:#2563eb;border-radius:12px;font-size:20px;font-weight:600;cursor:pointer}
+  .abtn:active{background:#eef2ff}
+  .abtn.primary{background:#2563eb;color:#fff}
+
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .act{padding:18px 8px;border:none;border-radius:14px;font-size:20px;font-weight:700;cursor:pointer}
+  .act.no{background:#fee2e2;color:#991b1b}
+  .act.no:active{background:#fecaca}
+  .act.yes{background:#dcfce7;color:#166534}
+  .act.yes:active{background:#bbf7d0}
+  .act.show{background:#dbeafe;color:#1e40af;grid-column:1/3}
+  .act.show:active{background:#bfdbfe}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .opt{padding:18px 14px;border:2px solid #cbd5e1;background:#fff;border-radius:14px;font-size:22px;cursor:pointer;text-align:center;font-weight:600;color:#1e293b}
+  .opt:active{background:#eef2ff}
+  .opt.he{font-size:34px;direction:rtl;font-family:"Frank Ruehl CLM","SBL Hebrew","Times New Roman",serif}
+  .opt.ok{background:#dcfce7;border-color:#16a34a;color:#166534}
+  .opt.bad{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+  .next{margin-top:14px;width:100%;padding:18px;background:#2563eb;color:#fff;border:none;border-radius:14px;font-size:22px;font-weight:700;cursor:pointer}
+  .next:active{background:#1d4ed8}
+
+  .mode-row{display:flex;gap:8px;margin-bottom:14px}
+  .mode-btn{flex:1;padding:12px 6px;border:2px solid #cbd5e1;background:#fff;border-radius:10px;font-size:16px;cursor:pointer;font-weight:600;color:#475569}
+  .mode-btn.on{background:#2563eb;color:#fff;border-color:#2563eb}
+
+  .speed-row{display:flex;gap:8px;margin-bottom:10px;font-size:15px;color:#475569;align-items:center;justify-content:center}
+  .speed-btn{padding:6px 14px;border:2px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-weight:600;color:#475569;font-size:15px}
+  .speed-btn.on{background:#0f172a;color:#fff;border-color:#0f172a}
+
+  .notice{background:#fff7ed;border:2px solid #fed7aa;color:#9a3412;padding:14px;border-radius:12px;font-size:16px;margin-bottom:14px}
+  .reset{display:block;width:100%;margin-top:24px;padding:14px;background:#fff;border:2px dashed #cbd5e1;border-radius:12px;font-size:16px;color:#64748b;cursor:pointer}
+  .reset:active{background:#f1f5f9}
+  .done{text-align:center;padding:30px 12px;background:#dcfce7;border:2px solid #16a34a;border-radius:18px;margin-bottom:16px}
+  .done .t{font-size:30px;font-weight:700;color:#166534;margin-bottom:10px}
+  .done .d{font-size:18px;color:#166534}
+</style>
+</head>
+<body>
+<div class="w" id="app"></div>
+<script>
+/* ───────── Данные ───────── */
+const LETTERS=[
+ ["א","алеф","опора гласной (немая)"],
+ ["ב","бэт / вэт","Б с точкой ‎בּ‎, В без точки ‎ב‎"],
+ ["ג","гимель","Г"],
+ ["ד","далет","Д"],
+ ["ה","хей","придых, как английское H; в конце слова обычно немая"],
+ ["ו","вав","В, или О / У как гласная"],
+ ["ז","зайн","З"],
+ ["ח","хет","Х гортанное, из глубины горла"],
+ ["ט","тэт","Т (твёрдое)"],
+ ["י","йуд","Й, или И как гласная"],
+ ["כ","каф / хаф","К с точкой ‎כּ‎, Х без точки ‎כ‎"],
+ ["ל","ламед","Л"],
+ ["מ","мэм","М"],
+ ["נ","нун","Н"],
+ ["ס","самех","С"],
+ ["ע","айн","гортанная, для начала ≈ как алеф (опора гласной)"],
+ ["פ","пэй / фэй","П с точкой ‎פּ‎, Ф без точки ‎פ‎"],
+ ["צ","цади","Ц"],
+ ["ק","куф","К"],
+ ["ר","рейш","Р (мягкое, картавое)"],
+ ["ש","шин / син","Ш с точкой справа ‎שׁ‎, С с точкой слева ‎שׂ‎"],
+ ["ת","тав","Т"]
+];
+
+const WORDS=[
+ ["שָׁלוֹם","шало́м","здравствуйте / мир"],
+ ["בֹּקֶר טוֹב","бо́кер тов","доброе утро"],
+ ["עֶרֶב טוֹב","э́рев тов","добрый вечер"],
+ ["לַיְלָה טוֹב","ла́йла тов","спокойной ночи"],
+ ["תּוֹדָה","тода́","спасибо"],
+ ["בְּבַקָּשָׁה","бевакаша́","пожалуйста"],
+ ["סְלִיחָה","слиха́","извините"],
+ ["לְהִתְרָאוֹת","леитрао́т","до свидания"],
+ ["כֵּן","кен","да"],
+ ["לֹא","ло","нет"],
+ ["אֲנִי","ани́","я"],
+ ["אַתָּה","ата́","ты (мужчине)"],
+ ["אַתְּ","ат","ты (женщине)"],
+ ["הוּא","ху","он"],
+ ["הִיא","хи","она"],
+ ["אֲנַחְנוּ","ана́хну","мы"],
+ ["אַבָּא","а́ба","папа"],
+ ["אִמָּא","и́ма","мама"],
+ ["בֵּן","бен","сын"],
+ ["בַּת","бат","дочь"],
+ ["סָבָא","са́ба","дедушка"],
+ ["סָבְתָא","са́вта","бабушка"],
+ ["מַיִם","ма́им","вода"],
+ ["לֶחֶם","ле́хем","хлеб"],
+ ["חָלָב","хала́в","молоко"],
+ ["בֵּיצָה","бейца́","яйцо"],
+ ["גְּבִינָה","гвина́","сыр"],
+ ["תַּפּוּחַ","тапу́ах","яблоко"],
+ ["בַּיִת","ба́ит","дом"],
+ ["רְחוֹב","рехо́в","улица"],
+ ["שׁוּק","шук","рынок"],
+ ["רוֹפֵא","рофе́","врач"],
+ ["בֵּית חוֹלִים","бейт холи́м","больница"],
+ ["אֶחָד","эха́д","один"],
+ ["שְׁנַיִם","шна́им","два"],
+ ["שָׁלוֹשׁ","шало́ш","три"],
+ ["אַרְבַּע","а́рба","четыре"],
+ ["חָמֵשׁ","хамэ́ш","пять"],
+ ["שֵׁשׁ","шеш","шесть"],
+ ["שֶׁבַע","ше́ва","семь"],
+ ["שְׁמוֹנֶה","шмо́не","восемь"],
+ ["תֵּשַׁע","тэ́ша","девять"],
+ ["עֶשֶׂר","э́сер","десять"],
+ ["יוֹם","йом","день"],
+ ["לַיְלָה","ла́йла","ночь"],
+ ["הַיּוֹם","а-йо́м","сегодня"],
+ ["מָחָר","маха́р","завтра"],
+ ["אֶתְמוֹל","этмо́ль","вчера"],
+ ["כַּמָּה?","ка́ма?","сколько?"],
+ ["אֵיפֹה?","эйфо́?","где?"]
+];
+
+/* ───────── Состояние ───────── */
+let state={
+  page:"menu",         // menu | cards | quiz | done
+  scope:"words",       // words | letters
+  dir:"ru-he",         // ru-he | he-ru
+  mode:"cards",        // cards | quiz
+  idx:0,
+  order:[],
+  reveal:false,
+  pick:null,
+  opts:[],
+  rate:0.5,            // 0.4 medlenno, 0.7 norma
+  known:{words:{},letters:{}}
+};
+try{const s=localStorage.getItem("hz-state");if(s){const p=JSON.parse(s);if(p.known)state.known=p.known;if(p.rate)state.rate=p.rate}}catch(e){}
+const save=()=>{try{localStorage.setItem("hz-state",JSON.stringify({known:state.known,rate:state.rate}))}catch(e){}};
+
+/* ───────── Озвучка ───────── */
+let voicesReady=false;
+let heVoice=null;
+function pickVoice(){
+  const all=speechSynthesis.getVoices();
+  heVoice=all.find(v=>/^he/i.test(v.lang))||all.find(v=>/iw/i.test(v.lang))||null;
+  voicesReady=true;
+}
+if('speechSynthesis' in window){
+  pickVoice();
+  speechSynthesis.onvoiceschanged=pickVoice;
+}
+function speak(text,extraSlow){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='he-IL';
+  if(heVoice)u.voice=heVoice;
+  u.rate=extraSlow?Math.max(0.3,state.rate-0.15):state.rate;
+  u.pitch=1;
+  speechSynthesis.speak(u);
+}
+
+/* ───────── Утилиты ───────── */
+const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b};
+const $=id=>document.getElementById(id);
+function h(tag,cls,inner,on){
+  const el=document.createElement(tag);
+  if(cls)el.className=cls;
+  if(inner!=null)el.innerHTML=inner;
+  if(on)el.addEventListener('click',on);
+  return el;
+}
+function dataFor(){return state.scope==='letters'?LETTERS:WORDS}
+function knownCount(scope){return Object.keys(state.known[scope]||{}).length}
+function totalCount(scope){return scope==='letters'?LETTERS.length:WORDS.length}
+
+function startSession(scope,mode,dir){
+  state.scope=scope;state.mode=mode;state.dir=dir||state.dir;
+  state.order=sh([...Array(dataFor().length).keys()]);
+  state.idx=0;state.reveal=false;state.pick=null;
+  if(mode==='quiz')buildOpts();
+  state.page='cards';
+  render();
+}
+
+function buildOpts(){
+  const data=dataFor();
+  const correct=data[state.order[state.idx]];
+  const others=sh(data.filter((_,i)=>i!==state.order[state.idx])).slice(0,3);
+  state.opts=sh([correct,...others]);
+}
+
+function advance(markKnown){
+  const data=dataFor();
+  const item=data[state.order[state.idx]];
+  if(markKnown){
+    state.known[state.scope][item[0]]=1;
+    save();
+  }
+  state.idx++;
+  state.reveal=false;state.pick=null;
+  if(state.idx>=state.order.length){state.page='done';render();return}
+  if(state.mode==='quiz')buildOpts();
+  render();
+}
+
+/* ───────── Рендер ───────── */
+function render(){
+  const app=$('app');
+  app.innerHTML='';
+  if(state.page==='menu')return renderMenu(app);
+  if(state.page==='done')return renderDone(app);
+  return renderCard(app);
+}
+
+function renderMenu(app){
+  app.appendChild(h('h1','','Иврит с нуля'));
+  app.appendChild(h('div','sub','50 слов и алфавит. Не спеша.'));
+
+  if(!('speechSynthesis' in window)){
+    app.appendChild(h('div','notice','Браузер не умеет озвучивать. Текст и транслитерация работают, но звука не будет. Попробуйте Chrome или Safari.'));
+  }else if(!heVoice && voicesReady){
+    app.appendChild(h('div','notice','В системе нет голоса для иврита. На iPhone: «Настройки → Универс. доступ → Озвучка → Голоса → Иврит». На Windows: «Параметры → Время и язык → Речь».'));
+  }
+
+  // Алфавит
+  const lp=knownCount('letters'),lt=totalCount('letters');
+  const b1=h('button','menu-btn',
+    '<div class="t">Алфавит</div><div class="d">22 буквы со звуками</div><div class="p">Изучено: '+lp+' / '+lt+'</div>',
+    ()=>startSession('letters','cards','he-ru'));
+  app.appendChild(b1);
+
+  // Слова RU→HE
+  const wp=knownCount('words'),wt=totalCount('words');
+  app.appendChild(h('button','menu-btn',
+    '<div class="t">Слова: русский → иврит</div><div class="d">50 базовых слов</div><div class="p">Изучено: '+wp+' / '+wt+'</div>',
+    ()=>startSession('words','cards','ru-he')));
+
+  // Слова HE→RU
+  app.appendChild(h('button','menu-btn',
+    '<div class="t">Слова: иврит → русский</div><div class="d">те же 50 слов, в другую сторону</div><div class="p">Изучено: '+wp+' / '+wt+'</div>',
+    ()=>startSession('words','cards','he-ru')));
+
+  // Проверка
+  app.appendChild(h('button','menu-btn',
+    '<div class="t">Проверка (4 варианта)</div><div class="d">слова с выбором правильного ответа</div>',
+    ()=>startSession('words','quiz','ru-he')));
+
+  // Speed
+  const speedRow=h('div','speed-row','<span>Скорость голоса:</span>');
+  const speeds=[["Медленно",0.4],["Помедленнее",0.5],["Обычно",0.7]];
+  speeds.forEach(([lbl,v])=>{
+    speedRow.appendChild(h('button','speed-btn'+(Math.abs(state.rate-v)<0.01?' on':''),lbl,()=>{state.rate=v;save();render()}));
+  });
+  app.appendChild(speedRow);
+
+  // Reset
+  app.appendChild(h('button','reset','Сбросить прогресс',()=>{
+    if(confirm('Стереть весь выученный прогресс?')){
+      state.known={words:{},letters:{}};save();render();
+    }
+  }));
+}
+
+function renderTopBar(app,total,doneIdx){
+  const bar=h('div','bar');
+  bar.appendChild(h('button','back','← Меню',()=>{state.page='menu';render()}));
+  const pgw=h('div','pgwrap');
+  pgw.appendChild(h('div','pgnum',(doneIdx+1)+' / '+total));
+  const pgb=h('div','pgbar');
+  pgb.innerHTML='<div style="width:'+((doneIdx+1)/total*100)+'%"></div>';
+  pgw.appendChild(pgb);
+  bar.appendChild(pgw);
+  app.appendChild(bar);
+}
+
+function renderCard(app){
+  const data=dataFor();
+  const item=data[state.order[state.idx]];
+  renderTopBar(app,state.order.length,state.idx);
+
+  // Speed selector
+  const sr=h('div','speed-row','<span>Скорость:</span>');
+  const speeds=[["Медленно",0.4],["Средне",0.5],["Обычно",0.7]];
+  speeds.forEach(([lbl,v])=>{
+    sr.appendChild(h('button','speed-btn'+(Math.abs(state.rate-v)<0.01?' on':''),lbl,()=>{state.rate=v;save();render()}));
+  });
+  app.appendChild(sr);
+
+  const card=h('div','card');
+  const isLetters=state.scope==='letters';
+  const heText=item[0];
+  const tr=item[1];
+  const ru=item[2];
+
+  if(state.mode==='cards'){
+    if(isLetters){
+      // Letters: show letter big, then name + sound after reveal
+      card.appendChild(h('div','prompt','Буква'));
+      const bigCls='he-big';
+      card.appendChild(h('div',bigCls,heText));
+      if(state.reveal){
+        card.appendChild(h('div','divider'));
+        card.appendChild(h('div','tr',tr));
+        card.appendChild(h('div','hint',ru));
+      }
+    }else if(state.dir==='ru-he'){
+      card.appendChild(h('div','prompt','Скажите по-ивритски'));
+      card.appendChild(h('div','ru-big',ru));
+      if(state.reveal){
+        card.appendChild(h('div','divider'));
+        const heCls='he-big'+(heText.length>6?' smaller':'');
+        card.appendChild(h('div',heCls,heText));
+        card.appendChild(h('div','tr',tr));
+      }
+    }else{
+      card.appendChild(h('div','prompt','Что это значит?'));
+      const heCls='he-big'+(heText.length>6?' smaller':'');
+      card.appendChild(h('div',heCls,heText));
+      card.appendChild(h('div','tr',tr));
+      if(state.reveal){
+        card.appendChild(h('div','divider'));
+        card.appendChild(h('div','ru-big',ru));
+      }
+    }
+
+    // Audio
+    const ar=h('div','audio-row');
+    ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(heText,false)));
+    ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(heText,true)));
+    card.appendChild(ar);
+
+    app.appendChild(card);
+
+    // Actions
+    if(!state.reveal){
+      app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(heText,false),120)}));
+    }else{
+      const ac=h('div','actions');
+      ac.appendChild(h('button','act no','Ещё не знаю',()=>advance(false)));
+      ac.appendChild(h('button','act yes','Знаю',()=>advance(true)));
+      app.appendChild(ac);
+    }
+  }else{
+    // Quiz mode
+    if(state.dir==='ru-he'){
+      card.appendChild(h('div','prompt','Выберите слово на иврите'));
+      card.appendChild(h('div','ru-big',ru));
+    }else{
+      card.appendChild(h('div','prompt','Выберите перевод'));
+      const heCls='he-big'+(heText.length>6?' smaller':'');
+      card.appendChild(h('div',heCls,heText));
+      card.appendChild(h('div','tr',tr));
+      const ar=h('div','audio-row');
+      ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(heText,false)));
+      ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(heText,true)));
+      card.appendChild(ar);
+    }
+    app.appendChild(card);
+
+    const opts=h('div','opts');
+    state.opts.forEach(o=>{
+      let cls='opt'+(state.dir==='ru-he'?' he':'');
+      if(state.pick){
+        if(o===item)cls+=' ok';
+        else if(o===state.pick&&o!==item)cls+=' bad';
+      }
+      const label=state.dir==='ru-he'?o[0]:o[2];
+      const ob=h('button',cls,label,()=>{
+        if(state.pick)return;
+        state.pick=o;
+        if(o===item)speak(item[0],false);
+        render();
+      });
+      opts.appendChild(ob);
+    });
+    app.appendChild(opts);
+
+    if(state.pick){
+      const correct=state.pick===item;
+      app.appendChild(h('button','next',correct?'Дальше':'Дальше (запомним)',()=>advance(correct)));
+    }
+  }
+}
+
+function renderDone(app){
+  const total=state.order.length;
+  app.appendChild(h('div','done',
+    '<div class="t">Урок окончен</div>'+
+    '<div class="d">Пройдено '+total+' карточек.</div>'));
+  app.appendChild(h('button','menu-btn',
+    '<div class="t">Ещё раз</div><div class="d">пройти этот же набор заново</div>',
+    ()=>startSession(state.scope,state.mode,state.dir)));
+  app.appendChild(h('button','menu-btn',
+    '<div class="t">В меню</div><div class="d">выбрать другой раздел</div>',
+    ()=>{state.page='menu';render()}));
+}
+
+render();
+</script>
+</body>
+</html>
