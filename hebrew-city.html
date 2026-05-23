@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
+<title>Иврит — Город и транспорт</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f8fafc;color:#1e293b}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:20px;line-height:1.4;padding:14px;min-height:100vh;-webkit-text-size-adjust:100%}
+  button{touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0.05);user-select:none}
+  .w{max-width:560px;margin:0 auto}
+
+  h1{font-size:30px;font-weight:700;margin-bottom:6px;text-align:center}
+  .sub{text-align:center;color:#475569;font-size:18px;margin-bottom:24px}
+
+  .dir-label{font-size:15px;color:#475569;margin-bottom:8px;text-align:center}
+  .dir-row{display:flex;gap:8px;margin-bottom:18px}
+  .dir-btn{flex:1;padding:14px 6px;border:2px solid #cbd5e1;background:#fff;border-radius:12px;font-size:16px;font-weight:600;color:#475569;cursor:pointer}
+  .dir-btn.on{background:#2563eb;color:#fff;border-color:#2563eb}
+
+  .menu-btn{display:block;width:100%;background:#fff;border:2px solid #cbd5e1;border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;text-align:left}
+  .menu-btn:active{background:#eef2ff}
+  .menu-btn .t{font-size:22px;font-weight:700;color:#1e293b;margin-bottom:4px}
+  .menu-btn .d{font-size:16px;color:#475569}
+  .menu-btn .p{font-size:16px;color:#2563eb;margin-top:6px;font-weight:600}
+
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .back{background:#fff;border:2px solid #cbd5e1;border-radius:10px;padding:10px 14px;font-size:18px;cursor:pointer;font-weight:600;color:#1e293b}
+  .pgwrap{flex:1}
+  .pgnum{font-size:16px;color:#475569;text-align:right;margin-bottom:4px}
+  .pgbar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden}
+  .pgbar div{height:100%;background:#16a34a;transition:width .25s}
+
+  .card{background:#fff;border:2px solid #cbd5e1;border-radius:18px;padding:24px 18px;text-align:center;margin-bottom:16px}
+  .img-card{width:240px;height:240px;display:block;margin:0 auto 12px;object-fit:contain}
+  .no-img{width:240px;height:60px;display:block;margin:0 auto 12px}
+  .ru-big{font-size:32px;font-weight:700;color:#1e293b;margin-bottom:8px;word-break:break-word}
+  .he-big{font-size:48px;line-height:1.2;font-weight:700;color:#0f172a;direction:rtl;margin:8px 0 10px;font-family:"Noto Sans Hebrew","Noto Serif Hebrew","Frank Ruehl CLM","SBL Hebrew","David",serif;word-break:keep-all}
+  .he-big.smaller{font-size:38px}
+  .tr{font-size:22px;color:#1d4ed8;margin-bottom:10px;font-weight:600}
+  .cat-label{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .divider{height:2px;background:#e2e8f0;margin:14px 0}
+
+  .audio-row{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+  .abtn{width:100%;padding:14px;border:2px solid #2563eb;background:#fff;color:#2563eb;border-radius:12px;font-size:19px;font-weight:600;cursor:pointer}
+  .abtn:active{background:#eef2ff}
+  .abtn.primary{background:#2563eb;color:#fff}
+
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .act{padding:18px 8px;border:none;border-radius:14px;font-size:20px;font-weight:700;cursor:pointer}
+  .act.no{background:#fee2e2;color:#991b1b}
+  .act.no:active{background:#fecaca}
+  .act.yes{background:#dcfce7;color:#166534}
+  .act.yes:active{background:#bbf7d0}
+  .act.show{background:#dbeafe;color:#1e40af;grid-column:1/3}
+  .act.show:active{background:#bfdbfe}
+
+  .speed-row{display:flex;gap:8px;margin-bottom:12px;font-size:15px;color:#475569;align-items:center;justify-content:center;flex-wrap:wrap}
+  .speed-btn{padding:6px 14px;border:2px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-weight:600;color:#475569;font-size:15px}
+  .speed-btn.on{background:#0f172a;color:#fff;border-color:#0f172a}
+
+  .nav-row{display:flex;gap:8px;margin-top:18px}
+  .nav-btn{flex:1;padding:16px 4px;border:2px solid #cbd5e1;background:#fff;color:#1e293b;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer}
+  .nav-btn:active{background:#f1f5f9}
+  .nav-btn[disabled]{opacity:.35;cursor:not-allowed}
+  .nav-btn.mid{flex:.7;font-size:15px;color:#475569;font-weight:600}
+
+  .notice{background:#fff7ed;border:2px solid #fed7aa;color:#9a3412;padding:14px;border-radius:12px;font-size:16px;margin-bottom:14px}
+  .reset{display:block;width:100%;margin-top:16px;padding:14px;background:#fff;border:2px dashed #cbd5e1;border-radius:12px;font-size:16px;color:#64748b;cursor:pointer}
+  .done{text-align:center;padding:28px 12px;background:#dcfce7;border:2px solid #16a34a;border-radius:18px;margin-bottom:16px}
+  .done .t{font-size:28px;font-weight:700;color:#166534;margin-bottom:8px}
+  .done .d{font-size:18px;color:#166534}
+
+  .credit{margin-top:24px;text-align:center;font-size:12px;color:#94a3b8}
+  .credit a{color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="w" id="app"></div>
+<script>
+const STORAGE_KEY="he-block-city";
+const WORDS=[
+  ["ביטוח רכב", "биту́ах рéхев", "страховка авто", null, "Транспорт"],
+  ["טסט", "тест", "техосмотр", null, "Транспорт"],
+  ["דוח תנועה", "до́ах тнуа́", "штраф (ПДД)", null, "Транспорт"],
+  ["תאונה", "теуна́", "авария", null, "Транспорт"],
+  ["פקק", "пкак", "пробка (дорожная)", null, "Транспорт"],
+  ["מעקף", "маакáф", "объезд", null, "Транспорт"],
+  ["כיכר", "кика́р", "кольцевое движение", null, "Транспорт"],
+  ["מעבר חצייה", "маавáр хацийа́", "пешеходный переход", "1F6B8", "Транспорт"],
+  ["תחנת דלק", "тахана́т дéлек", "заправка", null, "Транспорт"],
+  ["צמיג", "цами́г", "шина", null, "Транспорт"],
+  ["פנצ'ר", "пáнчер", "прокол", null, "Транспорт"],
+  ["בלם", "бéлем", "тормоз", null, "Транспорт"],
+  ["חגורת בטיחות", "хагора́т бетиху́т", "ремень безопасности", null, "Транспорт"],
+  ["ניווט", "ниву́т", "GPS / навигация", null, "Транспорт"],
+  ["תחבורה ציבורית", "тахбура́ цибури́т", "общественный транспорт", null, "Транспорт"],
+  ["תחנה", "тахана́", "остановка", "1F68F", "Транспорт"],
+  ["כרטיסייה", "картисийа́", "проездной", null, "Транспорт"],
+  ["רב קו", "рав кав", "рав-кав (проездной)", null, "Транспорт"],
+  ["החלפה", "hахлафа́", "пересадка", null, "Транспорт"],
+  ["תחנה סופית", "тахана́ софи́т", "конечная (станция)", null, "Транспорт"],
+  ["שדה תעופה", "сдэ теуфа́", "аэропорт", "1F6EB", "Транспорт"],
+  ["ים", "ям", "море", "1F30A", "Город и природа"],
+  ["חוף", "хоф", "пляж", "1F3D6", "Город и природа"],
+  ["הר", "hар", "гора", "1F3D4", "Город и природа"],
+  ["מדבר", "мидбáр", "пустыня", null, "Город и природа"],
+  ["נהר", "наháр", "река", "1F30A", "Город и природа"],
+  ["אגם", "ага́м", "озеро", "1F30A", "Город и природа"],
+  ["יער", "яáр", "лес", "1F332", "Город и природа"],
+  ["פרח", "пéрах", "цветок", null, "Город и природа"],
+  ["דשא", "дéше", "трава", null, "Город и природа"],
+  ["אבן", "э́вен", "камень", null, "Город и природа"],
+  ["חול", "холь", "песок", null, "Город и природа"],
+  ["כוכב", "кохáв", "звезда", null, "Город и природа"],
+  ["ירח", "ярéах", "луна", null, "Город и природа"],
+  ["עיר", "ир", "город", "1F3D9", "Город и природа"],
+  ["כפר", "кфар", "деревня", "1F3D8", "Город и природа"],
+  ["רחוב", "рехо́в", "улица", "1F6E3", "Город и природа"],
+  ["גן ציבורי", "ган цибури́", "парк", "1F33F", "Город и природа"],
+  ["גשר", "гéшер", "мост", "1F309", "Город и природа"],
+  ["כנסייה", "кнесийа́", "церковь", "26EA", "Город и природа"],
+  ["מסגד", "мисгáд", "мечеть", "1F54C", "Город и природа"],
+  ["מוזיאון", "музео́н", "музей", "1F3DB", "Город и природа"],
+  ["ספרייה", "сифрийа́", "библиотека", "1F4DA", "Город и природа"],
+  ["דואר", "доáр", "почта", "1F4EC", "Город и природа"],
+  ["טיול", "тию́ль", "путешествие", "1F9F3", "Путешествия"],
+  ["דרכון", "дарко́н", "паспорт", null, "Путешествия"],
+  ["מזוודה", "мизвада́", "чемодан", "1F9F3", "Путешествия"],
+  ["תיק גב", "тик гав", "рюкзак", "1F392", "Путешествия"],
+  ["טיסה", "тиса́", "рейс (самолёт)", null, "Путешествия"],
+  ["כרטיס עלייה", "карти́с алийа́", "посадочный талон", null, "Путешествия"],
+  ["צ'ק אין", "чек ин", "регистрация (в аэр.)", null, "Путешествия"],
+  ["טרמינל", "термина́ль", "терминал", null, "Путешествия"],
+  ["המראה", "hамраа́", "взлёт", null, "Путешествия"],
+  ["נחיתה", "нехита́", "посадка", null, "Путешествия"],
+  ["עיכוב טיסה", "ику́в тиса́", "задержка рейса", null, "Путешествия"],
+  ["קונקשן", "конéкшен", "пересадка (рейс)", null, "Путешествия"],
+  ["מלון", "мало́н", "гостиница", "1F3E8", "Путешествия"],
+  ["הוסטל", "hо́стель", "хостел", null, "Путешествия"],
+  ["להזמין", "леhазми́н", "бронировать", null, "Путешествия"],
+  ["ביטול הזמנה", "биту́ль hазмана́", "отмена бронирования", null, "Путешествия"],
+  ["מפה", "мапа́", "карта (географ.)", "1F5FA", "Путешествия"],
+  ["מדריך", "мадри́х", "гид", null, "Путешествия"],
+  ["אתר תיירות", "ата́р тайару́т", "достопримечательность", null, "Путешествия"],
+  ["מזכרת", "мазкéрет", "сувенир", null, "Путешествия"],
+  ["המרת מטבע", "hамара́т матбéа", "обмен валюты", null, "Путешествия"],
+  ["טיפ", "тип", "чаевые", "1F4B5", "Путешествия"],
+  ["חוץ לארץ", "хуц лаáрец", "заграница", null, "Путешествия"],
+  ["ישראלי", "исраэли́", "израильтянин", null, "Путешествия"],
+  ["תייר", "тайáр", "турист", null, "Путешествия"],
+  ["שכונה", "шхуна́", "район / квартал", "1F3D9", "Район"],
+  ["מרכז העיр", "меркáз hаи́р", "центр города", null, "Район"],
+  ["פרבר", "парвáр", "пригород", null, "Район"],
+  ["אזור תעשייה", "эзо́р таасийа́", "промзона", null, "Район"],
+  ["רחוב מסחרי", "рехо́в мисхари́", "торговая улица", null, "Район"],
+  ["מבוי סתום", "маво́й сату́м", "тупик", null, "Район"],
+  ["סמטה", "симта́", "переулок", null, "Район"],
+  ["שדרה", "сдера́", "бульвар", null, "Район"],
+  ["מזרקה", "мизрака́", "фонтан", null, "Район"],
+  ["ספסל", "сафсáль", "скамейка", null, "Район"],
+  ["גן משחקים", "ган мисхаки́м", "детская площадка", null, "Район"],
+  ["מכולת אשפה", "мехолéт ашпа́", "мусорный контейнер", null, "Район"],
+  ["מכסה ביוב", "михсé бию́в", "канализационный люк", null, "Район"],
+  ["עמוד חשמל", "аму́д хашмáль", "электрический столб", null, "Район"],
+  ["אנטנה", "антéна", "антенна", null, "Район"],
+  ["ועד בית", "ваáд бáит", "кондоминиум / ваад байт", null, "Район"],
+  ["תשלום חודשי", "ташлу́м ходши́", "ежемесячная оплата", null, "Район"],
+  ["אינטרקום", "интерко́м", "домофон", null, "Район"],
+  ["תיבת דואר", "тевáт доáр", "почтовый ящик", "1F4EC", "Район"],
+  ["חצר", "хацéр", "двор", null, "Район"],
+  ["גדר", "гадéр", "забор", null, "Район"],
+  ["שער", "шáар", "ворота", null, "Район"],
+  ["חניה מקורה", "ханайа́ мекорá", "навес для машины", null, "Район"],
+  ["דוד שמש", "дуд шéмеш", "солнечный бойлер", null, "Район"],
+  ["תעודת זהות", "теуда́т зеhу́т", "удостоверение личности", null, "Госучреждения"],
+  ["ויזה", "ви́за", "виза", null, "Госучреждения"],
+  ["אשרת שהייה", "ашера́т шеhийа́", "вид на жительство", null, "Госучреждения"],
+  ["אזרחות", "эзрахУ́т", "гражданство", null, "Госучреждения"],
+  ["עלייה", "алийа́", "репатриация (алия)", null, "Госучреждения"],
+  ["עולה חדש", "олé хадáш", "новый репатриант", null, "Госучреждения"],
+  ["סל קליטה", "саль клита́", "корзина абсорбции", "1F9FA", "Госучреждения"]
+];
+
+let state={page:"menu",cat:"",dir:"ru-he",idx:0,order:[],reveal:false,rate:0.5,known:{}};
+try{const s=localStorage.getItem(STORAGE_KEY);if(s){const p=JSON.parse(s);if(p.known)state.known=p.known;if(p.rate)state.rate=p.rate;if(p.dir)state.dir=p.dir}}catch(e){}
+const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify({known:state.known,rate:state.rate,dir:state.dir}))}catch(e){}};
+
+let heVoice=null;
+function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
+if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
+function speak(text,slow){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel()}catch(e){}setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(text);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?Math.max(0.3,state.rate-0.15):state.rate;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},60)}
+
+const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b};
+const $=id=>document.getElementById(id);
+function h(tag,cls,inner,on){const el=document.createElement(tag);if(cls)el.className=cls;if(inner!=null)el.innerHTML=inner;if(on)el.addEventListener('click',on);return el}
+function imgPath(cp){return 'images/openmoji/'+cp+'.png'}
+function categoryList(){return [...new Set(WORDS.map(w=>w[4]))]}
+function inCategory(cat){const r=[];WORDS.forEach((w,i)=>{if(w[4]===cat)r.push(i)});return r}
+function knownInCat(cat){return inCategory(cat).filter(i=>state.known[WORDS[i][0]]).length}
+
+const UA=navigator.userAgent||'';
+const IS_ANDROID=/Android/i.test(UA);
+const IS_IOS=/iPad|iPhone|iPod/.test(UA);
+
+function startSession(cat){state.cat=cat;state.order=sh(inCategory(cat));state.idx=0;state.reveal=false;state.page='cards';render()}
+function advance(markKnown){const item=WORDS[state.order[state.idx]];if(markKnown){state.known[item[0]]=1;save()}state.idx++;state.reveal=false;if(state.idx>=state.order.length){state.page='done';render();return}render()}
+function moveBy(d){state.idx+=d;if(state.idx<0)state.idx=0;state.reveal=false;if(state.idx>=state.order.length){state.page='done';render();return}render()}
+
+function render(){const app=$('app');app.innerHTML='';if(state.page==='menu')return renderMenu(app);if(state.page==='done')return renderDone(app);return renderCard(app)}
+
+function renderMenu(app){
+  app.appendChild(h('h1','','Город и транспорт'));
+  app.appendChild(h('div','sub','100 слов: транспорт, район, путешествия'));
+  if('speechSynthesis' in window && !heVoice){
+    let txt='Голос иврита в системе не найден — звука пока не будет. Чтобы включить: ';
+    if(IS_ANDROID)txt+='«Настройки → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית».';
+    else if(IS_IOS)txt+='«Настройки → Универсальный доступ → Устный контент → Голоса → Иврит».';
+    else txt+='«Параметры → Время и язык → Языки → Добавить язык → עברית, отметить «Преобразование текста в речь» → Установить.';
+    app.appendChild(h('div','notice',txt));
+  }
+  app.appendChild(h('div','dir-label','В какую сторону учим:'));
+  const dirRow=h('div','dir-row');
+  [['ru-he','Русский → Иврит'],['he-ru','Иврит → Русский']].forEach(([v,lbl])=>{
+    dirRow.appendChild(h('button','dir-btn'+(state.dir===v?' on':''),lbl,()=>{state.dir=v;save();render()}));
+  });
+  app.appendChild(dirRow);
+  categoryList().forEach(cat=>{
+    const total=inCategory(cat).length;
+    const k=knownInCat(cat);
+    app.appendChild(h('button','menu-btn',
+      '<div class="t">'+cat+'</div>'+
+      '<div class="d">'+total+' слов</div>'+
+      '<div class="p">Изучено: '+k+' / '+total+'</div>',
+      ()=>startSession(cat)));
+  });
+  const sr=h('div','speed-row','<span>Скорость голоса:</span>');
+  [["Медленно",0.4],["Помедленнее",0.5],["Обычно",0.7]].forEach(([lbl,v])=>{
+    sr.appendChild(h('button','speed-btn'+(Math.abs(state.rate-v)<0.01?' on':''),lbl,()=>{state.rate=v;save();render()}));
+  });
+  app.appendChild(sr);
+  app.appendChild(h('button','reset','Сбросить прогресс',()=>{if(confirm('Стереть весь выученный прогресс?')){state.known={};save();render()}}));
+  app.appendChild(h('div','credit','Иконки — <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a>, CC BY-SA 4.0'));
+}
+
+function renderTopBar(app){
+  const bar=h('div','bar');
+  bar.appendChild(h('button','back','← Меню',()=>{state.page='menu';render()}));
+  const pgw=h('div','pgwrap');
+  pgw.appendChild(h('div','pgnum',(state.idx+1)+' / '+state.order.length));
+  const pgb=h('div','pgbar');
+  pgb.innerHTML='<div style="width:'+((state.idx+1)/state.order.length*100)+'%"></div>';
+  pgw.appendChild(pgb);
+  bar.appendChild(pgw);
+  app.appendChild(bar);
+}
+
+function renderCard(app){
+  const arrIdx=state.order[state.idx];
+  const item=WORDS[arrIdx];
+  const he=item[0],tr=item[1],ru=item[2],cp=item[3],cat=item[4];
+  renderTopBar(app);
+  const sr=h('div','speed-row','<span>Скорость:</span>');
+  [["Медленно",0.4],["Средне",0.5],["Обычно",0.7]].forEach(([lbl,v])=>{
+    sr.appendChild(h('button','speed-btn'+(Math.abs(state.rate-v)<0.01?' on':''),lbl,()=>{state.rate=v;save();render()}));
+  });
+  app.appendChild(sr);
+  const card=h('div','card');
+  card.appendChild(h('div','cat-label',cat));
+  if(cp){
+    const img=h('img','img-card');img.src=imgPath(cp);img.alt=ru;card.appendChild(img);
+  }else{
+    card.appendChild(h('div','no-img'));
+  }
+  const heCls='he-big'+(he.length>8?' smaller':'');
+  if(state.dir==='ru-he'){
+    card.appendChild(h('div','ru-big',ru));
+    if(state.reveal){
+      card.appendChild(h('div','divider'));
+      card.appendChild(h('div',heCls,he));
+      card.appendChild(h('div','tr',tr));
+    }
+  }else{
+    card.appendChild(h('div',heCls,he));
+    card.appendChild(h('div','tr',tr));
+    if(state.reveal){
+      card.appendChild(h('div','divider'));
+      card.appendChild(h('div','ru-big',ru));
+    }
+  }
+  const ar=h('div','audio-row');
+  ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
+  ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(he,true)));
+  card.appendChild(ar);
+  app.appendChild(card);
+  if(!state.reveal){
+    app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(he,false),120)}));
+  }else{
+    const ac=h('div','actions');
+    ac.appendChild(h('button','act no','Ещё не знаю',()=>advance(false)));
+    ac.appendChild(h('button','act yes','Знаю',()=>advance(true)));
+    app.appendChild(ac);
+  }
+  const nav=h('div','nav-row');
+  const prev=h('button','nav-btn','← Назад',()=>moveBy(-1));
+  if(state.idx===0)prev.setAttribute('disabled','');
+  nav.appendChild(prev);
+  nav.appendChild(h('button','nav-btn mid','Меню',()=>{state.page='menu';render()}));
+  nav.appendChild(h('button','nav-btn','Вперёд →',()=>moveBy(1)));
+  app.appendChild(nav);
+}
+
+function renderDone(app){
+  app.appendChild(h('div','done','<div class="t">Раздел пройден</div><div class="d">'+state.cat+': '+state.order.length+' слов.</div>'));
+  app.appendChild(h('button','menu-btn','<div class="t">Ещё раз</div><div class="d">пройти этот же раздел заново</div>',()=>startSession(state.cat)));
+  app.appendChild(h('button','menu-btn','<div class="t">В меню</div><div class="d">выбрать другой раздел</div>',()=>{state.page='menu';render()}));
+}
+
+render();
+</script>
+</body>
+</html>

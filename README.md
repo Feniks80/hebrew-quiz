@@ -9,13 +9,21 @@
 |---|---|---|---|
 | `hebrew-zero.html` | A0 (с нуля) | 50 + алфавит | Для начинающих, с озвучкой и крупным шрифтом |
 | `hebrew-everyday.html` | A1 | 100 | Бытовая лексика с картинками (OpenMoji), 11 категорий |
+| `hebrew-health.html` | A2 | 100 | Здоровье, врач, тело, спорт, экстренные ситуации |
+| `hebrew-shopping.html` | A2 | 100 | Магазин, еда, ресторан, одежда |
+| `hebrew-home.html` | A2 | 100 | Дом, квартира, ремонт, быт, аренда |
+| `hebrew-city.html` | A2 | 100 | Транспорт, район, путешествия, госучреждения |
+| `hebrew-people.html` | A2 | 100 | Семья, эмоции, отношения, характер, внешность |
 | `index.html` | B1 | 1408 | Инженерная терминология, базовый набор |
-| `hebrew-b2-quiz.html` | B2 | 1521 | Расширенный инженерный набор |
+| `hebrew-b2-quiz.html` | B2 | 1521 | Расширенный набор: быт, работа, бизнес, юр., и т.д. |
 | `hebrew-quiz-full.jsx` | B1 | 1408 | React-исходник для `index.html` |
 | `audio/` | — | — | MP3-озвучка для `hebrew-zero.html` (50 слов + 22 буквы) |
-| `images/everyday/` | — | — | Иконки OpenMoji для `hebrew-everyday.html` (99 из 100) |
+| `images/everyday/` | — | — | Иконки для `hebrew-everyday.html` (по индексу слова) |
+| `images/openmoji/` | — | — | Иконки для A2-блоков (по Unicode codepoint), 139 шт. |
 | `tools/gen_audio.py` | — | — | Скрипт для пересоздания MP3 |
-| `tools/fetch_emoji.py` | — | — | Скрипт для повторного скачивания OpenMoji-иконок |
+| `tools/fetch_emoji.py` | — | — | Скрипт для OpenMoji-иконок hebrew-everyday |
+| `tools/build_blocks.py` | — | — | Генератор A2-блоков из B2-словаря |
+| `tools/block_template.html` | — | — | HTML-шаблон для генератора |
 | `archive/` | — | — | Старые версии и прототипы |
 
 ## Как открыть
