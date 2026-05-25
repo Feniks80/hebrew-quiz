@@ -254,6 +254,7 @@ function render(){
 }
 
 function renderMenu(app){
+  const home=h('a','home-link','‹ Все темы');home.href='index.html';home.style.cssText='display:inline-block;color:#2563eb;font-size:16px;font-weight:600;text-decoration:none;margin-bottom:12px';app.appendChild(home);
   app.appendChild(h('h1','','Иврит — 100 слов'));
   app.appendChild(h('div','sub','с картинками, не спеша'));
 

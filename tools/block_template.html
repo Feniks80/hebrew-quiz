@@ -13,6 +13,7 @@
 
   h1{font-size:30px;font-weight:700;margin-bottom:6px;text-align:center}
   .sub{text-align:center;color:#475569;font-size:18px;margin-bottom:24px}
+  .home-link{display:inline-block;color:#2563eb;font-size:16px;font-weight:600;text-decoration:none;margin-bottom:12px}
 
   .dir-label{font-size:15px;color:#475569;margin-bottom:8px;text-align:center}
   .dir-row{display:flex;gap:8px;margin-bottom:18px}
@@ -110,6 +111,7 @@ function moveBy(d){state.idx+=d;if(state.idx<0)state.idx=0;state.reveal=false;if
 function render(){const app=$('app');app.innerHTML='';if(state.page==='menu')return renderMenu(app);if(state.page==='done')return renderDone(app);return renderCard(app)}
 
 function renderMenu(app){
+  const home=h('a','home-link','‹ Все темы');home.href='index.html';app.appendChild(home);
   app.appendChild(h('h1','','__HEADING__'));
   app.appendChild(h('div','sub','__SUBTITLE__'));
   if('speechSynthesis' in window && !heVoice){

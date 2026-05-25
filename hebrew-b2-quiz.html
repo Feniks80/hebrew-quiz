@@ -106,7 +106,7 @@ const saveProg=()=>{try{localStorage.setItem("hq2-prog",JSON.stringify(prog))}ca
 function render(page){
 const app=$("app");app.innerHTML="";
 if(page==="menu"){
-app.innerHTML=`<div style="text-align:center;margin-bottom:16px"><div style="font-size:22px;font-weight:700;color:#7c3aed">Hebrew B2 Quiz</div><div style="font-size:13px;color:#64748b">1521 слов / ${Q.length} квизов / бытовой иврит</div></div>`;
+app.innerHTML=`<a href="index.html" style="display:inline-block;color:#7c3aed;font-size:13px;font-weight:600;text-decoration:none;margin-bottom:8px">‹ Все темы</a><div style="text-align:center;margin-bottom:16px"><div style="font-size:22px;font-weight:700;color:#7c3aed">Hebrew B2 Quiz</div><div style="font-size:13px;color:#64748b">1521 слов / ${Q.length} квизов / бытовой иврит</div></div>`;
 const dirBox=h("div","",null,{style:{display:"flex",gap:"6px",marginBottom:"14px",flexWrap:"wrap"}});
 [["mix","Смешанное"],["ru","Рус→Ивр"],["he","Ивр→Рус"]].forEach(([v,l])=>{const b=h("button","dir-btn",l,{onclick:()=>{dir=v;render("menu")}});b.style.fontWeight=dir===v?"600":"400";b.style.border=dir===v?"2px solid #7c3aed":"1px solid #e2e8f0";b.style.background=dir===v?"#faf5ff":"#fff";b.style.color=dir===v?"#7c3aed":"#64748b";dirBox.appendChild(b)});app.appendChild(dirBox);
 const rnd=h("div","rnd-box","");rnd.innerHTML=`<div style="font-size:14px;font-weight:700;color:#7c3aed;margin-bottom:8px">Случайный микс</div>`;
