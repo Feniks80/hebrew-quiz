@@ -67,6 +67,17 @@
   .nav-btn[disabled]{opacity:.35;cursor:not-allowed}
   .nav-btn.mid{flex:.7;font-size:15px;color:#475569;font-weight:600}
 
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .opt{padding:16px 14px;border:2px solid #cbd5e1;background:#fff;border-radius:14px;font-size:22px;cursor:pointer;text-align:center;font-weight:600;color:#1e293b}
+  .opt:active{background:#eef2ff}
+  .opt.he{font-size:30px;direction:rtl;font-family:"Noto Sans Hebrew","Noto Serif Hebrew","Frank Ruehl CLM","SBL Hebrew","David",serif}
+  .opt.ok{background:#dcfce7;border-color:#16a34a;color:#166534}
+  .opt.bad{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+  .opt[disabled]{cursor:default}
+  .next{margin-top:14px;width:100%;padding:16px;background:#2563eb;color:#fff;border:none;border-radius:14px;font-size:20px;font-weight:700;cursor:pointer}
+  .next:active{background:#1d4ed8}
+  .qprompt{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;text-align:center}
+
   .notice{background:#fff7ed;border:2px solid #fed7aa;color:#9a3412;padding:14px;border-radius:12px;font-size:16px;margin-bottom:14px}
   .reset{display:block;width:100%;margin-top:16px;padding:14px;background:#fff;border:2px dashed #cbd5e1;border-radius:12px;font-size:16px;color:#64748b;cursor:pointer}
   .done{text-align:center;padding:28px 12px;background:#dcfce7;border:2px solid #16a34a;border-radius:18px;margin-bottom:16px}
@@ -184,9 +195,9 @@ const WORDS=[
   ["שמלה", "симла́", "платье", "1F457", "Одежда"]
 ];
 
-let state={page:"menu",cat:"",dir:"ru-he",idx:0,order:[],reveal:false,rate:0.5,known:{}};
-try{const s=localStorage.getItem(STORAGE_KEY);if(s){const p=JSON.parse(s);if(p.known)state.known=p.known;if(p.rate)state.rate=p.rate;if(p.dir)state.dir=p.dir}}catch(e){}
-const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify({known:state.known,rate:state.rate,dir:state.dir}))}catch(e){}};
+let state={page:"menu",cat:"",dir:"ru-he",mode:"cards",idx:0,order:[],reveal:false,pick:null,opts:[],rate:0.5,known:{}};
+try{const s=localStorage.getItem(STORAGE_KEY);if(s){const p=JSON.parse(s);if(p.known)state.known=p.known;if(p.rate)state.rate=p.rate;if(p.dir)state.dir=p.dir;if(p.mode)state.mode=p.mode}}catch(e){}
+const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify({known:state.known,rate:state.rate,dir:state.dir,mode:state.mode}))}catch(e){}};
 
 let heVoice=null;
 function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
@@ -205,9 +216,16 @@ const UA=navigator.userAgent||'';
 const IS_ANDROID=/Android/i.test(UA);
 const IS_IOS=/iPad|iPhone|iPod/.test(UA);
 
-function startSession(cat){state.cat=cat;state.order=sh(inCategory(cat));state.idx=0;state.reveal=false;state.page='cards';render()}
-function advance(markKnown){const item=WORDS[state.order[state.idx]];if(markKnown){state.known[item[0]]=1;save()}state.idx++;state.reveal=false;if(state.idx>=state.order.length){state.page='done';render();return}render()}
-function moveBy(d){state.idx+=d;if(state.idx<0)state.idx=0;state.reveal=false;if(state.idx>=state.order.length){state.page='done';render();return}render()}
+function buildOpts(){
+  const arrIdx=state.order[state.idx];
+  const correct=WORDS[arrIdx];
+  const pool=inCategory(state.cat).filter(i=>i!==arrIdx);
+  const distract=sh(pool).slice(0,3).map(i=>WORDS[i]);
+  state.opts=sh([correct,...distract]);
+}
+function startSession(cat){state.cat=cat;state.order=sh(inCategory(cat));state.idx=0;state.reveal=false;state.pick=null;if(state.mode==='quiz')buildOpts();state.page='cards';render()}
+function advance(markKnown){const item=WORDS[state.order[state.idx]];if(markKnown){state.known[item[0]]=1;save()}state.idx++;state.reveal=false;state.pick=null;if(state.idx>=state.order.length){state.page='done';render();return}if(state.mode==='quiz')buildOpts();render()}
+function moveBy(d){state.idx+=d;if(state.idx<0)state.idx=0;state.reveal=false;state.pick=null;if(state.idx>=state.order.length){state.page='done';render();return}if(state.mode==='quiz')buildOpts();render()}
 
 function render(){const app=$('app');app.innerHTML='';if(state.page==='menu')return renderMenu(app);if(state.page==='done')return renderDone(app);return renderCard(app)}
 
@@ -222,7 +240,13 @@ function renderMenu(app){
     else txt+='«Параметры → Время и язык → Языки → Добавить язык → עברית, отметить «Преобразование текста в речь» → Установить.';
     app.appendChild(h('div','notice',txt));
   }
-  app.appendChild(h('div','dir-label','В какую сторону учим:'));
+  app.appendChild(h('div','dir-label','Режим:'));
+  const modeRow=h('div','dir-row');
+  [['cards','Карточки'],['quiz','Проверка']].forEach(([v,lbl])=>{
+    modeRow.appendChild(h('button','dir-btn'+(state.mode===v?' on':''),lbl,()=>{state.mode=v;save();render()}));
+  });
+  app.appendChild(modeRow);
+  app.appendChild(h('div','dir-label','В какую сторону:'));
   const dirRow=h('div','dir-row');
   [['ru-he','Русский → Иврит'],['he-ru','Иврит → Русский']].forEach(([v,lbl])=>{
     dirRow.appendChild(h('button','dir-btn'+(state.dir===v?' on':''),lbl,()=>{state.dir=v;save();render()}));
@@ -270,39 +294,72 @@ function renderCard(app){
   app.appendChild(sr);
   const card=h('div','card');
   card.appendChild(h('div','cat-label',cat));
-  if(cp){
-    const img=h('img','img-card');img.src=imgPath(cp);img.alt=ru;card.appendChild(img);
-  }else{
-    card.appendChild(h('div','no-img'));
-  }
   const heCls='he-big'+(he.length>8?' smaller':'');
-  if(state.dir==='ru-he'){
-    card.appendChild(h('div','ru-big',ru));
-    if(state.reveal){
-      card.appendChild(h('div','divider'));
+  if(state.mode==='quiz'){
+    // Проверка: картинку не показываем — она выдала бы ответ
+    if(state.dir==='ru-he'){
+      card.appendChild(h('div','qprompt','Выберите перевод на иврит'));
+      card.appendChild(h('div','ru-big',ru));
+    }else{
+      card.appendChild(h('div','qprompt','Что это значит?'));
       card.appendChild(h('div',heCls,he));
       card.appendChild(h('div','tr',tr));
+      const ar=h('div','audio-row');
+      ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
+      card.appendChild(ar);
+    }
+    app.appendChild(card);
+    const opts=h('div','opts');
+    state.opts.forEach(o=>{
+      let cls='opt'+(state.dir==='ru-he'?' he':'');
+      if(state.pick){
+        if(o===item)cls+=' ok';
+        else if(o===state.pick)cls+=' bad';
+      }
+      const label=(state.dir==='ru-he')?o[0]:o[2];
+      const b=h('button',cls,label,()=>{if(state.pick)return;state.pick=o;if(o===item)speak(item[0],false);render()});
+      if(state.pick)b.setAttribute('disabled','');
+      opts.appendChild(b);
+    });
+    app.appendChild(opts);
+    if(state.pick){
+      const correct=state.pick===item;
+      app.appendChild(h('button','next',correct?'Верно! Дальше →':'Дальше →',()=>advance(correct)));
     }
   }else{
-    card.appendChild(h('div',heCls,he));
-    card.appendChild(h('div','tr',tr));
-    if(state.reveal){
-      card.appendChild(h('div','divider'));
+    if(cp){
+      const img=h('img','img-card');img.src=imgPath(cp);img.alt=ru;card.appendChild(img);
+    }else{
+      card.appendChild(h('div','no-img'));
+    }
+    if(state.dir==='ru-he'){
       card.appendChild(h('div','ru-big',ru));
+      if(state.reveal){
+        card.appendChild(h('div','divider'));
+        card.appendChild(h('div',heCls,he));
+        card.appendChild(h('div','tr',tr));
+      }
+    }else{
+      card.appendChild(h('div',heCls,he));
+      card.appendChild(h('div','tr',tr));
+      if(state.reveal){
+        card.appendChild(h('div','divider'));
+        card.appendChild(h('div','ru-big',ru));
+      }
     }
-  }
-  const ar=h('div','audio-row');
-  ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
-  ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(he,true)));
-  card.appendChild(ar);
-  app.appendChild(card);
-  if(!state.reveal){
-    app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(he,false),120)}));
-  }else{
-    const ac=h('div','actions');
-    ac.appendChild(h('button','act no','Ещё не знаю',()=>advance(false)));
-    ac.appendChild(h('button','act yes','Знаю',()=>advance(true)));
-    app.appendChild(ac);
+    const ar=h('div','audio-row');
+    ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
+    ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(he,true)));
+    card.appendChild(ar);
+    app.appendChild(card);
+    if(!state.reveal){
+      app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(he,false),120)}));
+    }else{
+      const ac=h('div','actions');
+      ac.appendChild(h('button','act no','Ещё не знаю',()=>advance(false)));
+      ac.appendChild(h('button','act yes','Знаю',()=>advance(true)));
+      app.appendChild(ac);
+    }
   }
   const nav=h('div','nav-row');
   const prev=h('button','nav-btn','← Назад',()=>moveBy(-1));

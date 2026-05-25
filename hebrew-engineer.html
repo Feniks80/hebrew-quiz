@@ -63,16 +63,16 @@ function spkBtn(text){
 }
 
 const CATS=[
-  {k:"Стройка",c:"#2563eb",r:[0,16]},
-  {k:"Геометрия",c:"#7c3aed",r:[16,18]},
-  {k:"Матем.инж.",c:"#6366f1",r:[18,21]},
-  {k:"Механика",c:"#0891b2",r:[21,22]},
-  {k:"Договоры",c:"#059669",r:[22,27]},
-  {k:"Фразы",c:"#d97706",r:[27,40]},
-  {k:"Глаголы",c:"#dc2626",r:[40,47]},
-  {k:"Местоимения",c:"#9333ea",r:[47,49]},
-  {k:"Предлоги",c:"#0d9488",r:[49,52]},
-  {k:"Грамматика",c:"#b45309",r:[52,58]}
+  {g:"Технический иврит",k:"Стройка",c:"#2563eb",r:[0,16]},
+  {g:"Технический иврит",k:"Геометрия",c:"#2563eb",r:[16,18]},
+  {g:"Технический иврит",k:"Матем.инж.",c:"#2563eb",r:[18,21]},
+  {g:"Технический иврит",k:"Механика",c:"#2563eb",r:[21,22]},
+  {g:"Документы и договоры",k:"Договоры",c:"#059669",r:[22,27]},
+  {g:"Язык и грамматика",k:"Фразы",c:"#d97706",r:[27,40]},
+  {g:"Язык и грамматика",k:"Глаголы",c:"#d97706",r:[40,47]},
+  {g:"Язык и грамматика",k:"Местоимения",c:"#d97706",r:[47,49]},
+  {g:"Язык и грамматика",k:"Предлоги",c:"#d97706",r:[49,52]},
+  {g:"Язык и грамматика",k:"Грамматика",c:"#d97706",r:[52,58]}
 ];
 const getCat=i=>{for(const c of CATS)if(i>=c.r[0]&&i<c.r[1])return c;return CATS[0]};
 
@@ -128,11 +128,14 @@ function render(page){
     app.appendChild(rnd);
 
     // Quiz list by category
+    let lastG=null;
     CATS.forEach(cat=>{
       const idxs=[];for(let i=cat.r[0];i<cat.r[1];i++)idxs.push(i);
       const done=idxs.filter(i=>prog[i]!=null).length;
       const avg=done>0?Math.round(idxs.filter(i=>prog[i]!=null).reduce((s,i)=>s+prog[i],0)/done):0;
-      
+
+      if(cat.g&&cat.g!==lastG){lastG=cat.g;app.appendChild(h('div','',cat.g,{style:{fontSize:'12px',fontWeight:'800',color:'#0f172a',textTransform:'uppercase',letterSpacing:'1px',margin:'18px 0 8px',borderTop:'2px solid #e2e8f0',paddingTop:'12px'}}))}
+
       const hdr=h('div','cat-hdr','');
       hdr.innerHTML='<span style="font-size:14px;font-weight:600;color:'+cat.c+'">'+cat.k+'</span>'
         +(done>0?'<span style="font-size:11px;color:#94a3b8">'+done+'/'+idxs.length+' ср.'+avg+'%</span>':'');
