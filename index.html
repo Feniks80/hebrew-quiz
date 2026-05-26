@@ -17,6 +17,7 @@
   .group-title{font-size:15px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin:24px 0 10px 4px}
   .group-title:first-of-type{margin-top:8px}
 
+  /* simple single-link deck row */
   .deck{display:flex;align-items:center;gap:14px;width:100%;background:#fff;border:2px solid #cbd5e1;border-radius:16px;padding:18px;margin-bottom:12px;cursor:pointer}
   .deck:active{background:#eef2ff}
   .deck .ico{font-size:40px;line-height:1;flex-shrink:0;width:48px;text-align:center}
@@ -25,6 +26,19 @@
   .deck .d{font-size:16px;color:#475569;margin-top:2px}
   .deck .arrow{font-size:28px;color:#94a3b8;flex-shrink:0}
 
+  /* topic card with two actions (A2 cards + B2 test) */
+  .topic{background:#fff;border:2px solid #cbd5e1;border-radius:16px;padding:16px 16px 14px;margin-bottom:12px}
+  .topic .head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .topic .ico{font-size:38px;line-height:1;width:46px;text-align:center;flex-shrink:0}
+  .topic .t{font-size:21px;font-weight:700}
+  .topic .d{font-size:15px;color:#475569;margin-top:2px}
+  .topic .acts{display:flex;gap:8px}
+  .topic .act{flex:1;text-align:center;padding:12px 6px;border-radius:10px;font-size:16px;font-weight:600;border:2px solid #cbd5e1}
+  .topic .act.cards{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+  .topic .act.cards:active{background:#dbeafe}
+  .topic .act.test{background:#faf5ff;border-color:#e9d5ff;color:#7c3aed}
+  .topic .act.test:active{background:#ede9fe}
+
   .foot{margin-top:28px;text-align:center;font-size:13px;color:#94a3b8;line-height:1.6}
   .foot a{color:#94a3b8;text-decoration:underline}
 </style>
@@ -32,42 +46,75 @@
 <body>
 <div class="w" id="app"></div>
 <script>
-const GROUPS=[
-  {title:"Для начинающих",items:[
-    {file:"hebrew-zero.html",ico:"א",t:"Алфавит и первые 50 слов",d:"22 буквы со звуком + базовые слова, есть запись голоса"},
-    {file:"hebrew-everyday.html",ico:"🍎",t:"100 слов с картинками",d:"еда, тело, дом, животные, числа, цвета"},
-  ]},
-  {title:"Бытовые темы · по 100 слов",items:[
-    {file:"hebrew-health.html",ico:"🩺",t:"Здоровье и врач",d:"тело, болезни, аптека, спорт"},
-    {file:"hebrew-shopping.html",ico:"🛒",t:"Магазин и еда",d:"продукты, покупки, ресторан, одежда"},
-    {file:"hebrew-home.html",ico:"🏠",t:"Дом и быт",d:"квартира, мебель, ремонт, уборка"},
-    {file:"hebrew-city.html",ico:"🚌",t:"Город и транспорт",d:"транспорт, район, путешествия"},
-    {file:"hebrew-people.html",ico:"👪",t:"Люди и общение",d:"семья, эмоции, характер, внешность"},
-  ]},
-  {title:"Инженерный иврит",items:[
-    {file:"hebrew-engineer.html",ico:"📐",t:"B1 — стройка и техника",d:"1408 слов инженерной терминологии"},
-    {file:"hebrew-b2-quiz.html",ico:"🏗️",t:"B2 — расширенный набор",d:"1521 слово: быт, работа, бизнес, право"},
-  ]},
+const B2="hebrew-b2-quiz.html?g=";
+const B1="hebrew-engineer.html?g=";
+
+// Beginner decks (single link)
+const START=[
+  {file:"hebrew-zero.html",ico:"א",t:"Алфавит и первые 50 слов",d:"22 буквы со звуком + базовые слова"},
+  {file:"hebrew-everyday.html",ico:"🍎",t:"100 слов с картинками",d:"еда, тело, дом, животные, числа, цвета"},
+];
+
+// Everyday topics: A2 picture deck + matching B2 section
+const TOPICS=[
+  {ico:"🩺",t:"Здоровье и врач",d:"тело, болезни, аптека",cards:"hebrew-health.html",test:B2+encodeURIComponent("Здоровье и тело")},
+  {ico:"🛒",t:"Магазин и еда",d:"продукты, ресторан, одежда",cards:"hebrew-shopping.html",test:B2+encodeURIComponent("Еда и магазин")},
+  {ico:"🏠",t:"Дом и быт",d:"квартира, мебель, ремонт",cards:"hebrew-home.html",test:B2+encodeURIComponent("Дом и быт")},
+  {ico:"🚌",t:"Город и транспорт",d:"транспорт, район, путешествия",cards:"hebrew-city.html",test:B2+encodeURIComponent("Город и транспорт")},
+  {ico:"👪",t:"Люди и общение",d:"семья, эмоции, характер",cards:"hebrew-people.html",test:B2+encodeURIComponent("Семья и эмоции")},
+];
+
+// B2-only topics (no beginner picture deck) — single link to B2 section
+const MORE=[
+  {ico:"💼",t:"Деньги и работа",d:"банк, профессии, учреждения",file:B2+encodeURIComponent("Деньги и работа")},
+  {ico:"🎓",t:"Школа и учёба",d:"дети, обучение",file:B2+encodeURIComponent("Школа и учёба")},
+  {ico:"⚖️",t:"Право и безопасность",d:"документы, ситуации",file:B2+encodeURIComponent("Право и безопасность")},
+  {ico:"💻",t:"Техника и СМИ",d:"телефон, компьютер, новости",file:B2+encodeURIComponent("Техника и СМИ")},
+  {ico:"🏃",t:"Глаголы",d:"действия, повседневные глаголы",file:B2+encodeURIComponent("Глаголы")},
+  {ico:"💬",t:"Фразы и идиомы",d:"выражения, сленг, поговорки",file:B2+encodeURIComponent("Фразы и идиомы")},
+  {ico:"🔤",t:"Грамматика и абстракции",d:"наречия, числа, время, союзы",file:B2+encodeURIComponent("Грамматика и абстракции")},
+];
+
+// Engineering (B1) sections
+const ENG=[
+  {ico:"📐",t:"Стройка и техника",d:"стройка, геометрия, механика",file:B1+encodeURIComponent("Технический иврит")},
+  {ico:"📄",t:"Документы и договоры",d:"договоры, акты",file:B1+encodeURIComponent("Документы и договоры")},
+  {ico:"🔤",t:"Язык и грамматика (B1)",d:"фразы, глаголы, предлоги",file:B1+encodeURIComponent("Язык и грамматика")},
 ];
 
 const app=document.getElementById('app');
 function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+function groupTitle(t){app.appendChild(el('div','group-title',t))}
+function deckRow(it){
+  const a=document.createElement('a');a.className='deck';a.href=it.file;
+  a.innerHTML='<div class="ico">'+it.ico+'</div><div class="body"><div class="t">'+it.t+'</div><div class="d">'+it.d+'</div></div><div class="arrow">›</div>';
+  app.appendChild(a);
+}
+function topicCard(it){
+  const card=el('div','topic');
+  card.innerHTML='<div class="head"><div class="ico">'+it.ico+'</div><div><div class="t">'+it.t+'</div><div class="d">'+it.d+'</div></div></div>';
+  const acts=el('div','acts');
+  const c=document.createElement('a');c.className='act cards';c.href=it.cards;c.textContent='🖼 Картинки';
+  const t=document.createElement('a');t.className='act test';t.href=it.test;t.textContent='✓ Тест B2';
+  acts.appendChild(c);acts.appendChild(t);
+  card.appendChild(acts);
+  app.appendChild(card);
+}
 
 app.appendChild(el('h1',null,'Учим иврит'));
 app.appendChild(el('div','sub','Выберите тему'));
 
-GROUPS.forEach(g=>{
-  app.appendChild(el('div','group-title',g.title));
-  g.items.forEach(it=>{
-    const a=document.createElement('a');
-    a.className='deck';
-    a.href=it.file;
-    a.innerHTML='<div class="ico">'+it.ico+'</div>'+
-      '<div class="body"><div class="t">'+it.t+'</div><div class="d">'+it.d+'</div></div>'+
-      '<div class="arrow">›</div>';
-    app.appendChild(a);
-  });
-});
+groupTitle('Начало для новичков');
+START.forEach(deckRow);
+
+groupTitle('Повседневные темы');
+TOPICS.forEach(topicCard);
+
+groupTitle('Ещё темы (B2)');
+MORE.forEach(deckRow);
+
+groupTitle('Инженерный иврит (B1)');
+ENG.forEach(deckRow);
 
 app.appendChild(el('div','foot',
   'Звук — голосом системы (иврит). Если его нет — в начале каждой темы есть подсказка, как установить.<br>'+
