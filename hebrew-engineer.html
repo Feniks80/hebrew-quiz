@@ -20,11 +20,11 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e
 .opt:active{transform:scale(.98)}
 .info{padding:10px;border-radius:10px;background:#f0f9ff;border:1px solid #bae6fd;font-size:13px;color:#0369a1;margin-bottom:10px}
 .err-card{padding:10px;border-radius:8px;background:#fef2f2;border:1px solid #fecaca;margin-bottom:6px;font-size:13px}
-.cat-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.cat-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.cat-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cat-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .qbtn{min-width:50px;padding:12px 12px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s}
 .qbtn:active{transform:scale(.95)}
-.dir-btn{flex:1;min-width:80px;padding:8px 4px;border-radius:8px;font-size:12px;cursor:pointer;transition:all .15s}
+.dir-btn{flex:1;min-width:90px;padding:13px 6px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s}
 .rnd-box{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border-radius:14px;padding:14px;margin-bottom:16px;border:1px solid #bae6fd}
 .sz-btn{padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer;transition:all .15s}
 details summary{cursor:pointer}
@@ -147,16 +147,16 @@ function render(page){
       if(!GF&&cat.g&&cat.g!==lastG){lastG=cat.g;app.appendChild(h('div','',cat.g,{style:{fontSize:'12px',fontWeight:'800',color:'#0f172a',textTransform:'uppercase',letterSpacing:'1px',margin:'18px 0 8px',borderTop:'2px solid #e2e8f0',paddingTop:'12px'}}))}
 
       const hdr=h('div','cat-hdr','');
-      hdr.innerHTML='<span style="font-size:14px;font-weight:600;color:'+cat.c+'">'+cat.k+'</span>'
-        +(done>0?'<span style="font-size:11px;color:#94a3b8">'+done+'/'+idxs.length+' ср.'+avg+'%</span>':'');
+      hdr.innerHTML='<span style="font-size:18px;font-weight:700;color:#1e293b">'+cat.k+'</span>'
+        +(done>0?'<span style="font-size:12px;color:#94a3b8">'+done+'/'+idxs.length+' ср.'+avg+'%</span>':'');
       app.appendChild(hdr);
 
       const btns=h('div','cat-btns','');
       idxs.forEach(i=>{
         const p=prog[i];
-        const bc=p==null?'#e2e8f0':p>=80?'#22c55e':p>=50?'#eab308':'#ef4444';
+        const bc=p==null?'#cbd5e1':p>=80?'#22c55e':p>=50?'#eab308':'#ef4444';
         const n=Q[i][1].length;
-        const label=idxs.length===1?cat.k:''+(i-cat.r[0]+1);
+        const label=idxs.length===1?'1':''+(i-cat.r[0]+1);
         const b=h('div','qbtn','<div>'+label+'</div><div style="font-size:9px;color:#94a3b8">'+n+'</div>'
           +(p!=null?'<div style="font-size:9px;font-weight:700;color:'+bc+'">'+p+'%</div>':''),
           {onclick:()=>startQuiz(i)});

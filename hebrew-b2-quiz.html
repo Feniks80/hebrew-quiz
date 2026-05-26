@@ -15,14 +15,14 @@ body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background
 .card{text-align:center;padding:18px 12px;margin-bottom:14px;border-radius:14px}
 .opt{padding:11px 14px;border-radius:10px;border:2px solid #e2e8f0;background:#fff;cursor:pointer;transition:all .15s;margin-bottom:7px}
 .opt:active{transform:scale(.98)}
-.info{padding:10px;border-radius:10px;background:#faf5ff;border:1px solid #d8b4fe;font-size:13px;color:#6b21a8;margin-bottom:10px}
+.info{padding:10px;border-radius:10px;background:#eff6ff;border:1px solid #bfdbfe;font-size:13px;color:#1e40af;margin-bottom:10px}
 .err-card{padding:10px;border-radius:8px;background:#fef2f2;border:1px solid #fecaca;margin-bottom:6px;font-size:13px}
-.cat-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.cat-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.cat-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cat-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .qbtn{min-width:50px;padding:12px 12px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;text-align:center}
 .qbtn:active{transform:scale(.95)}
-.dir-btn{flex:1;min-width:80px;padding:8px 4px;border-radius:8px;font-size:12px;cursor:pointer}
-.rnd-box{background:linear-gradient(135deg,#faf5ff,#fdf2f8);border-radius:14px;padding:14px;margin-bottom:16px;border:1px solid #d8b4fe}
+.dir-btn{flex:1;min-width:90px;padding:13px 6px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer}
+.rnd-box{background:linear-gradient(135deg,#eff6ff,#eff6ff);border-radius:14px;padding:14px;margin-bottom:16px;border:1px solid #bfdbfe}
 .sz-btn{padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer}
 details summary{cursor:pointer}
 </style>
@@ -119,24 +119,24 @@ function render(page){
 const app=$("app");app.innerHTML="";
 if(page==="menu"){
 const GF=new URLSearchParams(location.search).get("g");
-app.innerHTML=`<a href="index.html" style="display:inline-block;color:#7c3aed;font-size:14px;font-weight:600;text-decoration:none;margin-bottom:8px">‹ Все темы</a><div style="text-align:center;margin-bottom:16px"><div style="font-size:28px;font-weight:800;color:#7c3aed">Иврит — бытовой</div><div style="font-size:14px;color:#64748b">уровень B2 · ${Q.length} квизов</div></div>`;
-if(GF){app.appendChild(h("div","",`Тема: <b>${GF}</b>`,{style:{background:"#faf5ff",border:"2px solid #d8b4fe",borderRadius:"12px",padding:"12px 14px",fontSize:"15px",color:"#6b21a8",marginBottom:"12px"}}));const allBtn=h("a","",`‹ Все разделы B2`,{style:{display:"inline-block",color:"#7c3aed",fontSize:"14px",fontWeight:"600",textDecoration:"none",marginBottom:"10px"}});allBtn.href="hebrew-b2-quiz.html";app.appendChild(allBtn)}
+app.innerHTML=`<a href="index.html" style="display:inline-block;color:#2563eb;font-size:14px;font-weight:600;text-decoration:none;margin-bottom:8px">‹ Все темы</a><div style="text-align:center;margin-bottom:16px"><div style="font-size:28px;font-weight:800;color:#2563eb">Иврит — бытовой</div><div style="font-size:14px;color:#64748b">уровень B2 · ${Q.length} квизов</div></div>`;
+if(GF){app.appendChild(h("div","",`Тема: <b>${GF}</b>`,{style:{background:"#eff6ff",border:"2px solid #bfdbfe",borderRadius:"12px",padding:"12px 14px",fontSize:"15px",color:"#1e40af",marginBottom:"12px"}}));const allBtn=h("a","",`‹ Все разделы B2`,{style:{display:"inline-block",color:"#2563eb",fontSize:"14px",fontWeight:"600",textDecoration:"none",marginBottom:"10px"}});allBtn.href="hebrew-b2-quiz.html";app.appendChild(allBtn)}
 const dirBox=h("div","",null,{style:{display:"flex",gap:"6px",marginBottom:"14px",flexWrap:"wrap"}});
-[["mix","Смешанное"],["ru","Рус→Ивр"],["he","Ивр→Рус"]].forEach(([v,l])=>{const b=h("button","dir-btn",l,{onclick:()=>{dir=v;render("menu")}});b.style.fontWeight=dir===v?"600":"400";b.style.border=dir===v?"2px solid #7c3aed":"1px solid #e2e8f0";b.style.background=dir===v?"#faf5ff":"#fff";b.style.color=dir===v?"#7c3aed":"#64748b";dirBox.appendChild(b)});app.appendChild(dirBox);
-if(!GF){const rnd=h("div","rnd-box","");rnd.innerHTML=`<div style="font-size:14px;font-weight:700;color:#7c3aed;margin-bottom:8px">Случайный микс</div>`;
+[["mix","Смешанное"],["ru","Рус→Ивр"],["he","Ивр→Рус"]].forEach(([v,l])=>{const b=h("button","dir-btn",l,{onclick:()=>{dir=v;render("menu")}});b.style.fontWeight=dir===v?"600":"400";b.style.border=dir===v?"2px solid #2563eb":"1px solid #e2e8f0";b.style.background=dir===v?"#eff6ff":"#fff";b.style.color=dir===v?"#2563eb":"#64748b";dirBox.appendChild(b)});app.appendChild(dirBox);
+if(!GF){const rnd=h("div","rnd-box","");rnd.innerHTML=`<div style="font-size:14px;font-weight:700;color:#2563eb;margin-bottom:8px">Случайный микс</div>`;
 const szRow=h("div","",null,{style:{display:"flex",gap:"6px",alignItems:"center",marginBottom:"10px"}});
-[15,25,40,60].forEach(n=>{const b=h("button","sz-btn",""+n,{onclick:()=>{rndSize=n;render("menu")}});b.style.fontWeight=rndSize===n?"600":"400";b.style.border=rndSize===n?"2px solid #7c3aed":"1px solid #e2e8f0";b.style.background=rndSize===n?"#ede9fe":"#fff";b.style.color=rndSize===n?"#6d28d9":"#64748b";szRow.appendChild(b)});
+[15,25,40,60].forEach(n=>{const b=h("button","sz-btn",""+n,{onclick:()=>{rndSize=n;render("menu")}});b.style.fontWeight=rndSize===n?"600":"400";b.style.border=rndSize===n?"2px solid #2563eb":"1px solid #e2e8f0";b.style.background=rndSize===n?"#dbeafe":"#fff";b.style.color=rndSize===n?"#1d4ed8":"#64748b";szRow.appendChild(b)});
 szRow.appendChild(h("span","","слов",{style:{fontSize:"11px",color:"#94a3b8",marginLeft:"4px"}}));rnd.appendChild(szRow);
-rnd.appendChild(h("button","btn","Случайный квиз ("+rndSize+" слов)",{onclick:()=>startRandom(),style:{background:"#7c3aed",color:"#fff"}}));app.appendChild(rnd)}
+rnd.appendChild(h("button","btn","Случайный квиз ("+rndSize+" слов)",{onclick:()=>startRandom(),style:{background:"#2563eb",color:"#fff"}}));app.appendChild(rnd)}
 let lastG=null;
 CATS.forEach(cat=>{if(GF&&cat.g!==GF)return;const idxs=[];for(let i=cat.r[0];i<cat.r[1];i++)idxs.push(i);const done=idxs.filter(i=>prog[i]!=null).length;const avg=done>0?Math.round(idxs.filter(i=>prog[i]!=null).reduce((s,i)=>s+prog[i],0)/done):0;
 if(!GF&&cat.g&&cat.g!==lastG){lastG=cat.g;app.appendChild(h("div","",cat.g,{style:{fontSize:"12px",fontWeight:"800",color:"#0f172a",textTransform:"uppercase",letterSpacing:"1px",margin:"18px 0 8px",borderTop:"2px solid #e2e8f0",paddingTop:"12px"}}))}
-const hdr=h("div","cat-hdr","");hdr.innerHTML=`<span style="font-size:14px;font-weight:600;color:${cat.c}">${cat.k}</span>`+(done>0?`<span style="font-size:11px;color:#94a3b8">${done}/${idxs.length} ср.${avg}%</span>`:"");app.appendChild(hdr);
-const btns=h("div","cat-btns","");idxs.forEach(i=>{const p=prog[i];const bc=p==null?"#e2e8f0":p>=80?"#22c55e":p>=50?"#eab308":"#ef4444";const n=Q[i][1].length;const label=idxs.length===1?"1":""+(i-cat.r[0]+1);
+const hdr=h("div","cat-hdr","");hdr.innerHTML=`<span style="font-size:18px;font-weight:700;color:#1e293b">${cat.k}</span>`+(done>0?`<span style="font-size:12px;color:#94a3b8">${done}/${idxs.length} ср.${avg}%</span>`:"");app.appendChild(hdr);
+const btns=h("div","cat-btns","");idxs.forEach(i=>{const p=prog[i];const bc=p==null?"#cbd5e1":p>=80?"#22c55e":p>=50?"#eab308":"#ef4444";const n=Q[i][1].length;const label=idxs.length===1?"1":""+(i-cat.r[0]+1);
 const b=h("div","qbtn",`<div>${label}</div><div style="font-size:9px;color:#94a3b8">${n}</div>`+(p!=null?`<div style="font-size:9px;font-weight:700;color:${bc}">${p}%</div>`:""),{onclick:()=>startQuiz(i)});b.style.border="2px solid "+bc;b.style.background=p!=null?(bc+"18"):"#fff";b.style.color=p!=null?bc:"#64748b";btns.appendChild(b)});app.appendChild(btns)});
 if(Object.keys(prog).length>0)app.appendChild(h("button","btn","Сбросить прогресс",{onclick:()=>{prog={};saveProg();render("menu")},style:{marginTop:"8px",fontSize:"13px",background:"#fff",color:"#94a3b8",border:"1px solid #e2e8f0"}}));
 return}
-if(page==="quiz"&&qs.length>0){const q=qs[ci];const cat=curQi<0?{k:"Микс",c:"#7c3aed"}:getCat(curQi);const prompt=q.heRu?q.item[1]:q.item[0];const af=q.heRu?0:1;const pct=(ci+1)/qs.length*100;const qName=errMode?"Работа над ошибками":curQi<0?"Случайный микс":Q[curQi][0];
+if(page==="quiz"&&qs.length>0){const q=qs[ci];const cat=curQi<0?{k:"Микс",c:"#2563eb"}:getCat(curQi);const prompt=q.heRu?q.item[1]:q.item[0];const af=q.heRu?0:1;const pct=(ci+1)/qs.length*100;const qName=errMode?"Работа над ошибками":curQi<0?"Случайный микс":Q[curQi][0];
 app.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:${cat.c};font-weight:600">${qName}</span><span style="font-size:12px;color:#94a3b8">${ci+1}/${qs.length}</span></div>`;
 const bar=h("div","bar","");const fill=h("div","bar-fill","");fill.style.width=pct+"%";fill.style.background=cat.c;bar.appendChild(fill);app.appendChild(bar);
 const card=h("div","card","");card.style.background=cat.c+"0a";card.style.border="1px solid "+cat.c+"22";card.innerHTML=`<div style="font-size:11px;color:#94a3b8;margin-bottom:4px">${q.heRu?"Переведите с иврита":"Переведите на иврит"}</div><div style="font-size:${q.heRu?26:17}px;font-weight:600;direction:${q.heRu?"rtl":"ltr"};word-break:break-word">${prompt}</div>`;const row=h("div","",null,{style:{marginTop:"10px",display:"flex",justifyContent:"center",alignItems:"center",gap:"6px"}});row.appendChild(spkBtn(q.item[1]));card.appendChild(row);app.appendChild(card);if(q.heRu&&!showed)setTimeout(()=>say(q.item[1]),200);
@@ -148,7 +148,7 @@ if(showed){const inf=h("div","info",`<span style="direction:rtl;display:inline">
 const nb=h("button","btn","",{onclick:()=>{if(ci+1>=qs.length){if(!errMode&&curQi>=0){prog[curQi]=Math.round(resOk.length/qs.length*100);saveProg()}render("result");return}ci++;pick=null;showed=false;render("quiz")},style:{background:cat.c,color:"#fff"}});nb.textContent=ci+1>=qs.length?"Результаты":"Дальше";app.appendChild(nb)}
 app.appendChild(h("button","btn","← Закончить и в меню",{onclick:()=>render("menu"),style:{marginTop:"10px",fontSize:"13px",background:"#fff",color:"#475569",border:"1px solid #e2e8f0"}}));
 return}
-if(page==="result"){const total2=resOk.length+resBad.length;const pct=total2>0?Math.round(resOk.length/total2*100):0;const cat=curQi<0?{c:"#7c3aed"}:getCat(curQi);const qName=errMode?"Работа над ошибками":curQi<0?"Случайный микс":Q[curQi][0];
+if(page==="result"){const total2=resOk.length+resBad.length;const pct=total2>0?Math.round(resOk.length/total2*100):0;const cat=curQi<0?{c:"#2563eb"}:getCat(curQi);const qName=errMode?"Работа над ошибками":curQi<0?"Случайный микс":Q[curQi][0];
 app.innerHTML=`<div style="text-align:center;margin-bottom:16px"><div style="font-size:42px;font-weight:800;color:${pct>=70?"#16a34a":pct>=40?"#d97706":"#dc2626"}">${pct}%</div><div style="font-size:14px;color:#64748b">${resOk.length} / ${total2} правильно</div><div style="font-size:13px;color:#94a3b8;margin-top:2px">${qName}</div></div>`;
 if(resBad.length>0){const eb=h("div","",`<div style="font-size:14px;font-weight:600;color:#dc2626;margin-bottom:8px">Ошибки (${resBad.length})</div>`);resBad.forEach(item=>{eb.appendChild(h("div","err-card",`<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600;color:#991b1b">${item[0]}</span><span style="direction:rtl;font-size:16px;font-weight:600">${item[1]}</span></div><div style="color:#b91c1c;margin-top:2px">${item[2]}</div>`))});eb.style.marginBottom="16px";app.appendChild(eb)}
 if(resOk.length>0){const det=h("details","","");det.innerHTML=`<summary style="font-size:14px;font-weight:600;color:#16a34a;margin-bottom:6px">Правильные (${resOk.length})</summary>`;resOk.forEach(item=>{det.appendChild(h("div","",item[0]+` = <span style="direction:rtl">${item[1]}</span> = `+item[2],{style:{padding:"6px",fontSize:"12px",color:"#64748b",borderBottom:"1px solid #f1f5f9"}}))});det.style.marginBottom="16px";app.appendChild(det)}
