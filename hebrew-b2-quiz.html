@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Hebrew B2 — 1521 слов</title>
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#f8fafc;color:#1e293b;min-height:100vh}
@@ -163,5 +167,6 @@ function startRandom(){curQi=-1;qs=buildQs(sh(pool).slice(0,rndSize));ci=0;pick=
 function startErrors(items){qs=buildQs(items);ci=0;pick=null;showed=false;resOk=[];resBad=[];errMode=true;render("quiz")}
 render("menu");
 </script>
+<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}))</script>
 </body>
 </html>

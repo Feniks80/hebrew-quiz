@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
 <title>Иврит — 100 слов с картинками</title>
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#f8fafc;color:#1e293b}
@@ -458,5 +462,6 @@ function renderDone(app){
 
 render();
 </script>
+<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}))</script>
 </body>
 </html>

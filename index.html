@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
 <title>Иврит — выбор темы</title>
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#f8fafc;color:#1e293b}
@@ -41,6 +45,8 @@
 
   .foot{margin-top:28px;text-align:center;font-size:13px;color:#94a3b8;line-height:1.6}
   .foot a{color:#94a3b8;text-decoration:underline}
+  .install-btn{display:none;width:100%;margin:0 0 20px;padding:16px;border:2px solid #2563eb;background:#2563eb;color:#fff;border-radius:14px;font-size:18px;font-weight:700;cursor:pointer}
+  .install-btn:active{background:#1d4ed8}
 </style>
 </head>
 <body>
@@ -104,6 +110,16 @@ function topicCard(it){
 app.appendChild(el('h1',null,'Учим иврит'));
 app.appendChild(el('div','sub','Выберите тему'));
 
+// PWA install prompt
+const installBtn=document.createElement('button');
+installBtn.className='install-btn';
+installBtn.textContent='📲 Установить как приложение';
+app.appendChild(installBtn);
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.style.display='block'});
+installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;installBtn.style.display='none';deferredPrompt.prompt();deferredPrompt=null});
+window.addEventListener('appinstalled',()=>{installBtn.style.display='none'});
+
 groupTitle('Начало для новичков');
 START.forEach(deckRow);
 
@@ -120,5 +136,6 @@ app.appendChild(el('div','foot',
   'Звук — голосом системы (иврит). Если его нет — в начале каждой темы есть подсказка, как установить.<br>'+
   'Иконки — <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a>, CC BY-SA 4.0'));
 </script>
+<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}))</script>
 </body>
 </html>
