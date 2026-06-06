@@ -1,0 +1,106 @@
+name: Build Android APK (TWA)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, "claude/**"]
+    paths:
+      - "manifest.json"
+      - "twa-manifest.json"
+      - ".github/workflows/build-apk.yml"
+
+permissions:
+  contents: write   # to create releases
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli@1.22.0
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            platforms;android-34
+            build-tools;34.0.0
+            platform-tools
+
+      - name: Create a temporary debug keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore android.keystore \
+            -alias android \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=Shimon Donen, OU=hebrew-quiz, O=feniks80, L=, ST=, C=IL"
+
+      - name: Update Android project from twa-manifest.json
+        env:
+          BUBBLEWRAP_NON_INTERACTIVE: "true"
+        run: |
+          # bubblewrap init bootstraps the Gradle project from twa-manifest.json
+          # We feed default answers via 'yes ""' for prompts not covered.
+          yes "" | bubblewrap init \
+            --manifest=https://raw.githack.com/feniks80/hebrew-quiz/claude/new-session-iflHP/manifest.json \
+            --directory=. \
+            --skipPubKeyValidation=true || true
+          # If init already wrote a twa-manifest.json on top of ours, overwrite back
+          git checkout -- twa-manifest.json || true
+          bubblewrap update --skipVersionUpgrade || true
+
+      - name: Build the APK
+        env:
+          BUBBLEWRAP_PASSWORD: "android"
+        run: |
+          # bubblewrap build expects keystore passwords via stdin or env
+          echo "android" | bubblewrap build \
+            --skipPwaValidation \
+            --signingKeyPath=./android.keystore \
+            --signingKeyAlias=android || true
+          # Locate the built APK
+          find . -name "*.apk" -type f -printf "%p %s\n"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hebrew-quiz-apk
+          path: |
+            ./app-release-signed.apk
+            ./app-release-unsigned.apk
+            ./*.apk
+          if-no-files-found: warn
+
+      - name: Create / update a release with the APK
+        if: success()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: "Hebrew Quiz APK build #${{ github.run_number }}"
+          body: |
+            Built by GitHub Actions from commit ${{ github.sha }}.
+            © Shimon Donen, 2026.
+
+            Сторону Android-приложения формирует Bubblewrap (TWA-обёртка
+            вокруг PWA на https://feniks80.github.io/hebrew-quiz/).
+            После установки нужен Chrome на устройстве.
+          files: |
+            ./*.apk
+          fail_on_unmatched_files: false
