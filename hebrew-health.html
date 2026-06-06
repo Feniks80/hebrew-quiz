@@ -96,6 +96,7 @@
 <div class="w" id="app"></div>
 <script>
 const STORAGE_KEY="he-block-health";
+const AUDIO_DIR="health";  // e.g. "health" -> audio/health/001.mp3
 const WORDS=[
   ["לקבוע תור לרופא", "ликбо́а тор лерофэ́", "записаться к врачу", null, "У врача"],
   ["רופא משפחה", "рофэ́ мишпаха́", "семейный врач", "1FA7A", "У врача"],
@@ -203,10 +204,55 @@ let state={page:"menu",cat:"",dir:"ru-he",mode:"cards",idx:0,order:[],reveal:fal
 try{const s=localStorage.getItem(STORAGE_KEY);if(s){const p=JSON.parse(s);if(p.known)state.known=p.known;if(p.rate)state.rate=p.rate;if(p.dir)state.dir=p.dir;if(p.mode)state.mode=p.mode}}catch(e){}
 const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify({known:state.known,rate:state.rate,dir:state.dir,mode:state.mode}))}catch(e){}};
 
-let heVoice=null;
-function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
+let heVoice=null,ruVoice=null;
+function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];
+  heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null;
+  ruVoice=a.find(v=>/^ru[-_]?RU/i.test(v.lang))||a.find(v=>/^ru/i.test(v.lang))||null;
+}
 if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
-function speak(text,slow){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel()}catch(e){}setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(text);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?Math.max(0.3,state.rate-0.15):state.rate;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},60)}
+
+// Reusable audio element for the bundled MP3 fallback
+const fbAudio=new Audio();fbAudio.preload='none';try{fbAudio.preservesPitch=true;fbAudio.mozPreservesPitch=true;fbAudio.webkitPreservesPitch=true}catch(e){}
+
+function mp3Url(arrIdx,lang){
+  if(!AUDIO_DIR||arrIdx==null)return null;
+  const n=String(arrIdx+1).padStart(3,'0');
+  return 'audio/'+AUDIO_DIR+'/'+n+(lang==='ru'?'-ru':'')+'.mp3';
+}
+
+function speakNative(text,lang,slow){
+  if(!('speechSynthesis' in window))return false;
+  try{speechSynthesis.cancel()}catch(e){}
+  setTimeout(()=>{
+    pickV();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=(lang==='ru')?'ru-RU':'he-IL';
+    const v=(lang==='ru')?ruVoice:heVoice;
+    if(v)u.voice=v;
+    u.rate=slow?Math.max(0.3,state.rate-0.15):state.rate;
+    u.pitch=1;u.volume=1;
+    try{speechSynthesis.speak(u)}catch(e){}
+  },60);
+  return true;
+}
+
+// speak(text, lang, slow, arrIdx)
+// lang: 'he' (default) | 'ru'. arrIdx: optional index into WORDS for bundled MP3.
+// Backward-compatible signature: speak(text, slow) — boolean second arg = slow, lang defaults to 'he'.
+function speak(text,lang,slow,arrIdx){
+  if(typeof lang==='boolean'){slow=lang;lang='he';arrIdx=undefined}
+  if(!lang)lang='he';
+  const url=mp3Url(arrIdx,lang);
+  if(url){
+    try{fbAudio.pause();fbAudio.currentTime=0}catch(e){}
+    fbAudio.src=url;
+    fbAudio.playbackRate=slow?0.7:1.0;
+    const p=fbAudio.play();
+    if(p&&p.catch)p.catch(()=>speakNative(text,lang,slow));
+    return;
+  }
+  speakNative(text,lang,slow);
+}
 
 const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b};
 const $=id=>document.getElementById(id);
@@ -309,7 +355,7 @@ function renderCard(app){
       card.appendChild(h('div',heCls,he));
       card.appendChild(h('div','tr',tr));
       const ar=h('div','audio-row');
-      ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
+      ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,'he',false,arrIdx)));
       card.appendChild(ar);
     }
     app.appendChild(card);
@@ -321,7 +367,11 @@ function renderCard(app){
         else if(o===state.pick)cls+=' bad';
       }
       const label=(state.dir==='ru-he')?o[0]:o[2];
-      const b=h('button',cls,label,()=>{if(state.pick)return;state.pick=o;if(o===item)speak(item[0],false);render()});
+      const b=h('button',cls,label,()=>{if(state.pick)return;state.pick=o;
+        // Voice the tapped option in the target language, regardless of correctness
+        const oIdx=WORDS.indexOf(o);
+        if(state.dir==='ru-he')speak(o[0],'he',false,oIdx);else speak(o[2],'ru',false,oIdx);
+        render()});
       if(state.pick)b.setAttribute('disabled','');
       opts.appendChild(b);
     });
@@ -352,12 +402,12 @@ function renderCard(app){
       }
     }
     const ar=h('div','audio-row');
-    ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
-    ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(he,true)));
+    ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,'he',false,arrIdx)));
+    ar.appendChild(h('button','abtn','🐢 Ещё медленнее',()=>speak(he,'he',true,arrIdx)));
     card.appendChild(ar);
     app.appendChild(card);
     if(!state.reveal){
-      app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(he,false),120)}));
+      app.appendChild(h('button','act show','Показать ответ',()=>{state.reveal=true;render();setTimeout(()=>speak(he,'he',false,arrIdx),120)}));
     }else{
       const ac=h('div','actions');
       ac.appendChild(h('button','act no','Ещё не знаю',()=>advance(false)));

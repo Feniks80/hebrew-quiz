@@ -859,6 +859,7 @@ def build_block(block, b2):
         .replace("__HEADING__", block["heading"])
         .replace("__SUBTITLE__", block["subtitle"])
         .replace("__STORAGE_KEY__", f"he-block-{block['id']}")
+        .replace("__AUDIO_DIR__", block["id"])
         .replace("__WORDS_DATA__", words_json))
     out_path = os.path.join(ROOT, f"hebrew-{block['id']}.html")
     with open(out_path, "w", encoding="utf-8") as f:

@@ -189,13 +189,16 @@ const IS_ANDROID=/Android/i.test(UA);
 const IS_IOS=/iPad|iPhone|iPod/.test(UA)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 
 let voicesReady=false;
-let heVoice=null;
+let heVoice=null,ruVoice=null;
 function pickVoice(){
   if(!('speechSynthesis' in window))return;
   const all=speechSynthesis.getVoices()||[];
   heVoice=all.find(v=>/^he[-_]?IL/i.test(v.lang))
        ||all.find(v=>/^iw[-_]?IL/i.test(v.lang))
        ||all.find(v=>/^(he|iw)/i.test(v.lang))
+       ||null;
+  ruVoice=all.find(v=>/^ru[-_]?RU/i.test(v.lang))
+       ||all.find(v=>/^ru/i.test(v.lang))
        ||null;
   if(all.length>0)voicesReady=true;
 }
@@ -208,46 +211,44 @@ if('speechSynthesis' in window){
 }
 
 function ttsText(item){return state.scope==='letters'?item[3]:item[0]}
-function audioPath(arrIdx){
+function audioPath(arrIdx,lang){
   const pad=String(arrIdx+1).padStart(2,'0');
-  return state.scope==='letters'?('audio/letters/L'+pad+'.mp3'):('audio/words/W'+pad+'.mp3');
+  const suf=(lang==='ru')?'-ru':'';
+  return state.scope==='letters'?('audio/letters/L'+pad+suf+'.mp3'):('audio/words/W'+pad+suf+'.mp3');
 }
 
-// One reusable Audio element for the MP3 fallback
-const fbAudio=new Audio();
-fbAudio.preload='auto';
+const fbAudio=new Audio();fbAudio.preload='auto';
 try{fbAudio.preservesPitch=true;fbAudio.mozPreservesPitch=true;fbAudio.webkitPreservesPitch=true}catch(e){}
 
-let lastMp3Err=null;
-
-function speakNative(text,extraSlow){
+function speakNative(text,lang,extraSlow){
+  if(!('speechSynthesis' in window))return;
   try{speechSynthesis.cancel()}catch(e){}
   setTimeout(()=>{
     pickVoice();
     const u=new SpeechSynthesisUtterance(text);
-    u.lang='he-IL';
-    if(heVoice)u.voice=heVoice;
+    u.lang=(lang==='ru')?'ru-RU':'he-IL';
+    const v=(lang==='ru')?ruVoice:heVoice;
+    if(v)u.voice=v;
     u.rate=extraSlow?Math.max(0.3,state.rate-0.15):state.rate;
     u.pitch=1;u.volume=1;
     try{speechSynthesis.speak(u)}catch(e){}
   },60);
 }
 
-function playMp3(arrIdx,extraSlow){
+function playMp3(arrIdx,lang,extraSlow,onFail){
   try{fbAudio.pause();fbAudio.currentTime=0}catch(e){}
-  fbAudio.src=audioPath(arrIdx);
+  fbAudio.src=audioPath(arrIdx,lang);
   fbAudio.playbackRate=extraSlow?0.7:1.0;
   const p=fbAudio.play();
-  if(p&&p.catch)p.catch(e=>{lastMp3Err=e&&e.message||String(e)});
+  if(p&&p.catch)p.catch(()=>{if(onFail)onFail()});
 }
 
-// Main entry: takes the data item AND its index in WORDS/LETTERS
-function speak(item,arrIdx,extraSlow){
-  if(heVoice){
-    if('speechSynthesis' in window)return speakNative(ttsText(item),extraSlow);
-  }
-  // No native Hebrew voice — use the bundled MP3
-  playMp3(arrIdx,extraSlow);
+// speak(item, arrIdx, extraSlow, lang?)
+// Plays bundled MP3 (HE or RU). On failure, falls back to Web Speech.
+function speak(item,arrIdx,extraSlow,lang){
+  if(!lang)lang='he';
+  const text=(lang==='ru')?item[(item.length>=3&&item[2]!=null)?2:1]:ttsText(item);
+  playMp3(arrIdx,lang,extraSlow,()=>speakNative(text,lang,extraSlow));
 }
 
 /* ───────── Утилиты ───────── */
@@ -477,7 +478,10 @@ function renderCard(app){
       const ob=h('button',cls,label,()=>{
         if(state.pick)return;
         state.pick=o;
-        if(o===item)speak(item,arrIdx,false);
+        // Voice the tapped option in the target language, regardless of correctness
+        const data=dataFor();
+        const oIdx=data.indexOf(o);
+        if(state.dir==='ru-he')speak(o,oIdx,false,'he');else speak(o,oIdx,false,'ru');
         render();
       });
       opts.appendChild(ob);
