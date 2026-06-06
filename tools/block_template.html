@@ -136,18 +136,31 @@ function speakNative(text,lang,slow){
 }
 
 // speak(text, lang, slow, arrIdx)
-// Priority: system voice (Google TTS etc) first — sounds natural. Bundled MP3 only as fallback
-// when no matching system voice is installed (or Web Speech is unavailable).
+// Priority order:
+//   1) Native Android TTS bridge (APK only) — works even when WebView's speechSynthesis is broken
+//   2) Web Speech with matching system voice (browsers)
+//   3) Bundled MP3 (offline fallback)
+//   4) Web Speech with no specific voice (last resort)
 // Backward-compatible signature: speak(text, slow) — boolean second arg = slow, lang defaults to 'he'.
 function speak(text,lang,slow,arrIdx){
   if(typeof lang==='boolean'){slow=lang;lang='he';arrIdx=undefined}
   if(!lang)lang='he';
+  // 1) Android native bridge
+  if(typeof window.AndroidTTS!=='undefined' && window.AndroidTTS && window.AndroidTTS.speak){
+    try{
+      const r=slow?Math.max(0.3,state.rate-0.15):state.rate;
+      window.AndroidTTS.speak(text,lang,r);
+      return;
+    }catch(e){}
+  }
+  // 2) Web Speech
   pickV();
   const voice=(lang==='ru')?ruVoice:heVoice;
   if('speechSynthesis' in window && voice){
     speakNative(text,lang,slow);
     return;
   }
+  // 3) Bundled MP3
   const url=mp3Url(arrIdx,lang);
   if(url){
     try{fbAudio.pause();fbAudio.currentTime=0}catch(e){}
@@ -157,6 +170,7 @@ function speak(text,lang,slow,arrIdx){
     if(p&&p.catch)p.catch(()=>speakNative(text,lang,slow));
     return;
   }
+  // 4) Last resort
   speakNative(text,lang,slow);
 }
 
@@ -273,12 +287,15 @@ function renderCard(app){
         else if(o===state.pick)cls+=' bad';
       }
       const label=(state.dir==='ru-he')?o[0]:o[2];
-      const b=h('button',cls,label,()=>{if(state.pick)return;state.pick=o;
-        // Voice the tapped option in the target language, regardless of correctness
+      const b=h('button',cls,label,()=>{
+        // Always voice the tapped option, even after a pick has been made — so the
+        // learner can re-listen to any option as many times as needed.
         const oIdx=WORDS.indexOf(o);
         if(state.dir==='ru-he')speak(o[0],'he',false,oIdx);else speak(o[2],'ru',false,oIdx);
-        render()});
-      if(state.pick)b.setAttribute('disabled','');
+        if(state.pick)return;
+        state.pick=o;
+        render();
+      });
       opts.appendChild(b);
     });
     app.appendChild(opts);

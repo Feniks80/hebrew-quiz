@@ -244,10 +244,13 @@ function playMp3(arrIdx,lang,extraSlow,onFail){
 }
 
 // speak(item, arrIdx, extraSlow, lang?)
-// Priority: system voice (Google TTS) — natural. Bundled MP3 only when no voice is available.
+// 1) Android native TTS bridge, 2) Web Speech, 3) bundled MP3, 4) plain Web Speech.
 function speak(item,arrIdx,extraSlow,lang){
   if(!lang)lang='he';
   const text=(lang==='ru')?item[(item.length>=3&&item[2]!=null)?2:1]:ttsText(item);
+  if(typeof window.AndroidTTS!=='undefined' && window.AndroidTTS && window.AndroidTTS.speak){
+    try{const r=extraSlow?Math.max(0.3,state.rate-0.15):state.rate;window.AndroidTTS.speak(text,lang,r);return}catch(e){}
+  }
   pickVoice();
   const voice=(lang==='ru')?ruVoice:heVoice;
   if('speechSynthesis' in window && voice){return speakNative(text,lang,extraSlow)}
@@ -479,12 +482,13 @@ function renderCard(app){
       }
       const label=state.dir==='ru-he'?o[0]:o[2];
       const ob=h('button',cls,label,()=>{
-        if(state.pick)return;
-        state.pick=o;
-        // Voice the tapped option in the target language, regardless of correctness
+        // Always voice the tapped option, even after a pick — let the learner
+        // re-hear any option.
         const data=dataFor();
         const oIdx=data.indexOf(o);
         if(state.dir==='ru-he')speak(o,oIdx,false,'he');else speak(o,oIdx,false,'ru');
+        if(state.pick)return;
+        state.pick=o;
         render();
       });
       opts.appendChild(ob);

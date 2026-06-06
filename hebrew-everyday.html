@@ -231,6 +231,9 @@ function speakNative(text,lang,slow){
 function speak(text,lang,slow,arrIdx){
   if(typeof lang==='boolean'){slow=lang;lang='he';arrIdx=undefined}
   if(!lang)lang='he';
+  if(typeof window.AndroidTTS!=='undefined' && window.AndroidTTS && window.AndroidTTS.speak){
+    try{const r=slow?Math.max(0.3,state.rate-0.15):state.rate;window.AndroidTTS.speak(text,lang,r);return}catch(e){}
+  }
   pickV();
   const voice=(lang==='ru')?ruVoice:heVoice;
   if('speechSynthesis' in window && voice){speakNative(text,lang,slow);return}
@@ -407,11 +410,13 @@ function renderCard(app){
         else if(o===state.pick)cls+=' bad';
       }
       const label=(state.dir==='ru-he')?o[0]:o[2];
-      const b=h('button',cls,label,()=>{if(state.pick)return;state.pick=o;
+      const b=h('button',cls,label,()=>{
         const oIdx=WORDS.indexOf(o);
         if(state.dir==='ru-he')speak(o[0],'he',false,oIdx);else speak(o[2],'ru',false,oIdx);
-        render()});
-      if(state.pick)b.setAttribute('disabled','');
+        if(state.pick)return;
+        state.pick=o;
+        render();
+      });
       opts.appendChild(b);
     });
     app.appendChild(opts);
