@@ -231,6 +231,9 @@ function speakNative(text,lang,slow){
 function speak(text,lang,slow,arrIdx){
   if(typeof lang==='boolean'){slow=lang;lang='he';arrIdx=undefined}
   if(!lang)lang='he';
+  pickV();
+  const voice=(lang==='ru')?ruVoice:heVoice;
+  if('speechSynthesis' in window && voice){speakNative(text,lang,slow);return}
   const url=mp3Url(arrIdx,lang);
   if(url){try{fbAudio.pause();fbAudio.currentTime=0}catch(e){}fbAudio.src=url;fbAudio.playbackRate=slow?0.7:1.0;const p=fbAudio.play();if(p&&p.catch)p.catch(()=>speakNative(text,lang,slow));return}
   speakNative(text,lang,slow);

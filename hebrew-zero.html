@@ -244,10 +244,13 @@ function playMp3(arrIdx,lang,extraSlow,onFail){
 }
 
 // speak(item, arrIdx, extraSlow, lang?)
-// Plays bundled MP3 (HE or RU). On failure, falls back to Web Speech.
+// Priority: system voice (Google TTS) — natural. Bundled MP3 only when no voice is available.
 function speak(item,arrIdx,extraSlow,lang){
   if(!lang)lang='he';
   const text=(lang==='ru')?item[(item.length>=3&&item[2]!=null)?2:1]:ttsText(item);
+  pickVoice();
+  const voice=(lang==='ru')?ruVoice:heVoice;
+  if('speechSynthesis' in window && voice){return speakNative(text,lang,extraSlow)}
   playMp3(arrIdx,lang,extraSlow,()=>speakNative(text,lang,extraSlow));
 }
 

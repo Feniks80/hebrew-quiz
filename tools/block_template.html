@@ -136,11 +136,18 @@ function speakNative(text,lang,slow){
 }
 
 // speak(text, lang, slow, arrIdx)
-// lang: 'he' (default) | 'ru'. arrIdx: optional index into WORDS for bundled MP3.
+// Priority: system voice (Google TTS etc) first — sounds natural. Bundled MP3 only as fallback
+// when no matching system voice is installed (or Web Speech is unavailable).
 // Backward-compatible signature: speak(text, slow) — boolean second arg = slow, lang defaults to 'he'.
 function speak(text,lang,slow,arrIdx){
   if(typeof lang==='boolean'){slow=lang;lang='he';arrIdx=undefined}
   if(!lang)lang='he';
+  pickV();
+  const voice=(lang==='ru')?ruVoice:heVoice;
+  if('speechSynthesis' in window && voice){
+    speakNative(text,lang,slow);
+    return;
+  }
   const url=mp3Url(arrIdx,lang);
   if(url){
     try{fbAudio.pause();fbAudio.currentTime=0}catch(e){}
