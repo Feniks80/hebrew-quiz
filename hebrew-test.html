@@ -95,40 +95,92 @@ const THEMES = {
   en: {name:"Инженерный иврит",     deck:"hebrew-engineer.html", icon:"📐"},
 };
 
-// [theme, hebrew_with_niqqud, transliteration, correct_ru, [3 wrong_ru]]
+// [theme, level, hebrew_with_niqqud, transliteration, correct_ru, [3 wrong_ru]]
+// 64 questions = 8 themes × 8 questions, each theme spans A1 → B2 (2 per level).
 const QUESTIONS = [
-  ["gr","שָׁלוֹם","шало́м","здравствуй",["спасибо","до свидания","извините"]],
-  ["gr","תּוֹדָה","тода́","спасибо",["здравствуй","пожалуйста","извините"]],
-  ["gr","לַיְלָה טוֹב","ла́йла тов","спокойной ночи",["доброе утро","добрый вечер","до свидания"]],
+  // ── Приветствие и общение ──
+  ["gr","A1","שָׁלוֹם","шало́м","здравствуй",["спасибо","до свидания","извините"]],
+  ["gr","A1","תּוֹדָה","тода́","спасибо",["здравствуй","пожалуйста","извините"]],
+  ["gr","A2","סְלִיחָה","слиха́","извините",["спасибо","пожалуйста","до свидания"]],
+  ["gr","A2","בְּבַקָּשָׁה","бевакаша́","пожалуйста",["спасибо","извините","здравствуй"]],
+  ["gr","B1","לְהִתְרָאוֹת","леитрао́т","до свидания",["доброй ночи","увидимся","до завтра"]],
+  ["gr","B1","נָעִים מְאוֹד","наи́м меод","очень приятно",["хорошо погуляли","добро пожаловать","большое спасибо"]],
+  ["gr","B2","בְּהַצְלָחָה","бэхацлаха́","удачи",["осторожно","всего доброго","терпения"]],
+  ["gr","B2","כָּל הַכָּבוֹד","коль hакаво́д","молодец / так держать",["просто скажи","главное здоровье","большая работа"]],
 
-  ["fd","לֶחֶם","ле́хем","хлеб",["вода","молоко","сыр"]],
-  ["fd","תַּפּוּחַ","тапу́ах","яблоко",["груша","апельсин","банан"]],
-  ["fd","בָּשָׂר","баса́р","мясо",["рыба","курица","овощи"]],
+  // ── Еда и магазин ──
+  ["fd","A1","לֶחֶם","ле́хем","хлеб",["вода","молоко","сыр"]],
+  ["fd","A1","מַיִם","ма́им","вода",["хлеб","молоко","сок"]],
+  ["fd","A2","בָּשָׂר","баса́р","мясо",["рыба","курица","овощи"]],
+  ["fd","A2","גְּבִינָה","гвина́","сыр",["масло","йогурт","сливки"]],
+  ["fd","B1","יְרָקוֹת","ярако́т","овощи",["фрукты","закуски","травы"]],
+  ["fd","B1","עוֹף","оф","курица",["рыба","утка","индейка"]],
+  ["fd","B2","מַתְכּוֹן","матко́н","рецепт",["счёт","меню","заказ"]],
+  ["fd","B2","חֶשְׁבּוֹן","хешбо́н","счёт (в кафе)",["рецепт","меню","чаевые"]],
 
-  ["bd","רֹאשׁ","рош","голова",["рука","нога","лицо"]],
-  ["bd","לֵב","лев","сердце",["живот","глаз","зуб"]],
-  ["bd","רוֹפֵא","рофе́","врач",["медсестра","аптека","больница"]],
+  // ── Тело и здоровье ──
+  ["bd","A1","רֹאשׁ","рош","голова",["рука","нога","лицо"]],
+  ["bd","A1","יָד","яд","рука",["нога","глаз","зуб"]],
+  ["bd","A2","לֵב","лев","сердце",["живот","голова","глаз"]],
+  ["bd","A2","עַיִן","а́ин","глаз",["ухо","рот","нос"]],
+  ["bd","B1","רוֹפֵא","рофе́","врач",["медсестра","аптекарь","пациент"]],
+  ["bd","B1","תְּרוּפָה","труфа́","лекарство",["температура","укол","рецепт"]],
+  ["bd","B2","בְּדִיקָה","бдика́","анализ / обследование",["рецепт","направление","операция"]],
+  ["bd","B2","כְּאֵב גַּב","кэе́в гав","боль в спине",["боль в голове","боль в животе","усталость"]],
 
-  ["hm","בַּיִת","ба́ит","дом",["улица","комната","квартира"]],
-  ["hm","דֶּלֶת","де́лет","дверь",["окно","стена","кровать"]],
-  ["hm","מַפְתֵּחַ","мафте́ах","ключ",["замок","лампа","стол"]],
+  // ── Дом и быт ──
+  ["hm","A1","בַּיִת","ба́ит","дом",["улица","комната","квартира"]],
+  ["hm","A1","דֶּלֶת","де́лет","дверь",["окно","стена","кровать"]],
+  ["hm","A2","חַלּוֹן","хало́н","окно",["дверь","балкон","крыша"]],
+  ["hm","A2","מִטָּה","мита́","кровать",["диван","стул","стол"]],
+  ["hm","B1","מְקָרֵר","мекаре́р","холодильник",["плита","духовка","посудомойка"]],
+  ["hm","B1","מַפְתֵּחַ","мафте́ах","ключ",["замок","домофон","звонок"]],
+  ["hm","B2","שְׂכִירוּת","схиру́т","аренда",["покупка","продажа","залог"]],
+  ["hm","B2","תִּקּוּן","тику́н","ремонт",["уборка","стройка","переезд"]],
 
-  ["ct","אוֹטוֹבּוּס","о́тобус","автобус",["поезд","машина","велосипед"]],
-  ["ct","רְחוֹב","рехо́в","улица",["парк","мост","площадь"]],
-  ["ct","שׁוּק","шук","рынок",["банк","школа","больница"]],
+  // ── Город и транспорт ──
+  ["ct","A1","רְחוֹב","рехо́в","улица",["парк","мост","площадь"]],
+  ["ct","A1","אוֹטוֹבּוּס","о́тобус","автобус",["поезд","машина","трамвай"]],
+  ["ct","A2","מְכוֹנִית","мехоні́т","машина",["мотоцикл","грузовик","велосипед"]],
+  ["ct","A2","שׁוּק","шук","рынок",["магазин","банк","почта"]],
+  ["ct","B1","רַכֶּבֶת","раке́вет","поезд",["автобус","самолёт","корабль"]],
+  ["ct","B1","תַּחֲנָה","тахана́","остановка / станция",["перекрёсток","светофор","вокзал"]],
+  ["ct","B2","פְּקַק","пкак","пробка (на дороге)",["авария","объезд","ремонт"]],
+  ["ct","B2","כְּבִישׁ מָהִיר","квиш маhи́р","шоссе",["просёлок","перекрёсток","развязка"]],
 
-  ["pp","אִמָּא","и́ма","мама",["папа","сын","сестра"]],
-  ["pp","חָבֵר","хаве́р","друг",["сосед","родственник","незнакомец"]],
-  ["pp","שָׂמֵחַ","саме́ах","радостный",["грустный","злой","спокойный"]],
+  // ── Люди и эмоции ──
+  ["pp","A1","אִמָּא","и́ма","мама",["папа","сын","бабушка"]],
+  ["pp","A1","אַבָּא","а́ба","папа",["дедушка","брат","сын"]],
+  ["pp","A2","חָבֵר","хаве́р","друг",["сосед","родственник","коллега"]],
+  ["pp","A2","מִשְׁפָּחָה","мишпаха́","семья",["компания","родня","группа"]],
+  ["pp","B1","שָׂמֵחַ","саме́ах","радостный",["грустный","злой","спокойный"]],
+  ["pp","B1","עָצוּב","ацу́в","грустный",["радостный","усталый","сердитый"]],
+  ["pp","B2","מְעַצְבֵּן","меацбе́н","раздражающий",["скучный","смешной","странный"]],
+  ["pp","B2","מְאֻכְזָב","меухза́в","разочарованный",["удивлённый","взволнованный","расстроенный"]],
 
-  ["tm","יוֹם","йом","день",["ночь","неделя","час"]],
-  ["tm","מָחָר","маха́р","завтра",["вчера","сегодня","утром"]],
-  ["tm","חָמֵשׁ","хаме́ш","пять",["три","семь","десять"]],
+  // ── Время и числа ──
+  ["tm","A1","יוֹם","йом","день",["ночь","утро","вечер"]],
+  ["tm","A1","חָמֵשׁ","хаме́ш","пять",["три","семь","десять"]],
+  ["tm","A2","שָׁעָה","шаа́","час",["минута","секунда","момент"]],
+  ["tm","A2","מָחָר","маха́р","завтра",["вчера","сегодня","послезавтра"]],
+  ["tm","B1","שָׁבוּעַ","шаву́а","неделя",["месяц","год","день"]],
+  ["tm","B1","חֹדֶשׁ","хо́деш","месяц",["неделя","год","сезон"]],
+  ["tm","B2","עָבָר","ава́р","прошлое",["будущее","настоящее","история"]],
+  ["tm","B2","כְּבָר","квар","уже",["ещё","сейчас","пока"]],
 
-  ["en","בֶּטוֹן","бето́н","бетон",["сталь","стекло","дерево"]],
-  ["en","בֹּרֶג","бо́рег","болт",["гайка","винт","гвоздь"]],
-  ["en","חַשְׁמַל","хашма́ль","электричество",["вода","газ","тепло"]],
+  // ── Инженерный иврит ──
+  ["en","A1","בֶּטוֹן","бето́н","бетон",["сталь","стекло","дерево"]],
+  ["en","A1","חַשְׁמַל","хашма́ль","электричество",["вода","газ","тепло"]],
+  ["en","A2","בֹּרֶג","бо́рег","болт",["гвоздь","шуруп","заклёпка"]],
+  ["en","A2","מַסְמֵר","масме́р","гвоздь",["болт","шуруп","скоба"]],
+  ["en","B1","צִנּוֹר","цино́р","труба",["провод","кабель","шланг"]],
+  ["en","B1","זְכוּכִית","зхухи́т","стекло",["пластик","металл","керамика"]],
+  ["en","B2","פִּגּוּם","пигу́м","строительные леса",["опалубка","фундамент","балка"]],
+  ["en","B2","תָּכְנִית","тахни́т","план / чертёж",["смета","договор","разрешение"]],
 ];
+
+// Levels in order from easiest to hardest — used to derive per-theme level
+const LEVEL_ORDER = ["A0","A1","A2","B1","B2"];
 
 const STORAGE_KEY = "he-test-state";
 let state = {page:"welcome", qIdx:0, order:[], pick:null, answers:[]};
@@ -173,9 +225,10 @@ function currentQ(){return QUESTIONS[state.order[state.idx||state.qIdx]]}
 function answerPick(opt, correctRu){
   if(state.pick!==null)return;
   state.pick=opt;
-  state.answers.push({theme: currentQ()[0], correct: opt===correctRu});
+  const q=currentQ();
+  state.answers.push({theme: q[0], level: q[1], correct: opt===correctRu});
   // Play the Hebrew of the question regardless of correctness
-  speak(currentQ()[1], false);
+  speak(q[2], false);
   save();render();
 }
 
@@ -197,8 +250,8 @@ function renderWelcome(app){
   app.appendChild(h('div','sub','Поможем понять, что учить'));
 
   const intro=h('div','intro',
-    '<p><b>24 вопроса</b> по 8 темам. Иврит → выберите правильный перевод.</p>'+
-    '<p>Звук грает при выборе ответа. Можно нажимать на варианты сколько угодно, чтобы услышать звучание.</p>'+
+    '<p><b>64 вопроса</b> по 8 темам, по 8 вопросов на тему. Каждая тема — от самых простых слов (A1) до продвинутых (B2).</p>'+
+    '<p>Иврит → выберите правильный перевод. Звук грает при тапе по любому варианту, можно перетапывать чтобы переслушать.</p>'+
     '<ul>'+
     '<li>Приветствия и общение</li>'+
     '<li>Еда и магазин</li>'+
@@ -209,7 +262,7 @@ function renderWelcome(app){
     '<li>Время и числа</li>'+
     '<li>Инженерный иврит</li>'+
     '</ul>'+
-    '<p style="margin-top:10px;color:#64748b;font-size:15px">В конце — оценка уровня и список тем, которые стоит подучить.</p>');
+    '<p style="margin-top:10px;color:#64748b;font-size:15px">Занимает ~12 минут. Можно закрыть и продолжить — прогресс сохранится. В конце увидите ваш уровень по каждой теме и отдельно — общий.</p>');
   app.appendChild(intro);
 
   app.appendChild(h('button','start','Начать тест →',startTest));
@@ -224,7 +277,7 @@ function renderWelcome(app){
 
 function renderQuiz(app){
   const q=QUESTIONS[state.qIdx];
-  const [tId, he, tr, correctRu, wrong]=q;
+  const [tId, lv, he, tr, correctRu, wrong]=q;
   // Build shuffled 4 options. Use a stable seed per question so options don't reshuffle on each render.
   if(!state._opts || state._optsFor!==state.qIdx){
     state._opts=sh([correctRu, ...wrong]);
@@ -277,6 +330,28 @@ function renderQuiz(app){
   }
 }
 
+// Level analysis for a single theme.
+// For each level (A1..B2) within the theme: how many were correct out of how many.
+// "Achieved level" = highest L where they got ≥50% right AND all prior levels also passed 50%.
+function themeLevelFor(themeId){
+  const ans = state.answers.filter(a => a.theme === themeId);
+  const byLevel = {};
+  ans.forEach(a => {
+    if(!byLevel[a.level]) byLevel[a.level] = {ok:0, n:0};
+    byLevel[a.level].n++;
+    if(a.correct) byLevel[a.level].ok++;
+  });
+  let achieved = "A0";
+  for (const lv of ["A1","A2","B1","B2"]){
+    const s = byLevel[lv];
+    if (s && s.ok / s.n >= 0.5) achieved = lv;
+    else break;
+  }
+  return {achieved, byLevel};
+}
+
+function levelToNum(l){return ["A0","A1","A2","B1","B2"].indexOf(l)}
+
 function renderResult(app){
   const home=h('a','home-link','‹ Все темы');home.href='index.html';app.appendChild(home);
 
@@ -284,74 +359,89 @@ function renderResult(app){
   const correct=state.answers.filter(a=>a.correct).length;
   const pct=total>0?Math.round(correct/total*100):0;
 
-  // Compute per-theme score
+  // Per-theme analysis: score + achieved level
   const themeIds=Object.keys(THEMES);
-  const themeScore={};
+  const themeData={};
   themeIds.forEach(id=>{
     const ans=state.answers.filter(a=>a.theme===id);
     const ok=ans.filter(a=>a.correct).length;
-    themeScore[id]={correct:ok, total:ans.length, pct: ans.length?Math.round(ok/ans.length*100):0};
+    const lvInfo=themeLevelFor(id);
+    themeData[id]={correct:ok, total:ans.length, pct: ans.length?Math.round(ok/ans.length*100):0, ...lvInfo};
   });
-  // Sort themes by % for recommendations
-  const ranked=themeIds.slice().sort((a,b)=>themeScore[a].pct - themeScore[b].pct);
 
-  // Level estimate
-  let level='', desc='';
-  if(pct<25){level='A0 — самое начало';desc='Лучше начать с алфавита и первых 50 слов. Звук и крупный шрифт — всё для самого старта.'}
-  else if(pct<50){level='A1 — базовый';desc='Хорошее начало. Стоит освоить картинки 100 слов и пару бытовых тем.'}
-  else if(pct<75){level='A2 — бытовой';desc='Уверенный быт. Подтяните темы с низким баллом ниже.'}
-  else if(pct<90){level='B1 — уверенный';desc='Серьёзный уровень. Можно браться за расширенные темы и инженерный иврит.'}
-  else {level='B2 — свободный';desc='Отлично! База освоена. Двигайтесь к специализированным темам, идиомам и сленгу.'}
+  // Overall level = median of per-theme levels
+  const numLevels=themeIds.map(id=>levelToNum(themeData[id].achieved)).sort((a,b)=>a-b);
+  const medianIdx=Math.floor(numLevels.length/2);
+  const overall=["A0","A1","A2","B1","B2"][numLevels[medianIdx]||0];
 
-  // Result header
+  let overallDesc='';
+  if(overall==='A0'){overallDesc='Самое начало. Начните с алфавита и первых 50 слов — там звук, крупный шрифт и медленный темп.'}
+  else if(overall==='A1'){overallDesc='Базовый уровень. Освойте 100 слов с картинками и базовые бытовые темы.'}
+  else if(overall==='A2'){overallDesc='Бытовой уровень. Возьмитесь за бытовые темы (здоровье, дом, город) — расширьте словарь.'}
+  else if(overall==='B1'){overallDesc='Уверенный уровень. Время браться за расширенные темы B2 и специализированный иврит.'}
+  else{overallDesc='Свободный уровень. База освоена — переходите к идиомам, сленгу и узкоспециализированным темам.'}
+
+  // Header
   const head=h('div','result-head');
   head.appendChild(h('div','score-big',pct+'%'));
   head.appendChild(h('div','score-sub',correct+' / '+total+' правильно'));
-  head.appendChild(h('div','level',level));
-  head.appendChild(h('div','level-desc',desc));
+  head.appendChild(h('div','level','Уровень: '+overall));
+  head.appendChild(h('div','level-desc',overallDesc));
   app.appendChild(head);
 
-  // Per-theme breakdown
-  app.appendChild(h('div','section-title','По темам'));
-  themeIds.forEach(id=>{
-    const t=THEMES[id], s=themeScore[id];
+  // Per-theme breakdown — sorted by achieved level ascending so weakest are visible first
+  app.appendChild(h('div','section-title','По темам · уровень и счёт'));
+  const ranked=themeIds.slice().sort((a,b)=>{
+    const d=levelToNum(themeData[a].achieved)-levelToNum(themeData[b].achieved);
+    return d||(themeData[a].pct-themeData[b].pct);
+  });
+  ranked.forEach(id=>{
+    const t=THEMES[id], s=themeData[id];
     const color=s.pct>=80?'#16a34a':s.pct>=50?'#eab308':'#dc2626';
+    const lvText=s.achieved==='A0'?'<span style="color:#dc2626">не освоено</span>':'<span style="color:'+color+'">'+s.achieved+'</span>';
+    // Per-level mini-breakdown
+    const lvParts=["A1","A2","B1","B2"].map(lv=>{
+      const b=s.byLevel[lv];
+      if(!b)return '';
+      const c=b.ok===b.n?'#16a34a':b.ok>=1?'#eab308':'#dc2626';
+      return '<span style="display:inline-block;margin-right:8px;color:'+c+';font-size:13px">'+lv+': '+b.ok+'/'+b.n+'</span>';
+    }).join('');
     const row=h('div','theme-row');
-    row.innerHTML='<div class="name"><span>'+t.icon+' '+t.name+'</span><span style="color:'+color+'">'+s.correct+' / '+s.total+'</span></div>'+
-                  '<div class="bar2"><div style="width:'+s.pct+'%;background:'+color+'"></div></div>';
+    row.innerHTML='<div class="name"><span>'+t.icon+' '+t.name+'</span><span>'+lvText+' · '+s.correct+'/'+s.total+'</span></div>'+
+                  '<div class="bar2"><div style="width:'+s.pct+'%;background:'+color+'"></div></div>'+
+                  '<div style="margin-top:6px;font-size:13px;color:#64748b">'+lvParts+'</div>';
     app.appendChild(row);
   });
 
-  // Recommendations: 2 weakest themes (where total > 0)
-  const weak=ranked.filter(id=>themeScore[id].total>0).slice(0,3);
+  // Recommend the 3 weakest themes
+  const weak=ranked.slice(0,3);
   if(weak.length>0){
     app.appendChild(h('div','section-title','Рекомендуем подучить'));
     weak.forEach(id=>{
-      const t=THEMES[id], s=themeScore[id];
+      const t=THEMES[id], s=themeData[id];
       const a=document.createElement('a');a.className='reco';a.href=t.deck;
       a.innerHTML='<div class="ico">'+t.icon+'</div>'+
                   '<div class="body"><div class="t">'+t.name+'</div>'+
-                  '<div class="d">У вас сейчас '+s.correct+' из '+s.total+' — есть что подтянуть</div></div>';
+                  '<div class="d">Сейчас '+s.achieved+', счёт '+s.correct+'/'+s.total+'</div></div>';
       app.appendChild(a);
     });
   }
 
-  // Best themes (positive feedback)
-  const strong=ranked.slice().reverse().filter(id=>themeScore[id].total>0 && themeScore[id].pct>=66).slice(0,2);
+  // Best themes (positive feedback) — top by achieved level
+  const strong=ranked.slice().reverse().filter(id=>themeData[id].pct>=66).slice(0,2);
   if(strong.length>0){
     app.appendChild(h('div','section-title','Вы хорошо знаете'));
     strong.forEach(id=>{
-      const t=THEMES[id], s=themeScore[id];
+      const t=THEMES[id], s=themeData[id];
       const a=document.createElement('a');a.className='reco';a.href=t.deck;
       a.style.borderColor='#16a34a';
       a.innerHTML='<div class="ico">'+t.icon+'</div>'+
                   '<div class="body"><div class="t">'+t.name+'</div>'+
-                  '<div class="d">'+s.correct+' из '+s.total+' — отлично</div></div>';
+                  '<div class="d">'+s.achieved+', '+s.correct+'/'+s.total+' — отлично</div></div>';
       app.appendChild(a);
     });
   }
 
-  // Restart
   app.appendChild(h('button','start','Пройти ещё раз',()=>{state.answers=[];startTest()}));
   app.appendChild(h('button','reset','К списку тем',()=>{window.location.href='index.html'}));
   app.appendChild(h('div','credit','© Shimon Donen, 2026'));
