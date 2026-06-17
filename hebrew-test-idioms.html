@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
+<title>Идиомы и сленг — тест</title>
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f8fafc;color:#1e293b}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:20px;line-height:1.4;padding:14px;min-height:100vh;-webkit-text-size-adjust:100%}
+  button,a{touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0.05);user-select:none}
+  a{text-decoration:none;color:inherit}
+  .w{max-width:560px;margin:0 auto}
+  .home-link{display:inline-block;color:#2563eb;font-size:16px;font-weight:600;text-decoration:none;margin-bottom:12px}
+  h1{font-size:30px;font-weight:800;margin-bottom:6px;text-align:center}
+  .sub{text-align:center;color:#475569;font-size:18px;margin-bottom:22px}
+  .intro{background:#fff;border:2px solid #cbd5e1;border-radius:16px;padding:20px;margin-bottom:14px}
+  .intro p{margin-bottom:10px;color:#1e293b}
+  .intro ul{padding-left:22px;color:#475569;font-size:17px}
+  .intro li{margin-bottom:6px}
+  .start{display:block;width:100%;padding:18px;background:#7c3aed;color:#fff;border:none;border-radius:14px;font-size:22px;font-weight:700;cursor:pointer;margin-top:14px}
+  .start:active{background:#6d28d9}
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .back{background:#fff;border:2px solid #cbd5e1;border-radius:10px;padding:10px 14px;font-size:16px;cursor:pointer;font-weight:600;color:#1e293b}
+  .pgwrap{flex:1}
+  .pgnum{font-size:16px;color:#475569;text-align:right;margin-bottom:4px}
+  .pgbar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden}
+  .pgbar div{height:100%;background:#7c3aed;transition:width .25s}
+  .card{background:#fff;border:2px solid #cbd5e1;border-radius:18px;padding:28px 18px;text-align:center;margin-bottom:16px}
+  .qlabel{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+  .he-big{font-size:54px;line-height:1.18;font-weight:700;color:#0f172a;direction:rtl;margin:8px 0 14px;font-family:"Noto Sans Hebrew","Noto Serif Hebrew","Frank Ruehl CLM","SBL Hebrew","David",serif;word-break:keep-all}
+  .he-big.smaller{font-size:40px}
+  .he-big.tiny{font-size:32px}
+  .tr{font-size:20px;color:#7c3aed;margin-bottom:6px;font-weight:600}
+  .audio-row{display:flex;gap:10px;margin-top:14px;justify-content:center}
+  .abtn{padding:10px 18px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer}
+  .abtn:active{background:#faf5ff}
+  .abtn.primary{background:#7c3aed;color:#fff}
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .opt{padding:16px 14px;border:2px solid #cbd5e1;background:#fff;border-radius:14px;font-size:18px;cursor:pointer;text-align:center;font-weight:600;color:#1e293b}
+  .opt:active{background:#faf5ff}
+  .opt.ok{background:#dcfce7;border-color:#16a34a;color:#166534}
+  .opt.bad{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+  .next{margin-top:14px;width:100%;padding:16px;background:#7c3aed;color:#fff;border:none;border-radius:14px;font-size:20px;font-weight:700;cursor:pointer}
+  .next:active{background:#6d28d9}
+  .result-head{background:#fff;border:2px solid #cbd5e1;border-radius:18px;padding:24px;text-align:center;margin-bottom:18px}
+  .score-big{font-size:64px;font-weight:800;color:#7c3aed;line-height:1}
+  .score-sub{font-size:18px;color:#475569;margin-top:4px}
+  .level{font-size:22px;font-weight:700;color:#0f172a;margin-top:14px;padding:12px 16px;background:#faf5ff;border-radius:12px;display:inline-block}
+  .level-desc{font-size:15px;color:#475569;margin-top:10px;line-height:1.45}
+  .section-title{font-size:14px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px 4px}
+  .theme-row{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;margin-bottom:8px}
+  .theme-row .name{font-size:16px;font-weight:600;color:#1e293b;margin-bottom:6px;display:flex;justify-content:space-between}
+  .theme-row .bar2{height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+  .theme-row .bar2 div{height:100%;transition:width .4s}
+  .reco{display:flex;gap:14px;align-items:center;background:#fff;border:2px solid #7c3aed;border-radius:16px;padding:16px;margin-bottom:10px;cursor:pointer}
+  .reco:active{background:#faf5ff}
+  .reco .ico{font-size:36px;width:44px;text-align:center;flex-shrink:0}
+  .reco .body{flex:1}
+  .reco .t{font-size:18px;font-weight:700;color:#1e293b}
+  .reco .d{font-size:14px;color:#475569}
+  .reset{display:block;width:100%;margin-top:18px;padding:14px;background:#fff;border:2px dashed #cbd5e1;border-radius:12px;font-size:16px;color:#64748b;cursor:pointer}
+  .credit{margin-top:22px;text-align:center;font-size:12px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="w" id="app"></div>
+<script>
+const THEMES = {
+  ev: {name:"Бытовые идиомы",     deck:"hebrew-b2-quiz.html?g=Фразы%20и%20идиомы", icon:"💬"},
+  sl: {name:"Разговорный сленг",  deck:"hebrew-b2-quiz.html?g=Фразы%20и%20идиомы", icon:"🤙"},
+  pg: {name:"Поговорки и пословицы", deck:"hebrew-b2-quiz.html?g=Фразы%20и%20идиомы", icon:"📜"},
+  id: {name:"Идиомы и образные выражения", deck:"hebrew-b2-quiz.html?g=Фразы%20и%20идиомы", icon:"🎭"},
+};
+
+// [theme, hebrew, transliteration, correct, [3 wrong]]
+const QUESTIONS = [
+  // ── Бытовые идиомы ──
+  ["ev","אֵין בְּרֵרָה","эйн брера́","нет выбора",["вот и всё","не моё дело","сам решай"]],
+  ["ev","לֹא נוֹרָא","ло нора́","не беда",["ужас","без вариантов","согласен"]],
+  ["ev","מָה זֶה מְשַׁנֶּה","ма зэ мешане́","какая разница",["что это значит","сейчас узнаем","точно так"]],
+  ["ev","זֶה תָּלוּי","зэ талу́й","это зависит",["это правда","это легко","это понятно"]],
+  ["ev","מוּבָן מֵאֵלָיו","мува́н меэла́в","само собой",["по правде","скажу честно","в большинстве"]],
+  ["ev","בְּכָל מִקְרֶה","бехо́ль микре́","в любом случае",["в этом случае","ни в коем случае","без исключения"]],
+  ["ev","מִפַּעַם לְפַעַם","мипа́ам лефа́ам","время от времени",["постоянно","никогда","всегда"]],
+  ["ev","צַעַד אַחֲרֵי צַעַד","цаа́д ахаре́й цаа́д","шаг за шагом",["один за одним","очень быстро","в течение часа"]],
+
+  // ── Разговорный сленг ──
+  ["sl","מַגְנִיב","магни́в","классно / клёво",["ужасно","скучно","нормально"]],
+  ["sl","גָּרוּעַ","гару́а","отстой",["замечательно","нормально","классно"]],
+  ["sl","אָחִי","ахи́","чувак / братан",["отец","дядя","начальник"]],
+  ["sl","יָאלָּה","я́лла","ну давай / погнали",["хватит","иди сюда","прекрати"]],
+  ["sl","כֵּיף","кейф","кайф",["боль","скука","шум"]],
+  ["sl","בָּאסָּה","ба́са","облом",["удача","праздник","чудо"]],
+  ["sl","אֵין לִי כֹּחַ","эйн ли ко́ах","мне влом / нет сил",["мне всё равно","мне нравится","мне интересно"]],
+  ["sl","וָאלָּה","ва́ла","круто! / неужели!",["нет","может быть","ничего"]],
+
+  // ── Поговорки и пословицы ──
+  ["pg","לְאַט לְאַט רָחוֹק מַגִּיעַ","леа́т леа́т рахо́к маги́а","тише едешь — дальше будешь",["поспешишь — людей насмешишь","утро вечера мудренее","без труда не вытащишь рыбку"]],
+  ["pg","אַל תִּדְחֶה לְמָחָר","аль тидхе́ лемаха́р","не откладывай на завтра",["завтрак съешь сам","утро вечера мудренее","дорога ложка к обеду"]],
+  ["pg","עַל טַעַם וָרֵיחַ","аль та́ам вере́ах","на вкус и цвет",["вот это да","всё ясно","у каждого свой путь"]],
+  ["pg","אֵין עָשָׁן בְּלִי אֵשׁ","эйн аша́н бли эш","нет дыма без огня",["всё имеет цену","лучше промолчать","рисковать надо"]],
+  ["pg","לֹא כָּל הַנּוֹצֵץ זָהָב","ло коль hаноце́ц заhа́в","не всё золото, что блестит",["дорога ложка к обеду","не суди по обложке","друг познаётся в беде"]],
+  ["pg","עָדִיף מְאֻחָר מֵאֲשֶׁר לְעוֹלָם לֹא","ади́ф меуха́р","лучше поздно, чем никогда",["дорого яичко к Христову дню","в гостях хорошо а дома лучше","спешка нужна при ловле блох"]],
+  ["pg","הַתַּפּוּחַ לֹא נוֹפֵל רָחוֹק מֵהָעֵץ","hатапу́ах ло нофе́ль рахо́к","яблоко от яблони",["в семье не без урода","своя рубашка ближе к телу","родители как родители"]],
+  ["pg","לַעֲמוֹד בַּמִּלָּה","лаамо́д бамила́","держать слово",["держать марку","идти вперёд","говорить правду"]],
+
+  // ── Идиомы и образные выражения ──
+  ["id","לִפְגֹּעַ בּוּל","лифго́а бу́ль","попасть в точку",["промахнуться","заговорить","ошибиться"]],
+  ["id","לַעֲשׂוֹת בּוּשׁוֹת","лаасо́т бушо́т","опозориться / сесть в лужу",["прославиться","опоздать","потеряться"]],
+  ["id","לְשַׂחֵק בָּאֵשׁ","лесахе́к баэ́ш","играть с огнём",["заниматься делом","делать рутину","добиваться"]],
+  ["id","לֹא בְּנוֹחַ","ло бено́ах","не в своей тарелке",["очень удобно","в гостях","дома"]],
+  ["id","פָּנִים אֶל פָּנִים","пани́м эль пани́м","с глазу на глаз / лицом к лицу",["по телефону","в письме","на людях"]],
+  ["id","לֹא דָּג וְלֹא בָּשָׂר","ло даг вело́ баса́р","ни рыба ни мясо",["и наш и ваш","идеально","деликатес"]],
+  ["id","חָתוּל בְּשַׂק","хату́ль беса́к","кот в мешке",["открытый секрет","подарок к празднику","домашнее животное"]],
+  ["id","לְאַבֵּד סַבְלָנוּת","леабе́д савлану́т","потерять терпение",["потерять время","потерять память","потерять деньги"]],
+];
+
+const STORAGE_KEY="he-test-idioms-state";
+let state={page:"welcome",qIdx:0,pick:null,answers:[]};
+try{const s=localStorage.getItem(STORAGE_KEY);if(s){Object.assign(state,JSON.parse(s))}}catch(e){}
+const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){}};
+
+let heVoice=null;
+function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
+if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
+function speak(text,slow){
+  if(typeof window.AndroidTTS!=='undefined'&&window.AndroidTTS&&window.AndroidTTS.speak){
+    try{window.AndroidTTS.speak(text,'he',slow?0.6:0.85);return}catch(e){}
+  }
+  if(!('speechSynthesis' in window))return;
+  try{speechSynthesis.cancel()}catch(e){}
+  setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(text);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?0.5:0.85;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},60);
+}
+
+const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b};
+const $=id=>document.getElementById(id);
+function h(tag,cls,inner,on){const el=document.createElement(tag);if(cls)el.className=cls;if(inner!=null)el.innerHTML=inner;if(on)el.addEventListener('click',on);return el}
+
+function startTest(){state.page='quiz';state.qIdx=0;state.pick=null;state.answers=[];save();render()}
+function currentQ(){return QUESTIONS[state.qIdx]}
+function answerPick(opt,correctRu){
+  if(state.pick!==null)return;
+  state.pick=opt;
+  const q=currentQ();
+  state.answers.push({theme:q[0],correct:opt===correctRu});
+  speak(q[1],false);
+  save();render();
+}
+function nextQ(){
+  if(state.qIdx+1>=QUESTIONS.length){state.page='result';save();render();return}
+  state.qIdx++;state.pick=null;save();render();
+}
+function render(){const app=$('app');app.innerHTML='';if(state.page==='welcome')return renderWelcome(app);if(state.page==='quiz')return renderQuiz(app);if(state.page==='result')return renderResult(app)}
+
+function renderWelcome(app){
+  const home=h('a','home-link','‹ Все темы');home.href='index.html';app.appendChild(home);
+  app.appendChild(h('h1','','Идиомы и сленг'));
+  app.appendChild(h('div','sub','тест на 32 фразы'));
+
+  const intro=h('div','intro',
+    '<p><b>32 вопроса</b> по 4 темам: бытовые идиомы, разговорный сленг, поговорки, образные выражения.</p>'+
+    '<p>В отличие от обычного словарного теста, тут нужно понимать <i>переносный смысл</i> — не буквальный перевод.</p>'+
+    '<ul>'+
+    '<li>Бытовые идиомы — «нет выбора», «само собой»</li>'+
+    '<li>Сленг — «клёво», «облом», «йалла»</li>'+
+    '<li>Поговорки — «тише едешь», «нет дыма без огня»</li>'+
+    '<li>Образные — «играть с огнём», «кот в мешке»</li>'+
+    '</ul>'+
+    '<p style="margin-top:10px;color:#64748b;font-size:15px">Занимает ~6 минут. Прогресс сохраняется. В конце — оценка владения идиомами и ссылка на раздел B2 для углубления.</p>');
+  app.appendChild(intro);
+
+  app.appendChild(h('button','start','Начать тест →',startTest));
+  if(state.answers&&state.answers.length>0){
+    app.appendChild(h('button','reset','Посмотреть прошлый результат',()=>{state.page='result';save();render()}));
+  }
+  app.appendChild(h('div','credit','© Shimon Donen, 2026'));
+}
+
+function renderQuiz(app){
+  const q=QUESTIONS[state.qIdx];
+  const [tId,he,tr,correctRu,wrong]=q;
+  if(!state._opts||state._optsFor!==state.qIdx){state._opts=sh([correctRu,...wrong]);state._optsFor=state.qIdx}
+  const opts=state._opts;
+
+  const bar=h('div','bar');
+  bar.appendChild(h('button','back','← Меню',()=>{state.page='welcome';save();render()}));
+  const pgw=h('div','pgwrap');
+  pgw.appendChild(h('div','pgnum',(state.qIdx+1)+' / '+QUESTIONS.length+' · '+THEMES[tId].icon+' '+THEMES[tId].name));
+  const pgb=h('div','pgbar');pgb.innerHTML='<div style="width:'+((state.qIdx+1)/QUESTIONS.length*100)+'%"></div>';
+  pgw.appendChild(pgb);bar.appendChild(pgw);app.appendChild(bar);
+
+  const card=h('div','card');
+  card.appendChild(h('div','qlabel','Что это выражение значит?'));
+  const len=he.length;
+  const heCls='he-big'+(len>20?' tiny':len>10?' smaller':'');
+  card.appendChild(h('div',heCls,he));
+  card.appendChild(h('div','tr',tr));
+  const ar=h('div','audio-row');
+  ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
+  ar.appendChild(h('button','abtn','🐢 Помедленнее',()=>speak(he,true)));
+  card.appendChild(ar);
+  app.appendChild(card);
+
+  const optsBox=h('div','opts');
+  opts.forEach(opt=>{
+    let cls='opt';
+    if(state.pick!==null){
+      if(opt===correctRu)cls+=' ok';
+      else if(opt===state.pick&&opt!==correctRu)cls+=' bad';
+    }
+    const b=h('button',cls,opt,()=>{speak(he,false);if(state.pick===null)answerPick(opt,correctRu)});
+    optsBox.appendChild(b);
+  });
+  app.appendChild(optsBox);
+
+  if(state.pick!==null){
+    const correct=state.pick===correctRu;
+    app.appendChild(h('button','next',correct?'Верно! Дальше →':'Дальше →',nextQ));
+  }
+}
+
+function renderResult(app){
+  const home=h('a','home-link','‹ Все темы');home.href='index.html';app.appendChild(home);
+
+  const total=state.answers.length;
+  const correct=state.answers.filter(a=>a.correct).length;
+  const pct=total>0?Math.round(correct/total*100):0;
+
+  // Per-theme score
+  const themeIds=Object.keys(THEMES);
+  const themeScore={};
+  themeIds.forEach(id=>{
+    const ans=state.answers.filter(a=>a.theme===id);
+    const ok=ans.filter(a=>a.correct).length;
+    themeScore[id]={correct:ok,total:ans.length,pct:ans.length?Math.round(ok/ans.length*100):0};
+  });
+
+  let level='',desc='';
+  if(pct<25){level='Только начинаете';desc='Идиомы и сленг — высокий уровень. Сначала освойте базовый словарь, потом возвращайтесь к этим выражениям.'}
+  else if(pct<50){level='Знаете базу';desc='Несколько идиом узнаёте. Чтобы понимать носителей и читать тексты — стоит специально позаниматься этой темой.'}
+  else if(pct<75){level='Уверенно ориентируетесь';desc='Хороший результат! Поработайте над пробелами по конкретным темам ниже.'}
+  else if(pct<90){level='Свободно понимаете';desc='Уровень носителя — почти всё на месте. Закройте оставшиеся пробелы.'}
+  else{level='Владеете в совершенстве';desc='Браво! Можно переходить к чтению современной литературы и просмотру израильских сериалов.'}
+
+  const head=h('div','result-head');
+  head.appendChild(h('div','score-big',pct+'%'));
+  head.appendChild(h('div','score-sub',correct+' / '+total+' правильно'));
+  head.appendChild(h('div','level',level));
+  head.appendChild(h('div','level-desc',desc));
+  app.appendChild(head);
+
+  app.appendChild(h('div','section-title','По темам'));
+  const ranked=themeIds.slice().sort((a,b)=>themeScore[a].pct-themeScore[b].pct);
+  ranked.forEach(id=>{
+    const t=THEMES[id],s=themeScore[id];
+    const color=s.pct>=80?'#16a34a':s.pct>=50?'#eab308':'#dc2626';
+    const row=h('div','theme-row');
+    row.innerHTML='<div class="name"><span>'+t.icon+' '+t.name+'</span><span style="color:'+color+'">'+s.correct+' / '+s.total+'</span></div>'+
+                  '<div class="bar2"><div style="width:'+s.pct+'%;background:'+color+'"></div></div>';
+    app.appendChild(row);
+  });
+
+  // Recommendation: B2 fraсы и идиомы
+  app.appendChild(h('div','section-title','Где это учить'));
+  const reco=document.createElement('a');reco.className='reco';
+  reco.href='hebrew-b2-quiz.html?g=' + encodeURIComponent('Фразы и идиомы');
+  reco.innerHTML='<div class="ico">📚</div>'+
+                 '<div class="body"><div class="t">B2 · Фразы и идиомы</div>'+
+                 '<div class="d">6 подразделов: деловые фразы, выражения, идиомы, сленг, поговорки, идиомы доп.</div></div>';
+  app.appendChild(reco);
+
+  const reco2=document.createElement('a');reco2.className='reco';
+  reco2.href='hebrew-b2-quiz.html';reco2.style.borderColor='#16a34a';
+  reco2.innerHTML='<div class="ico">🏗️</div>'+
+                  '<div class="body"><div class="t">Весь B2</div>'+
+                  '<div class="d">1521 слово — расширенный набор для уверенного владения</div></div>';
+  app.appendChild(reco2);
+
+  app.appendChild(h('button','start','Пройти ещё раз',()=>{state.answers=[];startTest()}));
+  app.appendChild(h('button','reset','К списку тем',()=>{window.location.href='index.html'}));
+  app.appendChild(h('div','credit','© Shimon Donen, 2026'));
+}
+
+render();
+</script>
+<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}))</script>
+</body>
+</html>

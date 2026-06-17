@@ -442,6 +442,17 @@ function renderResult(app){
     });
   }
 
+  // Bridge to the idioms test for advanced learners
+  if(levelToNum(overall)>=3){  // B1 and above
+    app.appendChild(h('div','section-title','Следующий шаг'));
+    const idioms=document.createElement('a');idioms.className='reco';
+    idioms.href='hebrew-test-idioms.html';idioms.style.borderColor='#7c3aed';idioms.style.background='#faf5ff';
+    idioms.innerHTML='<div class="ico">💬</div>'+
+                     '<div class="body"><div class="t">Проверка идиом и сленга</div>'+
+                     '<div class="d">32 фразы: «нет дыма без огня», «йалла», «кот в мешке»... ~6 минут</div></div>';
+    app.appendChild(idioms);
+  }
+
   app.appendChild(h('button','start','Пройти ещё раз',()=>{state.answers=[];startTest()}));
   app.appendChild(h('button','reset','К списку тем',()=>{window.location.href='index.html'}));
   app.appendChild(h('div','credit','© Shimon Donen, 2026'));
