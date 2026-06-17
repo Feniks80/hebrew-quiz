@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
+<title>Проверка знаний — Иврит</title>
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f8fafc;color:#1e293b}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:20px;line-height:1.4;padding:14px;min-height:100vh;-webkit-text-size-adjust:100%}
+  button,a{touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0.05);user-select:none}
+  a{text-decoration:none;color:inherit}
+  .w{max-width:560px;margin:0 auto}
+
+  .home-link{display:inline-block;color:#2563eb;font-size:16px;font-weight:600;text-decoration:none;margin-bottom:12px}
+  h1{font-size:30px;font-weight:800;margin-bottom:6px;text-align:center}
+  .sub{text-align:center;color:#475569;font-size:18px;margin-bottom:22px}
+
+  .intro{background:#fff;border:2px solid #cbd5e1;border-radius:16px;padding:20px;margin-bottom:14px}
+  .intro p{margin-bottom:10px;color:#1e293b}
+  .intro ul{padding-left:22px;color:#475569;font-size:17px}
+  .intro li{margin-bottom:6px}
+
+  .start{display:block;width:100%;padding:18px;background:#2563eb;color:#fff;border:none;border-radius:14px;font-size:22px;font-weight:700;cursor:pointer;margin-top:14px}
+  .start:active{background:#1d4ed8}
+
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .back{background:#fff;border:2px solid #cbd5e1;border-radius:10px;padding:10px 14px;font-size:16px;cursor:pointer;font-weight:600;color:#1e293b}
+  .pgwrap{flex:1}
+  .pgnum{font-size:16px;color:#475569;text-align:right;margin-bottom:4px}
+  .pgbar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden}
+  .pgbar div{height:100%;background:#2563eb;transition:width .25s}
+
+  .card{background:#fff;border:2px solid #cbd5e1;border-radius:18px;padding:28px 18px;text-align:center;margin-bottom:16px}
+  .qlabel{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+  .he-big{font-size:68px;line-height:1.15;font-weight:700;color:#0f172a;direction:rtl;margin:8px 0 14px;font-family:"Noto Sans Hebrew","Noto Serif Hebrew","Frank Ruehl CLM","SBL Hebrew","David",serif}
+  .he-big.smaller{font-size:48px}
+  .tr{font-size:22px;color:#1d4ed8;margin-bottom:6px;font-weight:600}
+
+  .audio-row{display:flex;gap:10px;margin-top:14px;justify-content:center}
+  .abtn{padding:10px 18px;border:2px solid #2563eb;background:#fff;color:#2563eb;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer}
+  .abtn:active{background:#eef2ff}
+  .abtn.primary{background:#2563eb;color:#fff}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .opt{padding:18px 14px;border:2px solid #cbd5e1;background:#fff;border-radius:14px;font-size:20px;cursor:pointer;text-align:center;font-weight:600;color:#1e293b}
+  .opt:active{background:#eef2ff}
+  .opt.ok{background:#dcfce7;border-color:#16a34a;color:#166534}
+  .opt.bad{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+
+  .next{margin-top:14px;width:100%;padding:16px;background:#2563eb;color:#fff;border:none;border-radius:14px;font-size:20px;font-weight:700;cursor:pointer}
+  .next:active{background:#1d4ed8}
+
+  /* Result page */
+  .result-head{background:#fff;border:2px solid #cbd5e1;border-radius:18px;padding:24px;text-align:center;margin-bottom:18px}
+  .score-big{font-size:64px;font-weight:800;color:#2563eb;line-height:1}
+  .score-sub{font-size:18px;color:#475569;margin-top:4px}
+  .level{font-size:22px;font-weight:700;color:#0f172a;margin-top:14px;padding:12px 16px;background:#eff6ff;border-radius:12px;display:inline-block}
+  .level-desc{font-size:15px;color:#475569;margin-top:10px;line-height:1.45}
+
+  .section-title{font-size:14px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px 4px}
+
+  .theme-row{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;margin-bottom:8px}
+  .theme-row .name{font-size:16px;font-weight:600;color:#1e293b;margin-bottom:6px;display:flex;justify-content:space-between}
+  .theme-row .bar2{height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+  .theme-row .bar2 div{height:100%;transition:width .4s}
+
+  .reco{display:flex;gap:14px;align-items:center;background:#fff;border:2px solid #2563eb;border-radius:16px;padding:16px;margin-bottom:10px;cursor:pointer}
+  .reco:active{background:#eef2ff}
+  .reco .ico{font-size:36px;width:44px;text-align:center;flex-shrink:0}
+  .reco .body{flex:1}
+  .reco .t{font-size:18px;font-weight:700;color:#1e293b}
+  .reco .d{font-size:14px;color:#475569}
+
+  .reset{display:block;width:100%;margin-top:18px;padding:14px;background:#fff;border:2px dashed #cbd5e1;border-radius:12px;font-size:16px;color:#64748b;cursor:pointer}
+  .credit{margin-top:22px;text-align:center;font-size:12px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="w" id="app"></div>
+<script>
+/* ───────── Данные ───────── */
+const THEMES = {
+  gr: {name:"Приветствие и общение", deck:"hebrew-zero.html",     icon:"א"},
+  fd: {name:"Еда и магазин",        deck:"hebrew-shopping.html", icon:"🛒"},
+  bd: {name:"Тело и здоровье",      deck:"hebrew-health.html",   icon:"🩺"},
+  hm: {name:"Дом и быт",            deck:"hebrew-home.html",     icon:"🏠"},
+  ct: {name:"Город и транспорт",    deck:"hebrew-city.html",     icon:"🚌"},
+  pp: {name:"Люди и эмоции",        deck:"hebrew-people.html",   icon:"👪"},
+  tm: {name:"Время и числа",        deck:"hebrew-everyday.html", icon:"⏰"},
+  en: {name:"Инженерный иврит",     deck:"hebrew-engineer.html", icon:"📐"},
+};
+
+// [theme, hebrew_with_niqqud, transliteration, correct_ru, [3 wrong_ru]]
+const QUESTIONS = [
+  ["gr","שָׁלוֹם","шало́м","здравствуй",["спасибо","до свидания","извините"]],
+  ["gr","תּוֹדָה","тода́","спасибо",["здравствуй","пожалуйста","извините"]],
+  ["gr","לַיְלָה טוֹב","ла́йла тов","спокойной ночи",["доброе утро","добрый вечер","до свидания"]],
+
+  ["fd","לֶחֶם","ле́хем","хлеб",["вода","молоко","сыр"]],
+  ["fd","תַּפּוּחַ","тапу́ах","яблоко",["груша","апельсин","банан"]],
+  ["fd","בָּשָׂר","баса́р","мясо",["рыба","курица","овощи"]],
+
+  ["bd","רֹאשׁ","рош","голова",["рука","нога","лицо"]],
+  ["bd","לֵב","лев","сердце",["живот","глаз","зуб"]],
+  ["bd","רוֹפֵא","рофе́","врач",["медсестра","аптека","больница"]],
+
+  ["hm","בַּיִת","ба́ит","дом",["улица","комната","квартира"]],
+  ["hm","דֶּלֶת","де́лет","дверь",["окно","стена","кровать"]],
+  ["hm","מַפְתֵּחַ","мафте́ах","ключ",["замок","лампа","стол"]],
+
+  ["ct","אוֹטוֹבּוּס","о́тобус","автобус",["поезд","машина","велосипед"]],
+  ["ct","רְחוֹב","рехо́в","улица",["парк","мост","площадь"]],
+  ["ct","שׁוּק","шук","рынок",["банк","школа","больница"]],
+
+  ["pp","אִמָּא","и́ма","мама",["папа","сын","сестра"]],
+  ["pp","חָבֵר","хаве́р","друг",["сосед","родственник","незнакомец"]],
+  ["pp","שָׂמֵחַ","саме́ах","радостный",["грустный","злой","спокойный"]],
+
+  ["tm","יוֹם","йом","день",["ночь","неделя","час"]],
+  ["tm","מָחָר","маха́р","завтра",["вчера","сегодня","утром"]],
+  ["tm","חָמֵשׁ","хаме́ш","пять",["три","семь","десять"]],
+
+  ["en","בֶּטוֹן","бето́н","бетон",["сталь","стекло","дерево"]],
+  ["en","בֹּרֶג","бо́рег","болт",["гайка","винт","гвоздь"]],
+  ["en","חַשְׁמַל","хашма́ль","электричество",["вода","газ","тепло"]],
+];
+
+const STORAGE_KEY = "he-test-state";
+let state = {page:"welcome", qIdx:0, order:[], pick:null, answers:[]};
+try{const s=localStorage.getItem(STORAGE_KEY);if(s){Object.assign(state, JSON.parse(s))}}catch(e){}
+const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){}};
+
+/* ───────── TTS (full stack: AndroidTTS bridge → Web Speech → mute) ───────── */
+let heVoice=null;
+function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
+if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
+function speak(text,slow){
+  if(typeof window.AndroidTTS!=='undefined' && window.AndroidTTS && window.AndroidTTS.speak){
+    try{window.AndroidTTS.speak(text,'he',slow?0.6:0.85);return}catch(e){}
+  }
+  if(!('speechSynthesis' in window))return;
+  try{speechSynthesis.cancel()}catch(e){}
+  setTimeout(()=>{
+    pickV();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='he-IL';
+    if(heVoice)u.voice=heVoice;
+    u.rate=slow?0.5:0.85;u.pitch=1;u.volume=1;
+    try{speechSynthesis.speak(u)}catch(e){}
+  },60);
+}
+
+/* ───────── Утилиты ───────── */
+const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b};
+const $=id=>document.getElementById(id);
+function h(tag,cls,inner,on){const el=document.createElement(tag);if(cls)el.className=cls;if(inner!=null)el.innerHTML=inner;if(on)el.addEventListener('click',on);return el}
+
+function startTest(){
+  state.page='quiz';state.qIdx=0;state.pick=null;state.answers=[];
+  // Question order: keep theme grouping (3 in a row for each theme), but optionally shuffle inside
+  // Here we keep original sequence so user gets a clear progression.
+  state.order=[...Array(QUESTIONS.length).keys()];
+  save();render();
+}
+
+function currentQ(){return QUESTIONS[state.order[state.idx||state.qIdx]]}
+
+function answerPick(opt, correctRu){
+  if(state.pick!==null)return;
+  state.pick=opt;
+  state.answers.push({theme: currentQ()[0], correct: opt===correctRu});
+  // Play the Hebrew of the question regardless of correctness
+  speak(currentQ()[1], false);
+  save();render();
+}
+
+function nextQ(){
+  if(state.qIdx+1>=QUESTIONS.length){state.page='result';save();render();return}
+  state.qIdx++;state.pick=null;save();render();
+}
+
+function render(){
+  const app=$('app');app.innerHTML='';
+  if(state.page==='welcome')return renderWelcome(app);
+  if(state.page==='quiz')return renderQuiz(app);
+  if(state.page==='result')return renderResult(app);
+}
+
+function renderWelcome(app){
+  const home=h('a','home-link','‹ Все темы');home.href='index.html';app.appendChild(home);
+  app.appendChild(h('h1','','Проверка знаний'));
+  app.appendChild(h('div','sub','Поможем понять, что учить'));
+
+  const intro=h('div','intro',
+    '<p><b>24 вопроса</b> по 8 темам. Иврит → выберите правильный перевод.</p>'+
+    '<p>Звук грает при выборе ответа. Можно нажимать на варианты сколько угодно, чтобы услышать звучание.</p>'+
+    '<ul>'+
+    '<li>Приветствия и общение</li>'+
+    '<li>Еда и магазин</li>'+
+    '<li>Тело и здоровье</li>'+
+    '<li>Дом и быт</li>'+
+    '<li>Город и транспорт</li>'+
+    '<li>Люди и эмоции</li>'+
+    '<li>Время и числа</li>'+
+    '<li>Инженерный иврит</li>'+
+    '</ul>'+
+    '<p style="margin-top:10px;color:#64748b;font-size:15px">В конце — оценка уровня и список тем, которые стоит подучить.</p>');
+  app.appendChild(intro);
+
+  app.appendChild(h('button','start','Начать тест →',startTest));
+
+  if(state.answers && state.answers.length>0 && state.page==='welcome'){
+    // Allow looking at last result
+    app.appendChild(h('button','reset','Посмотреть прошлый результат',()=>{state.page='result';save();render()}));
+  }
+
+  app.appendChild(h('div','credit','© Shimon Donen, 2026'));
+}
+
+function renderQuiz(app){
+  const q=QUESTIONS[state.qIdx];
+  const [tId, he, tr, correctRu, wrong]=q;
+  // Build shuffled 4 options. Use a stable seed per question so options don't reshuffle on each render.
+  if(!state._opts || state._optsFor!==state.qIdx){
+    state._opts=sh([correctRu, ...wrong]);
+    state._optsFor=state.qIdx;
+  }
+  const opts=state._opts;
+
+  const bar=h('div','bar');
+  bar.appendChild(h('button','back','← Меню',()=>{state.page='welcome';save();render()}));
+  const pgw=h('div','pgwrap');
+  pgw.appendChild(h('div','pgnum',(state.qIdx+1)+' / '+QUESTIONS.length));
+  const pgb=h('div','pgbar');
+  pgb.innerHTML='<div style="width:'+((state.qIdx+1)/QUESTIONS.length*100)+'%"></div>';
+  pgw.appendChild(pgb);
+  bar.appendChild(pgw);
+  app.appendChild(bar);
+
+  const card=h('div','card');
+  card.appendChild(h('div','qlabel','Что это слово?'));
+  const heCls='he-big'+(he.length>8?' smaller':'');
+  card.appendChild(h('div',heCls,he));
+  card.appendChild(h('div','tr',tr));
+  // Audio row
+  const ar=h('div','audio-row');
+  ar.appendChild(h('button','abtn primary','🔊 Послушать',()=>speak(he,false)));
+  ar.appendChild(h('button','abtn','🐢 Помедленнее',()=>speak(he,true)));
+  card.appendChild(ar);
+  app.appendChild(card);
+
+  // Options
+  const optsBox=h('div','opts');
+  opts.forEach(opt=>{
+    let cls='opt';
+    if(state.pick!==null){
+      if(opt===correctRu)cls+=' ok';
+      else if(opt===state.pick && opt!==correctRu)cls+=' bad';
+    }
+    const b=h('button',cls,opt,()=>{
+      // Always play the Hebrew on any tap (the question's word)
+      speak(he,false);
+      if(state.pick===null)answerPick(opt,correctRu);
+    });
+    optsBox.appendChild(b);
+  });
+  app.appendChild(optsBox);
+
+  if(state.pick!==null){
+    const correct=state.pick===correctRu;
+    app.appendChild(h('button','next',correct?'Верно! Дальше →':'Дальше →',nextQ));
+  }
+}
+
+function renderResult(app){
+  const home=h('a','home-link','‹ Все темы');home.href='index.html';app.appendChild(home);
+
+  const total=state.answers.length;
+  const correct=state.answers.filter(a=>a.correct).length;
+  const pct=total>0?Math.round(correct/total*100):0;
+
+  // Compute per-theme score
+  const themeIds=Object.keys(THEMES);
+  const themeScore={};
+  themeIds.forEach(id=>{
+    const ans=state.answers.filter(a=>a.theme===id);
+    const ok=ans.filter(a=>a.correct).length;
+    themeScore[id]={correct:ok, total:ans.length, pct: ans.length?Math.round(ok/ans.length*100):0};
+  });
+  // Sort themes by % for recommendations
+  const ranked=themeIds.slice().sort((a,b)=>themeScore[a].pct - themeScore[b].pct);
+
+  // Level estimate
+  let level='', desc='';
+  if(pct<25){level='A0 — самое начало';desc='Лучше начать с алфавита и первых 50 слов. Звук и крупный шрифт — всё для самого старта.'}
+  else if(pct<50){level='A1 — базовый';desc='Хорошее начало. Стоит освоить картинки 100 слов и пару бытовых тем.'}
+  else if(pct<75){level='A2 — бытовой';desc='Уверенный быт. Подтяните темы с низким баллом ниже.'}
+  else if(pct<90){level='B1 — уверенный';desc='Серьёзный уровень. Можно браться за расширенные темы и инженерный иврит.'}
+  else {level='B2 — свободный';desc='Отлично! База освоена. Двигайтесь к специализированным темам, идиомам и сленгу.'}
+
+  // Result header
+  const head=h('div','result-head');
+  head.appendChild(h('div','score-big',pct+'%'));
+  head.appendChild(h('div','score-sub',correct+' / '+total+' правильно'));
+  head.appendChild(h('div','level',level));
+  head.appendChild(h('div','level-desc',desc));
+  app.appendChild(head);
+
+  // Per-theme breakdown
+  app.appendChild(h('div','section-title','По темам'));
+  themeIds.forEach(id=>{
+    const t=THEMES[id], s=themeScore[id];
+    const color=s.pct>=80?'#16a34a':s.pct>=50?'#eab308':'#dc2626';
+    const row=h('div','theme-row');
+    row.innerHTML='<div class="name"><span>'+t.icon+' '+t.name+'</span><span style="color:'+color+'">'+s.correct+' / '+s.total+'</span></div>'+
+                  '<div class="bar2"><div style="width:'+s.pct+'%;background:'+color+'"></div></div>';
+    app.appendChild(row);
+  });
+
+  // Recommendations: 2 weakest themes (where total > 0)
+  const weak=ranked.filter(id=>themeScore[id].total>0).slice(0,3);
+  if(weak.length>0){
+    app.appendChild(h('div','section-title','Рекомендуем подучить'));
+    weak.forEach(id=>{
+      const t=THEMES[id], s=themeScore[id];
+      const a=document.createElement('a');a.className='reco';a.href=t.deck;
+      a.innerHTML='<div class="ico">'+t.icon+'</div>'+
+                  '<div class="body"><div class="t">'+t.name+'</div>'+
+                  '<div class="d">У вас сейчас '+s.correct+' из '+s.total+' — есть что подтянуть</div></div>';
+      app.appendChild(a);
+    });
+  }
+
+  // Best themes (positive feedback)
+  const strong=ranked.slice().reverse().filter(id=>themeScore[id].total>0 && themeScore[id].pct>=66).slice(0,2);
+  if(strong.length>0){
+    app.appendChild(h('div','section-title','Вы хорошо знаете'));
+    strong.forEach(id=>{
+      const t=THEMES[id], s=themeScore[id];
+      const a=document.createElement('a');a.className='reco';a.href=t.deck;
+      a.style.borderColor='#16a34a';
+      a.innerHTML='<div class="ico">'+t.icon+'</div>'+
+                  '<div class="body"><div class="t">'+t.name+'</div>'+
+                  '<div class="d">'+s.correct+' из '+s.total+' — отлично</div></div>';
+      app.appendChild(a);
+    });
+  }
+
+  // Restart
+  app.appendChild(h('button','start','Пройти ещё раз',()=>{state.answers=[];startTest()}));
+  app.appendChild(h('button','reset','К списку тем',()=>{window.location.href='index.html'}));
+  app.appendChild(h('div','credit','© Shimon Donen, 2026'));
+}
+
+render();
+</script>
+<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}))</script>
+</body>
+</html>
