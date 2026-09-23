@@ -243,17 +243,23 @@ function speakNative(text,lang,slow){
 //   3) Bundled MP3 (offline fallback)
 //   4) Web Speech with no specific voice (last resort)
 // Backward-compatible signature: speak(text, slow) — boolean second arg = slow, lang defaults to 'he'.
+// Returns true only if the native Android TTS bridge actually took the utterance.
+function bridgeSpeak(text,lang,rate){
+  var B=window.AndroidTTS;
+  if(!B||typeof B.speak!=='function')return false;
+  try{
+    if(typeof B.isReady==='function'&&!B.isReady())return false;
+    if(typeof B.hasLanguage==='function'&&!B.hasLanguage(lang))return false;
+    var r=B.speak(text,lang,rate);
+    return r!==false; // old APK returns undefined (void); ready+language already verified
+  }catch(e){return false}
+}
 function speak(text,lang,slow,arrIdx){
   if(typeof lang==='boolean'){slow=lang;lang='he';arrIdx=undefined}
   if(!lang)lang='he';
   // 1) Android native bridge
-  if(typeof window.AndroidTTS!=='undefined' && window.AndroidTTS && window.AndroidTTS.speak){
-    try{
-      const r=slow?Math.max(0.3,state.rate-0.15):state.rate;
-      window.AndroidTTS.speak(text,lang,r);
-      return;
-    }catch(e){}
-  }
+  const r=slow?Math.max(0.3,state.rate-0.15):state.rate;
+  if(bridgeSpeak(text,lang,r))return;
   // 2) Web Speech
   pickV();
   const voice=(lang==='ru')?ruVoice:heVoice;

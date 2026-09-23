@@ -128,10 +128,19 @@ const save=()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catc
 let heVoice=null;
 function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
 if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
+// Returns true only if the native Android TTS bridge actually took the utterance.
+function bridgeSpeak(text,lang,rate){
+  var B=window.AndroidTTS;
+  if(!B||typeof B.speak!=='function')return false;
+  try{
+    if(typeof B.isReady==='function'&&!B.isReady())return false;
+    if(typeof B.hasLanguage==='function'&&!B.hasLanguage(lang))return false;
+    var r=B.speak(text,lang,rate);
+    return r!==false; // old APK returns undefined (void); ready+language already verified
+  }catch(e){return false}
+}
 function speak(text,slow){
-  if(typeof window.AndroidTTS!=='undefined'&&window.AndroidTTS&&window.AndroidTTS.speak){
-    try{window.AndroidTTS.speak(text,'he',slow?0.6:0.85);return}catch(e){}
-  }
+  if(bridgeSpeak(text,'he',slow?0.6:0.85))return;
   if(!('speechSynthesis' in window))return;
   try{speechSynthesis.cancel()}catch(e){}
   setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(text);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?0.5:0.85;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},60);

@@ -45,7 +45,18 @@ const h=(tag,cls,inner,attrs)=>{const el=document.createElement(tag);if(cls)el.c
 let heVoice=null;
 function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
 if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
-function say(t,slow){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel()}catch(e){}setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?0.55:0.85;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},50)}
+// Returns true only if the native Android TTS bridge actually took the utterance.
+function bridgeSpeak(text,lang,rate){
+  var B=window.AndroidTTS;
+  if(!B||typeof B.speak!=='function')return false;
+  try{
+    if(typeof B.isReady==='function'&&!B.isReady())return false;
+    if(typeof B.hasLanguage==='function'&&!B.hasLanguage(lang))return false;
+    var r=B.speak(text,lang,rate);
+    return r!==false; // old APK returns undefined (void); ready+language already verified
+  }catch(e){return false}
+}
+function say(t,slow){if(bridgeSpeak(t,'he',slow?0.55:0.85))return;if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel()}catch(e){}setTimeout(()=>{pickV();const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';if(heVoice)u.voice=heVoice;u.rate=slow?0.55:0.85;u.pitch=1;u.volume=1;try{speechSynthesis.speak(u)}catch(e){}},50)}
 function spkBtn(text){const b=h('button','',`🔊`,{onclick:e=>{e.stopPropagation();say(text)}});b.style.cssText='margin-left:6px;margin-right:6px;padding:6px 12px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;cursor:pointer;line-height:1;vertical-align:middle';b.title='Произнести';return b}
 const CATS=[
   // Здоровье и тело

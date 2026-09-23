@@ -47,6 +47,18 @@
   .foot a{color:#94a3b8;text-decoration:underline}
   .install-btn{display:none;width:100%;margin:0 0 20px;padding:16px;border:2px solid #2563eb;background:#2563eb;color:#fff;border-radius:14px;font-size:18px;font-weight:700;cursor:pointer}
   .install-btn:active{background:#1d4ed8}
+
+  /* voice check panel */
+  #voicecheck{margin-bottom:20px}
+  .vc-ok{background:#fff;border:2px solid #bbf7d0;border-radius:16px;padding:14px 16px;font-size:15px;color:#166534}
+  .vc-ok .line{margin-bottom:4px}
+  .vc-warn{background:#fff7ed;border:2px solid #fdba74;border-radius:16px;padding:18px 16px}
+  .vc-warn .msg{font-size:19px;font-weight:700;color:#9a3412;margin-bottom:12px;line-height:1.4}
+  .vc-warn .steps{font-size:15px;color:#7c2d12;line-height:1.7;background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:12px}
+  .vc-btn{display:inline-block;padding:12px 18px;border-radius:10px;font-size:16px;font-weight:700;border:2px solid #2563eb;background:#2563eb;color:#fff;cursor:pointer;margin:0 8px 8px 0}
+  .vc-btn:active{background:#1d4ed8}
+  .vc-btn.secondary{background:#fff;color:#2563eb}
+  .vc-btn.secondary:active{background:#eff6ff}
 </style>
 </head>
 <body>
@@ -111,6 +123,101 @@ function topicCard(it){
 
 app.appendChild(el('h1',null,'Учим иврит'));
 app.appendChild(el('div','sub','Выберите тему'));
+
+// ── Voice check panel ──
+// Returns true only if the native Android TTS bridge actually took the utterance.
+function bridgeSpeak(text,lang,rate){
+  var B=window.AndroidTTS;
+  if(!B||typeof B.speak!=='function')return false;
+  try{
+    if(typeof B.isReady==='function'&&!B.isReady())return false;
+    if(typeof B.hasLanguage==='function'&&!B.hasLanguage(lang))return false;
+    var r=B.speak(text,lang,rate);
+    return r!==false; // old APK returns undefined (void); ready+language already verified
+  }catch(e){return false}
+}
+let heVoice=null;
+function pickV(){if(!('speechSynthesis' in window))return;const a=speechSynthesis.getVoices()||[];heVoice=a.find(v=>/^he[-_]?IL/i.test(v.lang))||a.find(v=>/^iw[-_]?IL/i.test(v.lang))||a.find(v=>/^(he|iw)/i.test(v.lang))||null}
+if('speechSynthesis' in window){pickV();speechSynthesis.onvoiceschanged=pickV;setTimeout(pickV,300);setTimeout(pickV,1500)}
+
+function waitAndroidReady(timeoutMs){
+  return new Promise(resolve=>{
+    const B=window.AndroidTTS;
+    const start=Date.now();
+    (function poll(){
+      let ready=false;
+      try{ready=(typeof B.isReady==='function')?!!B.isReady():true}catch(e){ready=true}
+      if(ready||Date.now()-start>=timeoutMs){resolve(ready);return}
+      setTimeout(poll,300);
+    })();
+  });
+}
+function waitVoices(timeoutMs){
+  return new Promise(resolve=>{
+    if(!('speechSynthesis' in window)){resolve([]);return}
+    let done=false;
+    const finish=()=>{if(done)return;done=true;resolve(speechSynthesis.getVoices()||[])};
+    const v=speechSynthesis.getVoices()||[];
+    if(v.length){finish();return}
+    speechSynthesis.onvoiceschanged=finish;
+    setTimeout(finish,timeoutMs);
+  });
+}
+async function detectVoices(){
+  let he=false,ru=false;
+  if(window.AndroidTTS){
+    const B=window.AndroidTTS;
+    await waitAndroidReady(4000);
+    try{he=(typeof B.hasLanguage==='function')?!!B.hasLanguage('he'):true}catch(e){he=false}
+    try{ru=(typeof B.hasLanguage==='function')?!!B.hasLanguage('ru'):true}catch(e){ru=false}
+  }else{
+    const voices=await waitVoices(1500);
+    he=voices.some(v=>/^(he|iw)/i.test(v.lang));
+    ru=voices.some(v=>/^ru/i.test(v.lang));
+  }
+  return {he,ru};
+}
+function testSound(){
+  const text='שָׁלוֹם';
+  if(bridgeSpeak(text,'he',0.8))return;
+  if('speechSynthesis' in window){
+    try{
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(text);
+      u.lang='he-IL';
+      if(heVoice)u.voice=heVoice;
+      u.rate=0.8;u.pitch=1;u.volume=1;
+      speechSynthesis.speak(u);
+      return;
+    }catch(e){}
+  }
+  try{const a=new Audio('audio/words/W01.mp3');a.play().catch(()=>{})}catch(e){}
+}
+const voiceBox=el('div',null,'');
+voiceBox.id='voicecheck';
+app.appendChild(voiceBox);
+detectVoices().then(({he,ru})=>{
+  voiceBox.innerHTML='';
+  if(he){
+    const wrap=el('div','vc-ok');
+    wrap.innerHTML='<div class="line">🔊 Голос иврита: есть</div><div class="line">🔊 Голос русского: '+(ru?'есть':'нет')+'</div>';
+    const btn=document.createElement('button');btn.className='vc-btn secondary';btn.textContent='Проверить звук';btn.addEventListener('click',testSound);
+    wrap.appendChild(btn);
+    voiceBox.appendChild(wrap);
+  }else{
+    const wrap=el('div','vc-warn');
+    wrap.innerHTML='<div class="msg">🔊 Голос иврита не найден — без него слова не будут звучать</div>'+
+      '<div class="steps">Как установить:<br>1. Настройки → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית (иврит)<br>2. Закройте и снова откройте приложение.</div>';
+    const btn=document.createElement('button');btn.className='vc-btn';btn.textContent='Проверить звук';btn.addEventListener('click',testSound);
+    wrap.appendChild(btn);
+    if(window.AndroidTTS&&typeof window.AndroidTTS.openTtsSettings==='function'){
+      const btn2=document.createElement('button');btn2.className='vc-btn secondary';btn2.textContent='Открыть настройки голоса';
+      btn2.addEventListener('click',()=>{try{window.AndroidTTS.openTtsSettings()}catch(e){}});
+      wrap.appendChild(btn2);
+    }
+    voiceBox.appendChild(wrap);
+  }
+});
 
 // PWA install prompt
 const installBtn=document.createElement('button');
