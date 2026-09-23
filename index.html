@@ -59,6 +59,19 @@
   .vc-btn:active{background:#1d4ed8}
   .vc-btn.secondary{background:#fff;color:#2563eb}
   .vc-btn.secondary:active{background:#eff6ff}
+
+  /* progress save/restore card */
+  #progresscard{background:#fff;border:2px solid #cbd5e1;border-radius:16px;padding:18px 16px;margin-bottom:12px}
+  #progresscard .pc-title{font-size:21px;font-weight:700;margin-bottom:8px}
+  #progresscard .pc-hint{font-size:17px;color:#475569;margin-bottom:16px;line-height:1.5}
+  #progresscard button.pc-btn{display:block;width:100%;min-height:48px;padding:12px;border-radius:12px;font-size:17px;font-weight:700;border:2px solid #2563eb;background:#2563eb;color:#fff;cursor:pointer;margin-bottom:10px}
+  #progresscard button.pc-btn:active{background:#1d4ed8}
+  #progresscard button.pc-btn.secondary{background:#fff;color:#2563eb}
+  #progresscard button.pc-btn.secondary:active{background:#eff6ff}
+  #progresscard textarea.pc-ta{display:block;width:100%;min-height:120px;font-size:16px;padding:10px;border-radius:10px;border:2px solid #cbd5e1;font-family:monospace;margin-bottom:10px;resize:vertical}
+  #progresscard .pc-msg{font-size:17px;margin-bottom:10px;line-height:1.5}
+  #progresscard .pc-msg.ok{color:#166534;font-weight:700}
+  #progresscard .pc-msg.err{color:#b91c1c;font-weight:700}
 </style>
 </head>
 <body>
@@ -240,6 +253,152 @@ MORE.forEach(deckRow);
 
 groupTitle('Инженерный иврит (B1)');
 ENG.forEach(deckRow);
+
+// ── Progress save/restore (text code, no file download — WebView clipboard only) ──
+const PROGRESS_KEY_RE = /^(hz-state|he100-state|he-block-|hq-prog|hq2-prog|he-test-state|he-test-idioms-state)/;
+
+function pcGetKeys(){
+  const keys=[];
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&PROGRESS_KEY_RE.test(k))keys.push(k);
+    }
+  }catch(e){}
+  return keys;
+}
+function pcB64Encode(str){return btoa(unescape(encodeURIComponent(str)))}
+function pcB64Decode(str){return decodeURIComponent(escape(atob(str)))}
+
+function pcBuildCode(){
+  const keys=pcGetKeys();
+  const d={};
+  keys.forEach(k=>{
+    try{
+      const v=localStorage.getItem(k);
+      if(v!==null)d[k]=v;
+    }catch(e){}
+  });
+  const json=JSON.stringify({v:1,t:Date.now(),d:d});
+  return {code:'HQ1:'+pcB64Encode(json),count:Object.keys(d).length};
+}
+
+// Throws on any invalid input; returns the parsed {v,t,d} object on success.
+function pcParseCode(raw){
+  const cleaned=(raw||'').replace(/\s+/g,'');
+  if(cleaned.indexOf('HQ1:')!==0)throw new Error('bad prefix');
+  const json=pcB64Decode(cleaned.slice(4));
+  const obj=JSON.parse(json);
+  if(obj.v!==1||typeof obj.d!=='object'||obj.d===null||Array.isArray(obj.d))throw new Error('bad shape');
+  return obj;
+}
+
+function pcRestore(obj){
+  let n=0;
+  Object.keys(obj.d).forEach(k=>{
+    if(PROGRESS_KEY_RE.test(k)){
+      try{localStorage.setItem(k,obj.d[k]);n++}catch(e){}
+    }
+  });
+  return n;
+}
+
+function buildProgressCard(){
+  const card=el('div',null,'');
+  card.id='progresscard';
+  card.innerHTML=
+    '<div class="pc-title">💾 Сохранить прогресс</div>'+
+    '<div class="pc-hint">Перед переустановкой приложения сохраните код — потом вставьте его, и всё восстановится.</div>'+
+    '<button type="button" class="pc-btn" id="pc-export-btn">Получить код прогресса</button>'+
+    '<button type="button" class="pc-btn secondary" id="pc-import-btn">Восстановить из кода</button>'+
+    '<div id="pc-export-area" style="display:none"></div>'+
+    '<div id="pc-import-area" style="display:none"></div>';
+  app.appendChild(card);
+
+  const exportBtn=card.querySelector('#pc-export-btn');
+  const exportArea=card.querySelector('#pc-export-area');
+  exportBtn.addEventListener('click',()=>{
+    let res;
+    try{res=pcBuildCode()}catch(e){res={code:'',count:0}}
+    exportArea.style.display='block';
+    if(res.count===0){
+      exportArea.innerHTML='<div class="pc-msg">Пока нечего сохранять — прогресса ещё нет.</div>';
+      return;
+    }
+    exportArea.innerHTML=
+      '<textarea class="pc-ta" id="progresscode" readonly></textarea>'+
+      '<button type="button" class="pc-btn secondary" id="pc-copy-btn">📋 Скопировать</button>'+
+      '<div class="pc-msg">Отправьте этот код себе в WhatsApp или сделайте скриншот. Записей: '+res.count+'</div>';
+    const ta=exportArea.querySelector('#progresscode');
+    ta.value=res.code;
+    try{ta.focus();ta.select()}catch(e){}
+    const copyBtn=exportArea.querySelector('#pc-copy-btn');
+    const origLabel=copyBtn.textContent;
+    copyBtn.addEventListener('click',()=>{
+      const done=()=>{
+        copyBtn.textContent='Скопировано ✓';
+        setTimeout(()=>{copyBtn.textContent=origLabel},2000);
+      };
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(res.code).then(done).catch(()=>{
+          try{ta.focus();ta.select();document.execCommand('copy')}catch(e){}
+          done();
+        });
+      }else{
+        try{ta.focus();ta.select();document.execCommand('copy')}catch(e){}
+        done();
+      }
+    });
+  });
+
+  const importBtn=card.querySelector('#pc-import-btn');
+  const importArea=card.querySelector('#pc-import-area');
+  importBtn.addEventListener('click',()=>{
+    if(importArea.style.display==='block')return;
+    importArea.style.display='block';
+    importArea.innerHTML=
+      '<textarea class="pc-ta" id="importcode" placeholder="Вставьте код, начинается с HQ1:"></textarea>'+
+      '<button type="button" class="pc-btn" id="pc-restore-btn">Восстановить</button>'+
+      '<div id="pc-import-msg"></div>';
+    const restoreBtn=importArea.querySelector('#pc-restore-btn');
+    const msgBox=importArea.querySelector('#pc-import-msg');
+    restoreBtn.addEventListener('click',()=>{
+      const ta=importArea.querySelector('#importcode');
+      let obj;
+      try{
+        obj=pcParseCode(ta.value);
+      }catch(e){
+        msgBox.innerHTML='<div class="pc-msg err">Код не распознан. Проверьте, что скопирован полностью.</div>';
+        return;
+      }
+      if(!confirm('Восстановить прогресс? Текущий прогресс на этом устройстве будет заменён.'))return;
+      const n=pcRestore(obj);
+      msgBox.innerHTML='<div class="pc-msg ok">Готово: восстановлено '+n+' записей</div>';
+      setTimeout(()=>{location.reload()},1500);
+    });
+  });
+}
+buildProgressCard();
+
+// ── URL-fragment import, e.g. for a future domain-migration redirect: #import=HQ1:... ──
+(function pcHandleHashImport(){
+  try{
+    if(location.hash && location.hash.indexOf('#import=')===0){
+      const raw=decodeURIComponent(location.hash.slice('#import='.length));
+      let obj=null,valid=false;
+      try{obj=pcParseCode(raw);valid=true}catch(e){valid=false}
+      if(valid && confirm('Восстановить прогресс? Текущий прогресс на этом устройстве будет заменён.')){
+        pcRestore(obj);
+        try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+        setTimeout(()=>{location.reload()},1500);
+        return;
+      }
+      try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+    }
+  }catch(e){
+    try{history.replaceState(null,'',location.pathname+location.search)}catch(e2){}
+  }
+})();
 
 app.appendChild(el('div','foot',
   'Звук — голосом системы (иврит). Если его нет — в начале каждой темы есть подсказка, как установить.<br>'+

@@ -1,6 +1,6 @@
 /* Hebrew Quiz PWA — offline cache.
    Bump CACHE_VERSION whenever you ship updated assets so old clients refresh. */
-const CACHE_VERSION = 'hq-v4';
+const CACHE_VERSION = 'hq-v5';
 const CORE = [
   './',
   './index.html',
