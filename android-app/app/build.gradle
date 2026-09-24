@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
 }
 
+// versionCode comes from CI: -Pvc=<1000+run_number>; defaults to 1 locally
+def vc = project.hasProperty('vc') ? project.property('vc').toString().toInteger() : 1
+
 android {
     namespace 'com.shimondonen.hebrewquiz'
     compileSdk 34
@@ -10,15 +13,30 @@ android {
         applicationId "com.shimondonen.hebrewquiz"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "1.0.0"
+        versionCode vc
+        versionName "1.1." + vc
+    }
+
+    signingConfigs {
+        release {
+            def ksPath = System.getenv("KS_PATH")
+            if (ksPath) {
+                storeFile file(ksPath)
+                storePassword System.getenv("KS_PASS")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PASS")
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            // For sideloading we sign with the debug keystore in CI.
-            signingConfig signingConfigs.debug
+            // Sign with the real release key when KS_PATH is provided (CI decodes
+            // the KS_B64 secret into a keystore file). Otherwise fall back to the
+            // debug keystore so the project still compiles for CI checks that run
+            // without access to the signing secrets (e.g. forked PRs).
+            signingConfig (System.getenv("KS_PATH") ? signingConfigs.release : signingConfigs.debug)
         }
     }
 

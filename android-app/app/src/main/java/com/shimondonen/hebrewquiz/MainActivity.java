@@ -4,8 +4,14 @@
  */
 package com.shimondonen.hebrewquiz;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -13,9 +19,12 @@ import android.speech.tts.UtteranceProgressListener;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import org.json.JSONArray;
 
 import java.util.Locale;
 
@@ -23,11 +32,19 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
     // The PWA URL the app opens. Update if the deploy URL changes.
     private static final String APP_URL =
-        "https://raw.githack.com/feniks80/hebrew-quiz/claude/new-session-iflHP/index.html";
+        "https://feniks80.github.io/hebrew-quiz/index.html";
+
+    // Only this host is loaded inside the WebView; anything else (external
+    // links) is handed off to the system browser / another app.
+    private static final String ALLOWED_HOST = "feniks80.github.io";
 
     private WebView webView;
     private TextToSpeech tts;
-    private boolean ttsReady = false;
+    private volatile boolean ttsReady;
+
+    // The language ("he" / "ru") currently selected on the TTS engine, so we
+    // don't call setLanguage() again for repeated speech in the same language.
+    private String currentLang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +70,27 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         settings.setDisplayZoomControls(false);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
+        settings.setAllowFileAccess(false);
+        settings.setTextZoom(Math.round(getResources().getConfiguration().fontScale * 100));
 
         // Expose the native TTS bridge so the JS can sidestep WebView's
-        // half-implemented speechSynthesis API.
+        // half-implemented speechSynthesis API, and a tiny key/value store
+        // bridge so progress can survive a PWA reinstall / storage wipe.
         webView.addJavascriptInterface(new TtsBridge(), "AndroidTTS");
+        webView.addJavascriptInterface(new StoreBridge(), "AndroidStore");
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return handleUrl(Uri.parse(url));
+            }
+
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return handleUrl(request.getUrl());
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient());
 
         if (savedInstanceState == null) {
@@ -68,6 +100,22 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         }
 
         setContentView(webView);
+    }
+
+    /**
+     * Decides whether a navigation should stay inside the app's WebView
+     * (the PWA's own host) or be handed off to an external app / browser.
+     */
+    private boolean handleUrl(Uri uri) {
+        if (uri != null && ALLOWED_HOST.equals(uri.getHost())) {
+            return false;
+        }
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        } catch (Exception ignored) {
+            // No app can handle this URL; just swallow the navigation.
+        }
+        return true;
     }
 
     @Override
@@ -89,11 +137,21 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (tts != null) tts.stop();
+    }
+
+    @Override
     public void onBackPressed() {
         if (webView != null && webView.canGoBack()) {
             webView.goBack();
         } else {
-            super.onBackPressed();
+            new AlertDialog.Builder(this)
+                .setMessage("Выйти из приложения?")
+                .setPositiveButton("Выйти", (d, w) -> finish())
+                .setNegativeButton("Остаться", null)
+                .show();
         }
     }
 
@@ -105,31 +163,37 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         super.onDestroy();
     }
 
-    /** JavaScript bridge: window.AndroidTTS.speak(text, lang, rate). */
+    /** JavaScript bridge: window.AndroidTTS.speak(text, lang, rate) and friends. */
     public class TtsBridge {
         @JavascriptInterface
-        public void speak(String text, String lang, double rate) {
-            if (!ttsReady || tts == null || text == null) return;
-            Locale loc;
-            if ("ru".equals(lang)) {
-                loc = new Locale("ru", "RU");
-            } else {
-                loc = new Locale("he", "IL");
-            }
-            int set = tts.setLanguage(loc);
-            if (set == TextToSpeech.LANG_NOT_SUPPORTED
-                    || set == TextToSpeech.LANG_MISSING_DATA) {
-                if ("he".equals(lang)) {
-                    // Older Android labels Hebrew as 'iw'
-                    tts.setLanguage(new Locale("iw", "IL"));
+        public boolean speak(String text, String lang, double rate) {
+            if (!ttsReady || tts == null || text == null || text.isEmpty()) return false;
+
+            if (!(lang == null ? currentLang == null : lang.equals(currentLang))) {
+                int result;
+                if ("ru".equals(lang)) {
+                    result = tts.setLanguage(new Locale("ru", "RU"));
+                } else {
+                    result = tts.setLanguage(new Locale("he", "IL"));
+                    if (result < 0) {
+                        // Older Android labels Hebrew as 'iw'.
+                        result = tts.setLanguage(new Locale("iw", "IL"));
+                    }
                 }
+                if (result < 0) {
+                    currentLang = null;
+                    return false;
+                }
+                currentLang = lang;
             }
+
             float r = (float) rate;
             if (r < 0.1f) r = 0.1f;
             if (r > 2f) r = 2f;
             tts.setSpeechRate(r);
-            tts.stop();
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "u" + System.currentTimeMillis());
+
+            int res = tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "u" + System.currentTimeMillis());
+            return res == TextToSpeech.SUCCESS;
         }
 
         @JavascriptInterface
@@ -144,11 +208,66 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                     ? new Locale("ru", "RU") : new Locale("he", "IL");
             int r = tts.isLanguageAvailable(loc);
             if (r >= TextToSpeech.LANG_AVAILABLE) return true;
-            if ("he".equals(lang)) {
+            if (!"ru".equals(lang)) {
                 r = tts.isLanguageAvailable(new Locale("iw", "IL"));
                 return r >= TextToSpeech.LANG_AVAILABLE;
             }
             return false;
+        }
+
+        @JavascriptInterface
+        public void openTtsSettings() {
+            runOnUiThread(() -> {
+                try {
+                    startActivity(new Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA));
+                } catch (ActivityNotFoundException e1) {
+                    try {
+                        startActivity(new Intent("com.android.settings.TTS_SETTINGS"));
+                    } catch (Exception e2) {
+                        // No TTS settings screen available on this device; ignore.
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * JavaScript bridge: window.AndroidStore, a tiny native key/value store
+     * so quiz progress can be recovered even if the PWA's own storage
+     * (localStorage / IndexedDB) gets cleared by the OS or a reinstall.
+     */
+    public class StoreBridge {
+        private SharedPreferences prefs() {
+            return getSharedPreferences("hq_store", MODE_PRIVATE);
+        }
+
+        @JavascriptInterface
+        public String get(String key) {
+            return prefs().getString(key, null);
+        }
+
+        @JavascriptInterface
+        public void set(String key, String value) {
+            prefs().edit().putString(key, value).apply();
+        }
+
+        @JavascriptInterface
+        public void remove(String key) {
+            prefs().edit().remove(key).apply();
+        }
+
+        @JavascriptInterface
+        public void clear() {
+            prefs().edit().clear().apply();
+        }
+
+        @JavascriptInterface
+        public String keys() {
+            JSONArray arr = new JSONArray();
+            for (String k : prefs().getAll().keySet()) {
+                arr.put(k);
+            }
+            return arr.toString();
         }
     }
 }

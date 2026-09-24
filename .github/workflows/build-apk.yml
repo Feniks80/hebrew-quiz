@@ -41,12 +41,33 @@ jobs:
       - name: Generate Gradle wrapper
         run: gradle wrapper --gradle-version 8.7 --distribution-type bin
 
-      - name: Build debug APK (signed with the debug keystore)
-        run: ./gradlew --no-daemon assembleRelease
+      - name: Decode signing key
+        env:
+          KS_B64: ${{ secrets.KS_B64 }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "KS_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+            echo "SIGNED=1" >> "$GITHUB_ENV"
+          else
+            echo "SIGNED=0" >> "$GITHUB_ENV"
+            echo "::warning::KS_B64 secret not set — building debug-signed APK for compile check only, no release"
+          fi
+
+      - name: Build release APK
+        env:
+          KS_PASS: ${{ secrets.KS_PASS }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+        run: ./gradlew --no-daemon assembleRelease -Pvc=$((1000 + ${{ github.run_number }}))
 
       - name: Rename APK
         run: |
-          mv app/build/outputs/apk/release/app-release.apk hebrew-quiz-${{ github.run_number }}.apk
+          mv app/build/outputs/apk/release/app-release.apk hebrew-quiz-$((1000 + ${{ github.run_number }})).apk
+
+      - name: Print signing certificate
+        run: |
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs hebrew-quiz-*.apk | grep -E "SHA-256|DN"
 
       - name: Upload APK as workflow artifact
         uses: actions/upload-artifact@v4
@@ -55,6 +76,7 @@ jobs:
           path: android-app/hebrew-quiz-*.apk
 
       - name: Publish to a GitHub Release
+        if: env.SIGNED == '1'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: apk-${{ github.run_number }}
@@ -63,15 +85,17 @@ jobs:
             Android APK для **Учим иврит**.
             Построено GitHub Actions из коммита `${{ github.sha }}`.
 
-            **Установка:**
-            1. На телефоне или планшете включи «Установка из неизвестных
-               источников» (Settings → Security / Apps).
-            2. Скачай APK и открой — Android попросит подтвердить установку.
-            3. На главном экране появится иконка «Иврит».
+            Новый адрес: https://feniks80.github.io/hebrew-quiz/
 
-            Внутри — WebView, открывающий PWA с raw.githack.com. Громкость —
-            «медиа». Голос иврита нужно установить системно, инструкция есть
-            в самом приложении.
+            **Установка:**
+            1. В старом приложении на главной нажмите «💾 Получить код
+               прогресса» и сохраните код.
+            2. Удалите старое приложение «Иврит».
+            3. Установите этот APK (разрешите установку из неизвестных
+               источников).
+            4. На главной нажмите «Восстановить из кода» и вставьте код.
+
+            Следующие версии будут ставиться поверх, без удаления.
 
             © Shimon Donen, 2026.
           files: android-app/hebrew-quiz-*.apk
