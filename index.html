@@ -8,6 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="store-shim.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#f8fafc;color:#1e293b}
@@ -133,6 +134,53 @@ function topicCard(it){
   card.appendChild(acts);
   app.appendChild(card);
 }
+
+// ── "Site moved" banner — only shown on the old raw.githack host ──
+(function buildMovedCard(){
+  try{
+    const h=location.hostname;
+    if(h!=='raw.githack.com'&&h!=='rawcdn.githack.com')return;
+    const card=el('div',null,'');
+    card.id='movedcard';
+    card.style.cssText='background:#fff7ed;border:3px solid #fb923c;border-radius:16px;padding:18px;margin-bottom:20px';
+    const titleHtml='<div style="font-size:20px;font-weight:800;color:#9a3412;margin-bottom:10px;line-height:1.3">📦 Приложение переехало на новый адрес</div>';
+    const btnStyle='display:block;width:100%;min-height:52px;padding:12px;font-size:18px;font-weight:700;border:2px solid #ea580c;background:#ea580c;color:#fff;border-radius:12px;cursor:pointer';
+    if(window.AndroidTTS){
+      // Inside the OLD Android app: never auto-redirect — walk the user through
+      // saving their progress code, reinstalling, and restoring it there.
+      card.innerHTML=titleHtml+
+        '<div style="font-size:18px;color:#7c2d12;line-height:1.7;margin-bottom:14px">'+
+          '1) нажмите «Получить код прогресса» ниже и сохраните код (WhatsApp/скриншот);<br>'+
+          '2) удалите старое приложение «Иврит»;<br>'+
+          '3) установите новое по ссылке <a href="https://github.com/Feniks80/hebrew-quiz/releases/latest" target="_blank" rel="noopener" style="color:#7c2d12;text-decoration:underline">github.com/Feniks80/hebrew-quiz/releases/latest</a>;<br>'+
+          '4) на главной нового приложения нажмите «Восстановить из кода».'+
+        '</div>'+
+        '<button type="button" id="movedcard-getcode" style="'+btnStyle+'">Получить код прогресса</button>';
+      app.appendChild(card);
+      const getBtn=card.querySelector('#movedcard-getcode');
+      getBtn.addEventListener('click',()=>{
+        const exportBtn=document.getElementById('pc-export-btn');
+        if(exportBtn){
+          exportBtn.click();
+          // Instant scroll to the whole card, so the result (code or "nothing to save") is visible
+          setTimeout(()=>{try{(document.getElementById('progresscard')||exportBtn).scrollIntoView({block:'start'})}catch(e){}},50);
+        }
+      });
+    }else{
+      // Normal browser: progress export/import happens transparently via the URL fragment.
+      card.innerHTML=titleHtml+
+        '<div style="font-size:18px;color:#7c2d12;line-height:1.7;margin-bottom:14px">Прогресс перенесётся автоматически.</div>'+
+        '<button type="button" id="movedcard-go" style="'+btnStyle+'">Перейти на новый адрес</button>';
+      app.appendChild(card);
+      const goBtn=card.querySelector('#movedcard-go');
+      goBtn.addEventListener('click',()=>{
+        let code='';
+        try{const res=pcBuildCode();if(res&&res.count>0)code=res.code}catch(e){}
+        location.href='https://feniks80.github.io/hebrew-quiz/index.html'+(code?('#import='+encodeURIComponent(code)):'');
+      });
+    }
+  }catch(e){}
+})();
 
 app.appendChild(el('h1',null,'Учим иврит'));
 app.appendChild(el('div','sub','Выберите тему'));
