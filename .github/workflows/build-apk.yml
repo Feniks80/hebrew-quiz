@@ -7,6 +7,11 @@ on:
     paths:
       - "android-app/**"
       - ".github/workflows/build-apk.yml"
+      - "content/**"
+      - "js/**"
+      - "tools/**"
+      - "app.css"
+      - "fonts/**"
 
 permissions:
   contents: write
@@ -23,6 +28,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Pack the app into one HTML file and put it into the APK assets
+        working-directory: .
+        run: |
+          python3 tools/validate_content.py
+          python3 tools/build.py
+          python3 tools/build_single.py
+          mkdir -p android-app/app/src/main/assets
+          cp hebrew-quiz.html android-app/app/src/main/assets/hebrew-quiz.html
+          ls -la android-app/app/src/main/assets
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -85,17 +100,12 @@ jobs:
             Android APK для **Учим иврит**.
             Построено GitHub Actions из коммита `${{ github.sha }}`.
 
-            Новый адрес: https://feniks80.github.io/hebrew-quiz/
+            Приложение работает без интернета: все слова, фразы и
+            грамматика находятся внутри.
 
-            **Установка:**
-            1. В старом приложении на главной нажмите «💾 Получить код
-               прогресса» и сохраните код.
-            2. Удалите старое приложение «Иврит».
-            3. Установите этот APK (разрешите установку из неизвестных
-               источников).
-            4. На главной нажмите «Восстановить из кода» и вставьте код.
-
-            Следующие версии будут ставиться поверх, без удаления.
+            **Установка:** скачайте APK ниже и откройте его на телефоне или
+            планшете (разрешите установку из неизвестных источников).
+            Следующие версии ставятся поверх, без удаления.
 
             © Shimon Donen, 2026.
           files: android-app/hebrew-quiz-*.apk

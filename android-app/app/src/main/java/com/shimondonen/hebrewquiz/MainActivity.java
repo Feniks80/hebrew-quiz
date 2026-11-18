@@ -30,13 +30,9 @@ import java.util.Locale;
 
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener {
 
-    // The PWA URL the app opens. Update if the deploy URL changes.
-    private static final String APP_URL =
-        "https://feniks80.github.io/hebrew-quiz/index.html";
-
-    // Only this host is loaded inside the WebView; anything else (external
-    // links) is handed off to the system browser / another app.
-    private static final String ALLOWED_HOST = "feniks80.github.io";
+    // The whole app is one self-contained HTML file packed into the APK
+    // (CI copies hebrew-quiz.html into assets), so it works with no network.
+    private static final String APP_URL = "file:///android_asset/hebrew-quiz.html";
 
     private WebView webView;
     private TextToSpeech tts;
@@ -52,7 +48,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow();
-            w.setStatusBarColor(Color.parseColor("#2563eb"));
+            w.setStatusBarColor(Color.parseColor("#3457d5"));
         }
 
         // Start the system TTS engine. The Hebrew / Russian voices come from
@@ -104,10 +100,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
     /**
      * Decides whether a navigation should stay inside the app's WebView
-     * (the PWA's own host) or be handed off to an external app / browser.
+     * (the bundled app page) or be handed off to an external app / browser.
      */
     private boolean handleUrl(Uri uri) {
-        if (uri != null && ALLOWED_HOST.equals(uri.getHost())) {
+        if (uri != null && "file".equals(uri.getScheme())
+                && uri.getPath() != null && uri.getPath().startsWith("/android_asset/")) {
             return false;
         }
         try {
