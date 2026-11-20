@@ -36,6 +36,13 @@
     root.firstChild.style.marginBottom = '4px';
     root.appendChild(hero);
     HQ.voiceNote(root);
+    if (HQ.ios && !HQ.standalone && /^https?:/.test(location.protocol) && !St.set('iosHint')) {
+      var hint = el('div.note.info', {},
+        el('b', { text: '📲 Поставить на экран «Домой»' }),
+        el('div', { text: 'Нажмите внизу Safari кнопку «Поделиться» (квадрат со стрелкой вверх), затем «На экран Домой». Появится значок, как у обычного приложения, и оно будет работать без интернета.' }),
+        el('button.btn.small', { style: 'margin-top:10px', onclick: function () { St.set('iosHint', 1); hint.parentNode.removeChild(hint); } }, 'Понятно'));
+      root.appendChild(hint);
+    }
 
     M.sections.forEach(function (sec) {
       if (sec.full && !full) return;
@@ -178,7 +185,8 @@
     v.appendChild(el('button.btn.soft', { onclick: function () { HQ.tts.speak('שָׁלוֹם, מַה שְּׁלוֹמְךָ?', 'he'); } }, 'Проверить звук'));
     if (window.AndroidTTS && typeof window.AndroidTTS.openTtsSettings === 'function')
       v.appendChild(el('button.btn', { onclick: function () { HQ.tts.openSettings(); } }, 'Открыть настройки голоса'));
-    v.appendChild(el('div.muted', { style: 'font-size:.8em', html: '<b>Если звука нет (Android):</b> Настройки телефона → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית (иврит). Потом закройте и снова откройте приложение. Громкость — «мультимедиа».' }));
+    if (HQ.ios) v.appendChild(el('div.muted', { style: 'font-size:.8em', html: '<b>Если звука нет (iPhone, iPad):</b> проверьте, что выключен беззвучный режим (переключатель сбоку) и прибавьте громкость. Голос иврита в iPhone уже есть. Более приятный голос: Настройки → Универсальный доступ → Устный контент → Голоса → Иврит → загрузить «Кармит (улучшенный)».' }));
+    else v.appendChild(el('div.muted', { style: 'font-size:.8em', html: '<b>Если звука нет (Android):</b> Настройки телефона → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית (иврит). Потом закройте и снова откройте приложение. Громкость — «мультимедиа».' }));
     root.appendChild(v);
 
     /* progress code */

@@ -29,6 +29,7 @@ html = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Учим иврит</title>
 <meta name="theme-color" content="#3457d5">
+<meta name="format-detection" content="telephone=no">
 <meta name="description" content="Иврит для русскоязычных: слова, фразы, грамматика, проверка. © Shimon Donen, 2026">
 <link rel="icon" href="data:image/png;base64,{b64('icons/favicon.png')}">
 <style>{css}</style>

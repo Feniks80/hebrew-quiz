@@ -168,6 +168,7 @@
 
   /* ---------- speech: native Android bridge -> Web Speech ---------- */
   var voices = { he: null, ru: null };
+  var T0 = Date.now();
   function pickVoices() {
     if (!('speechSynthesis' in window)) return;
     var a = speechSynthesis.getVoices() || [];
@@ -175,6 +176,18 @@
     voices.ru = a.filter(function (v) { return /^ru/i.test(v.lang); })[0] || null;
   }
   if ('speechSynthesis' in window) { pickVoices(); speechSynthesis.onvoiceschanged = pickVoices; setTimeout(pickVoices, 400); setTimeout(pickVoices, 1500); }
+  /* iPhone / iPad (iPadOS reports itself as a Mac with a touch screen) */
+  HQ.ios = /iP(hone|ad|od)/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+  HQ.standalone = !!(window.navigator.standalone || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches));
+  /* Safari keeps speech locked until the first tap: say an empty phrase inside that tap */
+  if ('speechSynthesis' in window && !window.AndroidTTS) {
+    var unlock = function () {
+      document.removeEventListener('touchend', unlock, true); document.removeEventListener('click', unlock, true);
+      try { if (!speechSynthesis.speaking && !speechSynthesis.pending) { var u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } } catch (e) { }
+      pickVoices();
+    };
+    document.addEventListener('touchend', unlock, true); document.addEventListener('click', unlock, true);
+  }
   function bridge() { var B = window.AndroidTTS; return (B && typeof B.speak === 'function') ? B : null; }
   HQ.tts = {
     /* 'yes' | 'no' | 'wait' */
@@ -182,7 +195,10 @@
       var B = bridge();
       if (B) { try { if (typeof B.isReady === 'function' && !B.isReady()) return 'wait'; if (typeof B.hasLanguage === 'function') return B.hasLanguage(lang) ? 'yes' : 'no'; return 'yes'; } catch (e) { return 'no'; } }
       if (!('speechSynthesis' in window)) return 'no';
-      pickVoices(); return voices[lang] ? 'yes' : 'no';
+      pickVoices();
+      if (voices[lang]) return 'yes';
+      /* browsers fill the voice list a moment after the page opens */
+      return ((speechSynthesis.getVoices() || []).length === 0 && Date.now() - T0 < 3000) ? 'wait' : 'no';
     },
     speak: function (text, lang, slow) {
       if (!text) return false;
@@ -197,14 +213,19 @@
         } catch (e) { }
       }
       if (!('speechSynthesis' in window)) return false;
-      try { speechSynthesis.cancel(); } catch (e) { }
-      setTimeout(function () {
+      var go = function () {
         pickVoices();
         var u = new SpeechSynthesisUtterance(text);
-        u.lang = lang === 'ru' ? 'ru-RU' : 'he-IL'; if (voices[lang]) u.voice = voices[lang];
+        u.lang = lang === 'ru' ? 'ru-RU' : 'he-IL';
+        try { if (voices[lang]) u.voice = voices[lang]; } catch (e) { }
         u.rate = Math.max(0.3, rate); u.pitch = 1; u.volume = 1;
-        try { speechSynthesis.speak(u); } catch (e) { }
-      }, 50);
+        try { speechSynthesis.resume(); speechSynthesis.speak(u); } catch (e) { }
+      };
+      var busy = false; try { busy = speechSynthesis.speaking || speechSynthesis.pending; } catch (e) { }
+      /* iPhone/iPad only speak inside the tap itself, so start at once when nothing is playing */
+      if (!busy) { go(); return true; }
+      try { speechSynthesis.cancel(); } catch (e) { }
+      if (HQ.ios) go(); else setTimeout(go, 50);
       return true;
     },
     say: function (it, slow) { return HQ.tts.speak(it.nq || it.he, 'he', slow); },
