@@ -36,7 +36,8 @@
     root.firstChild.style.marginBottom = '4px';
     root.appendChild(hero);
     HQ.voiceNote(root);
-    if (HQ.ios && !HQ.standalone && /^https?:/.test(location.protocol) && !St.set('iosHint')) {
+    var framed = false; try { framed = window.top !== window; } catch (e) { framed = true; }
+    if (HQ.ios && !HQ.standalone && !framed && /^https?:/.test(location.protocol) && !St.set('iosHint')) {
       var hint = el('div.note.info', {},
         el('b', { text: '📲 Поставить на экран «Домой»' }),
         el('div', { text: 'Нажмите внизу Safari кнопку «Поделиться» (квадрат со стрелкой вверх), затем «На экран Домой». Появится значок, как у обычного приложения, и оно будет работать без интернета.' }),
