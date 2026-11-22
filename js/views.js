@@ -47,12 +47,14 @@
 
     M.sections.forEach(function (sec) {
       if (sec.full && !full) return;
-      var items = sec.items.filter(function (it) { return (full || !it.full) && (it.type !== 'deck' || M.decks[it.id]) && (it.type !== 'grammar' || M.extras.grammar) && (it.type !== 'conj' || M.extras.conj); });
+      var items = sec.items.filter(function (it) { return !isHidden(it) && (full || !it.full) && (it.type !== 'deck' || M.decks[it.id]) && (it.type !== 'grammar' || M.extras.grammar) && (it.type !== 'conj' || M.extras.conj); });
       if (!items.length) return;
       root.appendChild(el('div.sec', {}, el('div.t', { text: sec.title }), sec.hint ? el('div.h', { text: sec.hint }) : null));
       var grid = el('div.tiles'); root.appendChild(grid);
       items.forEach(function (it) { grid.appendChild(tile(it)); });
     });
+    var nh = Object.keys(St.set('hide') || {}).length;
+    root.appendChild(el('button.btn' + (nh ? '.soft' : ''), { style: 'margin-top:18px', onclick: function () { HQ.go('/settings/topics'); } }, nh ? '👁 Скрытые темы: ' + nh + ' — показать или изменить' : '👁 Выбрать темы на главной'));
     if (!full) {
       root.appendChild(el('div.sec', {}, el('div.t', { text: 'Ещё' })));
       root.appendChild(el('button.btn.soft', { onclick: function () { St.set('mode', 'full'); HQ.render(); } }, 'Показать продвинутые разделы (B2, инженерный)'));
@@ -149,6 +151,11 @@
   };
 
   /* ---------------- settings ---------------- */
+  /* topics the user chose to hide from the home screen */
+  function tileKey(it) { return it.type + ':' + it.id; }
+  function isHidden(it) { var h = St.set('hide') || {}; return !!h[tileKey(it)]; }
+  function setHidden(it, on) { var h = {}, c = St.set('hide') || {}; for (var k in c) h[k] = c[k]; if (on) h[tileKey(it)] = 1; else delete h[tileKey(it)]; St.set('hide', h); }
+  HQ.isHidden = isHidden;
   function seg(key, opts) {
     var s = el('div.seg'), cur = St.set(key);
     opts.forEach(function (o) { s.appendChild(el('button' + (cur === o[0] ? '.on' : ''), { onclick: function () { St.set(key, o[0]); HQ.render(); } }, o[1])); });
@@ -168,10 +175,34 @@
     c.appendChild(el('div.label', { text: 'Скорость речи' }));
     c.appendChild(seg('rate', [[0.55, 'Медленно'], [0.8, 'Спокойно'], [1, 'Обычно']]));
     c.appendChild(el('div.label', { text: 'Размер текста' }));
-    c.appendChild(seg('size', [['m', 'Обычный'], ['l', 'Крупный'], ['xl', 'Очень крупный']]));
+    c.appendChild(seg('size', [['xs', 'Мелкий'], ['s', 'Меньше'], ['m', 'Обычный']]));
+    c.appendChild(seg('size', [['l', 'Крупный'], ['xl', 'Очень крупный']]));
     c.appendChild(el('div.label', { text: 'Оформление' }));
     c.appendChild(seg('theme', [['auto', 'Как в системе'], ['light', 'Светлое'], ['dark', 'Тёмное']]));
     root.appendChild(c);
+
+    /* topics on the home screen */
+    var tc = el('div.card.stack', { id: 'topics' });
+    tc.appendChild(el('div', { style: 'font-weight:800', text: '👁 Темы на главной' }));
+    tc.appendChild(el('div.muted', { style: 'font-size:.82em', text: 'Снимите галочку с тем, которые вам не нужны, — они исчезнут с главной. Прогресс по ним сохраняется, вернуть можно в любой момент.' }));
+    var M = HQ.manifest, fullMode = St.full();
+    M.sections.forEach(function (sec) {
+      var items = sec.items.filter(function (it) { return (it.type !== 'deck' || M.decks[it.id]) && (it.type !== 'grammar' || M.extras.grammar) && (it.type !== 'conj' || M.extras.conj); });
+      if (!items.length) return;
+      tc.appendChild(el('div.label', { text: sec.title + ((sec.full && !fullMode) ? ' (видно в полном режиме)' : '') }));
+      items.forEach(function (it) {
+        var title = it.title || (M.decks[it.id] && M.decks[it.id].title) || it.id, on = !isHidden(it);
+        var box = el('input', { type: 'checkbox' }); box.checked = on;
+        var row = el('label.chk', {}, box, el('span.e', { text: it.icon || '' }), el('span.t', { text: title }));
+        box.addEventListener('change', function () { setHidden(it, !box.checked); });
+        tc.appendChild(row);
+      });
+    });
+    tc.appendChild(el('div.row', {},
+      el('button.btn', { onclick: function () { St.set('hide', {}); HQ.render(); } }, 'Показать все'),
+      el('button.btn', { onclick: function () { HQ.go('/'); } }, 'На главную')));
+    root.appendChild(tc);
+    if (a && a[0] === 'topics') setTimeout(function () { tc.scrollIntoView({ block: 'start' }); }, 30);
 
     /* voice */
     var v = el('div.card.stack', { id: 'voice' });
