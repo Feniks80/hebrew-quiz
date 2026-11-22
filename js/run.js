@@ -32,7 +32,10 @@
     var full = St.full(), src = o.items, pool = o.pool || (o.deck ? o.deck.all : o.items), n;
     var s = { kind: o.kind, title: o.title, back: o.back, pool: pool, i: 0, res: [], examKey: o.examKey, src: src, deck: o.deck, cat: o.cat };
     if (o.kind === 'cards') { n = o.all ? src.length : (o.cat < 0 ? 20 : Math.min(src.length, 40)); s.items = order(src).slice(0, n); }
-    else if (o.kind === 'match') { s.items = order(src).slice(0, Math.min(src.length, full ? 20 : 15)); }
+    else if (o.kind === 'match') {
+      /* every word and every translation on the board must be different, otherwise pairs are ambiguous */
+      var sh = {}, sm = {}; s.items = order(src).filter(function (it) { var a = HQ.heb(it), b = HQ.mean(it); if (sh[a] || sm[b]) return false; sh[a] = sm[b] = 1; return true; }).slice(0, full ? 20 : 15);
+    }
     else if (o.kind === 'build') { var b = src.filter(canBuild); s.items = order(b).slice(0, full ? 12 : 8); }
     else if (o.kind === 'exam') {
       s.items = HQ.shuffle(src).slice(0, full ? 25 : 15);
