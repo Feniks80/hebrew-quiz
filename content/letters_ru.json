@@ -1,0 +1,563 @@
+[
+ {
+  "ch": "Аа",
+  "say": "а",
+  "name": {
+   "he": "אַ",
+   "en": "a"
+  },
+  "sound": {
+   "he": "כמו א בקמץ או בפתח: אַ",
+   "en": "a as in \"father\""
+  },
+  "ex": {
+   "w": "арбу́з",
+   "he": "אבטיח",
+   "en": "watermelon"
+  }
+ },
+ {
+  "ch": "Бб",
+  "say": "бэ",
+  "name": {
+   "he": "בֶּה",
+   "en": "be"
+  },
+  "sound": {
+   "he": "כמו בּ (עם דגש)",
+   "en": "b as in \"bed\""
+  },
+  "ex": {
+   "w": "ба́бушка",
+   "he": "סבתא",
+   "en": "grandmother"
+  }
+ },
+ {
+  "ch": "Вв",
+  "say": "вэ",
+  "name": {
+   "he": "וֶה",
+   "en": "ve"
+  },
+  "sound": {
+   "he": "כמו ו עיצורית (V), כמו ב בלי דגש",
+   "en": "v as in \"voice\""
+  },
+  "ex": {
+   "w": "вода́",
+   "he": "מים",
+   "en": "water"
+  }
+ },
+ {
+  "ch": "Гг",
+  "say": "гэ",
+  "name": {
+   "he": "גֶּה",
+   "en": "ge"
+  },
+  "sound": {
+   "he": "כמו ג (תמיד קשה, כמו ב\"גמל\")",
+   "en": "hard g as in \"go\""
+  },
+  "ex": {
+   "w": "го́род",
+   "he": "עיר",
+   "en": "city"
+  }
+ },
+ {
+  "ch": "Дд",
+  "say": "дэ",
+  "name": {
+   "he": "דֶּה",
+   "en": "de"
+  },
+  "sound": {
+   "he": "כמו ד",
+   "en": "d as in \"door\""
+  },
+  "ex": {
+   "w": "дом",
+   "he": "בית",
+   "en": "house"
+  }
+ },
+ {
+  "ch": "Ее",
+  "say": "е",
+  "name": {
+   "he": "יֶה",
+   "en": "ye"
+  },
+  "sound": {
+   "he": "יֶ — בתחילת מילה ואחרי תנועה; אחרי עיצור מרככת אותו ונשמעת כמו אֶ",
+   "en": "\"ye\" as in \"yes\"; after a consonant it softens it and sounds like e"
+  },
+  "ex": {
+   "w": "еда́",
+   "he": "אוכל",
+   "en": "food"
+  }
+ },
+ {
+  "ch": "Ёё",
+  "say": "ё",
+  "name": {
+   "he": "יוֹ",
+   "en": "yo"
+  },
+  "sound": {
+   "he": "יוֹ — ותמיד מוטעמת",
+   "en": "\"yo\" as in \"yogurt\"; always stressed"
+  },
+  "ex": {
+   "w": "ёж",
+   "he": "קיפוד",
+   "en": "hedgehog"
+  }
+ },
+ {
+  "ch": "Жж",
+  "say": "жэ",
+  "name": {
+   "he": "ז׳ה",
+   "en": "zhe"
+  },
+  "sound": {
+   "he": "כמו ז׳ (ז׳קט)",
+   "en": "zh like the s in \"pleasure\""
+  },
+  "ex": {
+   "w": "журна́л",
+   "he": "מגזין",
+   "en": "magazine"
+  }
+ },
+ {
+  "ch": "Зз",
+  "say": "зэ",
+  "name": {
+   "he": "זֶה",
+   "en": "ze"
+  },
+  "sound": {
+   "he": "כמו ז",
+   "en": "z as in \"zoo\""
+  },
+  "ex": {
+   "w": "зо́нтик",
+   "he": "מטרייה",
+   "en": "umbrella"
+  }
+ },
+ {
+  "ch": "Ии",
+  "say": "и",
+  "name": {
+   "he": "אִי",
+   "en": "i"
+  },
+  "sound": {
+   "he": "כמו אִי (חיריק)",
+   "en": "ee as in \"see\""
+  },
+  "ex": {
+   "w": "игра́",
+   "he": "משחק",
+   "en": "game"
+  }
+ },
+ {
+  "ch": "Йй",
+  "say": "и краткое",
+  "name": {
+   "he": "אִי קְרַטְקוֹיֶה (י קצרה)",
+   "en": "i krátkoye (short i)"
+  },
+  "sound": {
+   "he": "כמו י עיצורית קצרה, כמו בסוף \"חַי\"",
+   "en": "y as in \"boy\" or \"yes\""
+  },
+  "ex": {
+   "w": "йо́гурт",
+   "he": "יוגורט",
+   "en": "yogurt"
+  }
+ },
+ {
+  "ch": "Кк",
+  "say": "ка",
+  "name": {
+   "he": "קָא",
+   "en": "ka"
+  },
+  "sound": {
+   "he": "כמו ק / כּ",
+   "en": "k as in \"kite\""
+  },
+  "ex": {
+   "w": "ко́шка",
+   "he": "חתולה",
+   "en": "cat"
+  }
+ },
+ {
+  "ch": "Лл",
+  "say": "эль",
+  "name": {
+   "he": "אֶל",
+   "en": "el"
+  },
+  "sound": {
+   "he": "כמו ל, אבל עבה יותר (כמו L ב-\"full\")",
+   "en": "l, darker than in English, as in \"full\""
+  },
+  "ex": {
+   "w": "ла́мпа",
+   "he": "מנורה",
+   "en": "lamp"
+  }
+ },
+ {
+  "ch": "Мм",
+  "say": "эм",
+  "name": {
+   "he": "אֶם",
+   "en": "em"
+  },
+  "sound": {
+   "he": "כמו מ",
+   "en": "m as in \"map\""
+  },
+  "ex": {
+   "w": "ма́ма",
+   "he": "אמא",
+   "en": "mum"
+  }
+ },
+ {
+  "ch": "Нн",
+  "say": "эн",
+  "name": {
+   "he": "אֶן",
+   "en": "en"
+  },
+  "sound": {
+   "he": "כמו נ",
+   "en": "n as in \"no\""
+  },
+  "ex": {
+   "w": "нос",
+   "he": "אף",
+   "en": "nose"
+  }
+ },
+ {
+  "ch": "Оо",
+  "say": "о",
+  "name": {
+   "he": "אוֹ",
+   "en": "o"
+  },
+  "sound": {
+   "he": "מוטעמת — כמו אוֹ (חולם); לא מוטעמת — כמו אַ",
+   "en": "stressed: o as in \"more\"; unstressed: like a"
+  },
+  "ex": {
+   "w": "окно́",
+   "he": "חלון",
+   "en": "window"
+  }
+ },
+ {
+  "ch": "Пп",
+  "say": "пэ",
+  "name": {
+   "he": "פֶּה",
+   "en": "pe"
+  },
+  "sound": {
+   "he": "כמו פּ (עם דגש)",
+   "en": "p as in \"pen\""
+  },
+  "ex": {
+   "w": "па́па",
+   "he": "אבא",
+   "en": "dad"
+  }
+ },
+ {
+  "ch": "Рр",
+  "say": "эр",
+  "name": {
+   "he": "אֶר",
+   "en": "er"
+  },
+  "sound": {
+   "he": "ר מתגלגלת בקצה הלשון (כמו בערבית או בספרדית)",
+   "en": "rolled r, tip of the tongue (as in Spanish)"
+  },
+  "ex": {
+   "w": "ры́ба",
+   "he": "דג",
+   "en": "fish"
+  }
+ },
+ {
+  "ch": "Сс",
+  "say": "эс",
+  "name": {
+   "he": "אֶס",
+   "en": "es"
+  },
+  "sound": {
+   "he": "כמו ס",
+   "en": "s as in \"sun\""
+  },
+  "ex": {
+   "w": "сок",
+   "he": "מיץ",
+   "en": "juice"
+  }
+ },
+ {
+  "ch": "Тт",
+  "say": "тэ",
+  "name": {
+   "he": "טֶה",
+   "en": "te"
+  },
+  "sound": {
+   "he": "כמו ט / ת",
+   "en": "t as in \"top\""
+  },
+  "ex": {
+   "w": "торт",
+   "he": "עוגה",
+   "en": "cake"
+  }
+ },
+ {
+  "ch": "Уу",
+  "say": "у",
+  "name": {
+   "he": "אוּ",
+   "en": "u"
+  },
+  "sound": {
+   "he": "כמו אוּ (שורוק)",
+   "en": "oo as in \"moon\""
+  },
+  "ex": {
+   "w": "у́тка",
+   "he": "ברווז",
+   "en": "duck"
+  }
+ },
+ {
+  "ch": "Фф",
+  "say": "эф",
+  "name": {
+   "he": "אֶף",
+   "en": "ef"
+  },
+  "sound": {
+   "he": "כמו פ בלי דגש (F)",
+   "en": "f as in \"far\""
+  },
+  "ex": {
+   "w": "футбо́л",
+   "he": "כדורגל",
+   "en": "football"
+  }
+ },
+ {
+  "ch": "Хх",
+  "say": "ха",
+  "name": {
+   "he": "חָא",
+   "en": "kha"
+  },
+  "sound": {
+   "he": "כמו ח / כ בלי דגש",
+   "en": "kh as in Scottish \"loch\""
+  },
+  "ex": {
+   "w": "хлеб",
+   "he": "לחם",
+   "en": "bread"
+  }
+ },
+ {
+  "ch": "Цц",
+  "say": "цэ",
+  "name": {
+   "he": "צֶה",
+   "en": "tse"
+  },
+  "sound": {
+   "he": "כמו צ",
+   "en": "ts as in \"cats\""
+  },
+  "ex": {
+   "w": "цвето́к",
+   "he": "פרח",
+   "en": "flower"
+  }
+ },
+ {
+  "ch": "Чч",
+  "say": "че",
+  "name": {
+   "he": "צ׳ה",
+   "en": "che"
+  },
+  "sound": {
+   "he": "כמו צ׳ (צ׳יפס), רכה",
+   "en": "ch as in \"cheese\""
+  },
+  "ex": {
+   "w": "чай",
+   "he": "תה",
+   "en": "tea"
+  }
+ },
+ {
+  "ch": "Шш",
+  "say": "ша",
+  "name": {
+   "he": "שָׁא",
+   "en": "sha"
+  },
+  "sound": {
+   "he": "כמו ש (שׁ), אבל עמוקה וקשה",
+   "en": "sh as in \"shop\", but harder"
+  },
+  "ex": {
+   "w": "шко́ла",
+   "he": "בית ספר",
+   "en": "school"
+  }
+ },
+ {
+  "ch": "Щщ",
+  "say": "ща",
+  "name": {
+   "he": "שְׁשָׁא",
+   "en": "shcha"
+  },
+  "sound": {
+   "he": "ש רכה וארוכה (\"שש\")",
+   "en": "a long soft sh, as in \"fresh sheep\""
+  },
+  "ex": {
+   "w": "щека́",
+   "he": "לחי",
+   "en": "cheek"
+  }
+ },
+ {
+  "ch": "Ъъ",
+  "say": "твёрдый знак",
+  "name": {
+   "he": "טְוְורְדִי זְנַאק (סימן קשה)",
+   "en": "tvyórdyy znak (hard sign)"
+  },
+  "sound": {
+   "he": "אין לו צליל; מפריד בין העיצור לתנועה שאחריו",
+   "en": "no sound; it separates a consonant from the vowel after it"
+  },
+  "ex": {
+   "w": "подъе́зд",
+   "he": "כניסה לבניין",
+   "en": "building entrance"
+  }
+ },
+ {
+  "ch": "Ыы",
+  "say": "ы",
+  "name": {
+   "he": "אִי עמוקה",
+   "en": "y"
+  },
+  "sound": {
+   "he": "תנועה שאין בעברית: אִי עמוקה, הלשון נסוגה לאחור",
+   "en": "no English equivalent: say \"i\" with the tongue pulled back"
+  },
+  "ex": {
+   "w": "сыр",
+   "he": "גבינה",
+   "en": "cheese"
+  }
+ },
+ {
+  "ch": "Ьь",
+  "say": "мягкий знак",
+  "name": {
+   "he": "מְיַאחְקִי זְנַאק (סימן רך)",
+   "en": "myágkiy znak (soft sign)"
+  },
+  "sound": {
+   "he": "אין לו צליל; מרכך את העיצור שלפניו (כאילו י קטנה)",
+   "en": "no sound; it softens the consonant before it (a hint of y)"
+  },
+  "ex": {
+   "w": "соль",
+   "he": "מלח",
+   "en": "salt"
+  }
+ },
+ {
+  "ch": "Ээ",
+  "say": "э",
+  "name": {
+   "he": "אֶה",
+   "en": "e"
+  },
+  "sound": {
+   "he": "כמו אֶ (סגול)",
+   "en": "e as in \"pet\""
+  },
+  "ex": {
+   "w": "э́то",
+   "he": "זה",
+   "en": "this"
+  }
+ },
+ {
+  "ch": "Юю",
+  "say": "ю",
+  "name": {
+   "he": "יוּ",
+   "en": "yu"
+  },
+  "sound": {
+   "he": "יוּ",
+   "en": "\"yu\" as in \"you\""
+  },
+  "ex": {
+   "w": "ю́бка",
+   "he": "חצאית",
+   "en": "skirt"
+  }
+ },
+ {
+  "ch": "Яя",
+  "say": "я",
+  "name": {
+   "he": "יַא",
+   "en": "ya"
+  },
+  "sound": {
+   "he": "יַא",
+   "en": "\"ya\" as in \"yard\""
+  },
+  "ex": {
+   "w": "я́блоко",
+   "he": "תפוח",
+   "en": "apple"
+  }
+ }
+]

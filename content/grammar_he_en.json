@@ -1,0 +1,3369 @@
+{
+ "target": "he",
+ "ui": [
+  "en"
+ ],
+ "lessons": [
+  {
+   "id": "alphabet",
+   "level": "A1",
+   "title": {
+    "en": "The alphabet and vowel points"
+   },
+   "text": {
+    "en": [
+     "Hebrew has 22 letters, and all of them are consonants. It is written and read from right to left, and there are no capital letters.",
+     "Five letters change shape at the end of a word (final forms): כ → ך, מ → ם, נ → ן, פ → ף, צ → ץ. For example: ארץ (érets, country), שלום (shalóm, hello; peace).",
+     "Vowels are usually not written. In children's books, dictionaries and textbooks they are shown with niqqud: small dots and dashes under and above the letters. Newspapers, street signs and phones use plain letters, so you recognise words you already know, a bit like English readers just know how to say 'read' or 'though'.",
+     "To make plain text easier to read, the letters ו and י often work as vowels: ו = o or u, י = i (this is called full spelling): שלום — shalóm, תלמיד — talmíd.",
+     "Some letters have two sounds: בּ = b, ב = v; כּ = k, כ = kh (like the ch in Scottish 'loch'); פּ = p, פ = f. A dot inside the letter (dagesh) gives the hard sound. ח is also pronounced kh. א and ע are almost silent in modern speech, and ה at the end of a word is silent."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Sign",
+      "Sound",
+      "Example",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "בַ / בָ",
+      {
+       "en": "a, as in 'father'"
+      },
+      "דָּג",
+      {
+       "en": "dag — fish"
+      }
+     ],
+     [
+      "בֶ / בֵ",
+      {
+       "en": "e, as in 'bed'"
+      },
+      "בֵּן",
+      {
+       "en": "ben — son"
+      }
+     ],
+     [
+      "בִ / בִי",
+      {
+       "en": "i, as in 'ski'"
+      },
+      "מִי",
+      {
+       "en": "mi — who"
+      }
+     ],
+     [
+      "בֹ / בוֹ",
+      {
+       "en": "o, as in 'or'"
+      },
+      "טוֹב",
+      {
+       "en": "tov — good"
+      }
+     ],
+     [
+      "בֻ / בוּ",
+      {
+       "en": "u, as in 'rule'"
+      },
+      "הוּא",
+      {
+       "en": "hu — he"
+      }
+     ],
+     [
+      "בְ",
+      {
+       "en": "short e, or nothing (shva)"
+      },
+      "בְּבַקָּשָׁה",
+      {
+       "en": "bevakashá — please"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "שלום",
+     "nq": "שָׁלוֹם",
+     "p": {
+      "en": "shalóm"
+     },
+     "m": {
+      "en": "hello; peace"
+     }
+    },
+    {
+     "t": "אבא",
+     "nq": "אַבָּא",
+     "p": {
+      "en": "ába"
+     },
+     "m": {
+      "en": "dad"
+     }
+    },
+    {
+     "t": "אמא",
+     "nq": "אִמָּא",
+     "p": {
+      "en": "íma"
+     },
+     "m": {
+      "en": "mom"
+     }
+    },
+    {
+     "t": "ספר",
+     "nq": "סֵפֶר",
+     "p": {
+      "en": "séfer"
+     },
+     "m": {
+      "en": "book"
+     }
+    },
+    {
+     "t": "כלב",
+     "nq": "כֶּלֶב",
+     "p": {
+      "en": "kélev"
+     },
+     "m": {
+      "en": "dog"
+     }
+    },
+    {
+     "t": "בית",
+     "nq": "בַּיִת",
+     "p": {
+      "en": "báyit"
+     },
+     "m": {
+      "en": "house, home"
+     }
+    },
+    {
+     "t": "חלון",
+     "nq": "חַלּוֹן",
+     "p": {
+      "en": "khalón"
+     },
+     "m": {
+      "en": "window"
+     }
+    },
+    {
+     "t": "ארץ",
+     "nq": "אֶרֶץ",
+     "p": {
+      "en": "érets"
+     },
+     "m": {
+      "en": "country, land"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "Which direction is Hebrew written in?"
+     },
+     "opts": [
+      "left to right",
+      "top to bottom",
+      "right to left",
+      "either direction"
+     ],
+     "a": 2,
+     "why": {
+      "en": "Hebrew is written and read from right to left."
+     }
+    },
+    {
+     "q": {
+      "en": "Which letter is the final form of מ?"
+     },
+     "opts": [
+      "ם",
+      "ס",
+      "ן",
+      "ך"
+     ],
+     "a": 0,
+     "why": {
+      "en": "At the end of a word מ is written ם: שלום."
+     }
+    },
+    {
+     "q": {
+      "en": "The final form of נ is…"
+     },
+     "opts": [
+      "ץ",
+      "ף",
+      "ך",
+      "ן"
+     ],
+     "a": 3,
+     "why": {
+      "en": "At the end of a word נ is written ן: בן (ben, son)."
+     }
+    },
+    {
+     "q": {
+      "en": "How is בּ (with a dot inside) pronounced?"
+     },
+     "opts": [
+      "p",
+      "b",
+      "f",
+      "v"
+     ],
+     "a": 1,
+     "why": {
+      "en": "The dagesh gives the hard sound: בּ = b, ב without the dot = v."
+     }
+    },
+    {
+     "q": {
+      "en": "How is כ without a dot pronounced (as in מכתב — mikhtáv, letter)?"
+     },
+     "opts": [
+      "kh",
+      "k",
+      "sh",
+      "ts"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Without a dagesh כ sounds kh; with a dagesh (כּ) it sounds k."
+     }
+    },
+    {
+     "q": {
+      "en": "In full spelling, which letter most often stands for the vowel i?"
+     },
+     "opts": [
+      "א",
+      "ה",
+      "ו",
+      "י"
+     ],
+     "a": 3,
+     "why": {
+      "en": "י works as the vowel i: תלמיד — talmíd."
+     }
+    },
+    {
+     "q": {
+      "en": "In the word טוב (tov, good) the letter ו is read as…"
+     },
+     "opts": [
+      "v",
+      "o",
+      "u",
+      "i"
+     ],
+     "a": 1,
+     "why": {
+      "en": "טוב — tov: here ו is the vowel o."
+     }
+    },
+    {
+     "q": {
+      "en": "How is 'shalom' written without niqqud?"
+     },
+     "opts": [
+      "סלום",
+      "שלומ",
+      "שלום",
+      "שאלום"
+     ],
+     "a": 2,
+     "why": {
+      "en": "Full spelling: ו for the o, and the final letter ם at the end."
+     }
+    }
+   ]
+  },
+  {
+   "id": "gender",
+   "level": "A1",
+   "title": {
+    "en": "Gender: masculine and feminine"
+   },
+   "text": {
+    "en": [
+     "In English only people and animals are 'he' or 'she'; things are 'it'. In Hebrew every noun is masculine or feminine, even a table or a door. There is no neuter. Gender matters because adjectives, verbs and numbers agree with it.",
+     "You can usually tell the gender from the ending. A stressed ־ה (ילדה — yaldá, girl) or ־ת (דלת — délet, door; מחברת — makhbéret, notebook) means feminine. Words without these endings are usually masculine: ילד (boy), בית (house), ספר (book).",
+     "A few exceptions just have to be learned: עיר (city), ארץ (country), יד (hand), רגל (leg), עין (eye) are feminine without the ending. And לילה (night) is masculine even though it ends in ־ה.",
+     "English often has one word for both sexes: student, teacher, engineer. Hebrew almost always has two. The feminine is made with ־ה, ־ת or ־ית: תלמיד → תלמידה, מהנדס → מהנדסת, סטודנט → סטודנטית."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Masculine",
+      "Feminine",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "יֶלֶד",
+      "יַלְדָּה",
+      {
+       "en": "boy / girl"
+      }
+     ],
+     [
+      "תַּלְמִיד",
+      "תַּלְמִידָה",
+      {
+       "en": "pupil (m / f)"
+      }
+     ],
+     [
+      "חָבֵר",
+      "חֲבֵרָה",
+      {
+       "en": "friend (m / f)"
+      }
+     ],
+     [
+      "דּוֹד",
+      "דּוֹדָה",
+      {
+       "en": "uncle / aunt"
+      }
+     ],
+     [
+      "רוֹפֵא",
+      "רוֹפְאָה",
+      {
+       "en": "doctor (m / f)"
+      }
+     ],
+     [
+      "מְהַנְדֵּס",
+      "מְהַנְדֶּסֶת",
+      {
+       "en": "engineer (m / f)"
+      }
+     ],
+     [
+      "סְטוּדֶנְט",
+      "סְטוּדֶנְטִית",
+      {
+       "en": "university student (m / f)"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "ילד",
+     "nq": "יֶלֶד",
+     "p": {
+      "en": "yéled"
+     },
+     "m": {
+      "en": "boy (m.)"
+     }
+    },
+    {
+     "t": "ילדה",
+     "nq": "יַלְדָּה",
+     "p": {
+      "en": "yaldá"
+     },
+     "m": {
+      "en": "girl (f.)"
+     }
+    },
+    {
+     "t": "מחברת",
+     "nq": "מַחְבֶּרֶת",
+     "p": {
+      "en": "makhbéret"
+     },
+     "m": {
+      "en": "notebook (f.)"
+     }
+    },
+    {
+     "t": "שולחן",
+     "nq": "שֻׁלְחָן",
+     "p": {
+      "en": "shulkhán"
+     },
+     "m": {
+      "en": "table (m.)"
+     }
+    },
+    {
+     "t": "עיר",
+     "nq": "עִיר",
+     "p": {
+      "en": "ir"
+     },
+     "m": {
+      "en": "city (f.)"
+     }
+    },
+    {
+     "t": "לילה",
+     "nq": "לַיְלָה",
+     "p": {
+      "en": "láyla"
+     },
+     "m": {
+      "en": "night (m.)"
+     }
+    },
+    {
+     "t": "דלת",
+     "nq": "דֶּלֶת",
+     "p": {
+      "en": "délet"
+     },
+     "m": {
+      "en": "door (f.)"
+     }
+    },
+    {
+     "t": "מהנדסת",
+     "nq": "מְהַנְדֶּסֶת",
+     "p": {
+      "en": "mehandéset"
+     },
+     "m": {
+      "en": "engineer (a woman)"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "What gender is ילדה (girl)?"
+     },
+     "opts": [
+      "masculine",
+      "feminine",
+      "neuter",
+      "both"
+     ],
+     "a": 1,
+     "why": {
+      "en": "The ending ־ה shows feminine gender."
+     }
+    },
+    {
+     "q": {
+      "en": "What gender is ספר (book)?"
+     },
+     "opts": [
+      "masculine",
+      "feminine",
+      "neuter",
+      "it depends on the context"
+     ],
+     "a": 0,
+     "why": {
+      "en": "No ־ה or ־ת ending, so it is masculine. Hebrew has no neuter: even things are masculine or feminine."
+     }
+    },
+    {
+     "q": {
+      "en": "Which word is feminine?"
+     },
+     "opts": [
+      "שולחן",
+      "ספר",
+      "לילה",
+      "דלת"
+     ],
+     "a": 3,
+     "why": {
+      "en": "דלת (door) ends in ־ת, so it is feminine."
+     }
+    },
+    {
+     "q": {
+      "en": "Which word is masculine even though it ends in ־ה?"
+     },
+     "opts": [
+      "ילדה",
+      "לילה",
+      "חברה",
+      "דודה"
+     ],
+     "a": 1,
+     "why": {
+      "en": "לילה (night) is an exception: it is masculine."
+     }
+    },
+    {
+     "q": {
+      "en": "The feminine of תלמיד (pupil) is…"
+     },
+     "opts": [
+      "תלמידות",
+      "תלמידים",
+      "תלמידה",
+      "תלמידית"
+     ],
+     "a": 2,
+     "why": {
+      "en": "תלמיד + ־ה = תלמידה (talmidá)."
+     }
+    },
+    {
+     "q": {
+      "en": "The feminine of סטודנט (student) is…"
+     },
+     "opts": [
+      "סטודנטה",
+      "סטודנטים",
+      "סטודנטית",
+      "סטודנטות"
+     ],
+     "a": 2,
+     "why": {
+      "en": "Borrowed words often take ־ית: סטודנטית (studentít)."
+     }
+    },
+    {
+     "q": {
+      "en": "What gender is עיר (city)?"
+     },
+     "opts": [
+      "feminine",
+      "masculine",
+      "neuter",
+      "both"
+     ],
+     "a": 0,
+     "why": {
+      "en": "עיר is feminine without any ending; it has to be memorised."
+     }
+    },
+    {
+     "q": {
+      "en": "The feminine of מהנדס (engineer) is…"
+     },
+     "opts": [
+      "מהנדסה",
+      "מהנדסית",
+      "מהנדסות",
+      "מהנדסת"
+     ],
+     "a": 3,
+     "why": {
+      "en": "מהנדס → מהנדסת (mehandéset)."
+     }
+    }
+   ]
+  },
+  {
+   "id": "plural",
+   "level": "A1",
+   "title": {
+    "en": "The plural"
+   },
+   "text": {
+    "en": [
+     "English adds -s for the plural. Hebrew also adds an ending, but there are two of them. Masculine nouns usually take ־ים (-im): תלמיד → תלמידים, ילד → ילדים.",
+     "Feminine nouns take ־ות (-ot), and the ending ־ה drops: ילדה → ילדות, מורה → מורות. A final ־ת is replaced too: מחברת → מחברות, סטודנטית → סטודנטיות.",
+     "The vowels inside the word often change, and the stress moves to the ending: ילד (yéled) → ילדים (yeladím), ספר (séfer) → ספרים (sfarím). You will get used to this by ear.",
+     "Exceptions: some masculine words take ־ות: שולחן → שולחנות, מקום → מקומות, לילה → לילות. Some feminine words take ־ים: מילה → מילים, שנה → שנים. The gender does not change: שולחנות גדולים (big tables).",
+     "Like English man → men, a few words are irregular: איש → אנשים (people), אישה → נשים (women), בית → בתים (houses), עיר → ערים (cities). Pairs and paired body parts take ־יים: ידיים (hands), עיניים (eyes), נעליים (shoes)."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Singular",
+      "Plural",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "יֶלֶד",
+      "יְלָדִים",
+      {
+       "en": "boy — children, boys"
+      }
+     ],
+     [
+      "יַלְדָּה",
+      "יְלָדוֹת",
+      {
+       "en": "girl — girls"
+      }
+     ],
+     [
+      "שֻׁלְחָן",
+      "שֻׁלְחָנוֹת",
+      {
+       "en": "table (m., but ־ות)"
+      }
+     ],
+     [
+      "מָקוֹם",
+      "מְקוֹמוֹת",
+      {
+       "en": "place (m., but ־ות)"
+      }
+     ],
+     [
+      "מִלָּה",
+      "מִלִּים",
+      {
+       "en": "word (f., but ־ים)"
+      }
+     ],
+     [
+      "שָׁנָה",
+      "שָׁנִים",
+      {
+       "en": "year (f., but ־ים)"
+      }
+     ],
+     [
+      "אִישׁ / אִשָּׁה",
+      "אֲנָשִׁים / נָשִׁים",
+      {
+       "en": "man / woman — people / women"
+      }
+     ],
+     [
+      "בַּיִת",
+      "בָּתִּים",
+      {
+       "en": "house — houses"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "ילדים",
+     "nq": "יְלָדִים",
+     "p": {
+      "en": "yeladím"
+     },
+     "m": {
+      "en": "children, boys"
+     }
+    },
+    {
+     "t": "ילדות",
+     "nq": "יְלָדוֹת",
+     "p": {
+      "en": "yeladót"
+     },
+     "m": {
+      "en": "girls"
+     }
+    },
+    {
+     "t": "ספרים",
+     "nq": "סְפָרִים",
+     "p": {
+      "en": "sfarím"
+     },
+     "m": {
+      "en": "books"
+     }
+    },
+    {
+     "t": "מחברות",
+     "nq": "מַחְבָּרוֹת",
+     "p": {
+      "en": "makhbarót"
+     },
+     "m": {
+      "en": "notebooks"
+     }
+    },
+    {
+     "t": "אנשים",
+     "nq": "אֲנָשִׁים",
+     "p": {
+      "en": "anashím"
+     },
+     "m": {
+      "en": "people"
+     }
+    },
+    {
+     "t": "נשים",
+     "nq": "נָשִׁים",
+     "p": {
+      "en": "nashím"
+     },
+     "m": {
+      "en": "women"
+     }
+    },
+    {
+     "t": "שולחנות",
+     "nq": "שֻׁלְחָנוֹת",
+     "p": {
+      "en": "shulkhanót"
+     },
+     "m": {
+      "en": "tables"
+     }
+    },
+    {
+     "t": "עיניים",
+     "nq": "עֵינַיִם",
+     "p": {
+      "en": "eynáyim"
+     },
+     "m": {
+      "en": "eyes"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "The plural of תלמיד (pupil) is…"
+     },
+     "opts": [
+      "תלמידיים",
+      "תלמידים",
+      "תלמידה",
+      "תלמידות"
+     ],
+     "a": 1,
+     "why": {
+      "en": "Masculine → ־ים."
+     }
+    },
+    {
+     "q": {
+      "en": "The plural of מורה (a female teacher) is…"
+     },
+     "opts": [
+      "מוריות",
+      "מורים",
+      "מורות",
+      "מורהות"
+     ],
+     "a": 2,
+     "why": {
+      "en": "Feminine: the ־ה drops and ־ות is added."
+     }
+    },
+    {
+     "q": {
+      "en": "The plural of שולחן (table) is…"
+     },
+     "opts": [
+      "שולחניים",
+      "שולחנים",
+      "שולחנות",
+      "שולחנת"
+     ],
+     "a": 2,
+     "why": {
+      "en": "שולחן is masculine but takes ־ות in the plural (an exception)."
+     }
+    },
+    {
+     "q": {
+      "en": "The plural of מילה (word) is…"
+     },
+     "opts": [
+      "מילים",
+      "מילת",
+      "מיליים",
+      "מילהות"
+     ],
+     "a": 0,
+     "why": {
+      "en": "מילה is feminine but takes ־ים in the plural (an exception)."
+     }
+    },
+    {
+     "q": {
+      "en": "The plural of אישה (woman) is…"
+     },
+     "opts": [
+      "אנשים",
+      "אישיות",
+      "אישהות",
+      "נשים"
+     ],
+     "a": 3,
+     "why": {
+      "en": "An irregular form: אישה → נשים. אנשים means 'people'."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'big tables'?"
+     },
+     "opts": [
+      "שולחנות גדולות",
+      "שולחנות גדולים",
+      "שולחן גדולים",
+      "שולחנים גדולים"
+     ],
+     "a": 1,
+     "why": {
+      "en": "שולחן is masculine, so the adjective takes ־ים even though the noun ends in ־ות."
+     }
+    },
+    {
+     "q": {
+      "en": "The plural of בית (house) is…"
+     },
+     "opts": [
+      "בתים",
+      "ביתות",
+      "ביתים",
+      "בתות"
+     ],
+     "a": 0,
+     "why": {
+      "en": "An irregular form: בית → בתים (batím)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'hands' (a pair)?"
+     },
+     "opts": [
+      "ידיות",
+      "ידות",
+      "יידים",
+      "ידיים"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Paired body parts take ־יים: ידיים (yadáyim)."
+     }
+    }
+   ]
+  },
+  {
+   "id": "article",
+   "level": "A1",
+   "title": {
+    "en": "The article ה (the)"
+   },
+   "text": {
+    "en": [
+     "Hebrew has one article, ה (ha-), which means 'the'. It is written joined to the word: ילד — a boy, הילד — the boy. There is no word for 'a / an': ילד on its own already means 'a boy'.",
+     "Use ה roughly where English uses 'the': for something already known, unique or specified: השמש (the sun), הילד הזה (this boy). One difference: English says 'Dani's house' with no 'the', but Hebrew says הבית של דני, literally 'the house of Dani'.",
+     "The article merges with the prepositions ב (in), ל (to) and כ (like): the letter ה disappears and its 'a' sound moves to the preposition. ב + הבית = בבית (babáyit — in the house, at home), ל + הים = לים (layám — to the sea). Without niqqud you cannot see the difference, only hear it: bebáyit — in a house, babáyit — in the house.",
+     "With מ (from) the ה stays: מהבית (mehabáyit — from the house).",
+     "Names of people, cities and countries take no article: דני, ירושלים, ישראל."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Word",
+      "With ה",
+      "With a preposition",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "בַּיִת",
+      "הַבַּיִת",
+      "בַּבַּיִת",
+      {
+       "en": "house — the house — in the house"
+      }
+     ],
+     [
+      "חֶדֶר",
+      "הַחֶדֶר",
+      "לַחֶדֶר",
+      {
+       "en": "room — the room — to the room"
+      }
+     ],
+     [
+      "עִיר",
+      "הָעִיר",
+      "בָּעִיר",
+      {
+       "en": "city — the city — in the city"
+      }
+     ],
+     [
+      "יָם",
+      "הַיָּם",
+      "לַיָּם",
+      {
+       "en": "sea — the sea — to the sea"
+      }
+     ],
+     [
+      "בַּיִת",
+      "הַבַּיִת",
+      "מֵהַבַּיִת",
+      {
+       "en": "house — the house — from the house"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "הילד אוכל",
+     "nq": "הַיֶּלֶד אוֹכֵל",
+     "p": {
+      "en": "hayéled okhél"
+     },
+     "m": {
+      "en": "the boy is eating"
+     }
+    },
+    {
+     "t": "הספר על השולחן",
+     "nq": "הַסֵּפֶר עַל הַשֻּׁלְחָן",
+     "p": {
+      "en": "haséfer al hashulkhán"
+     },
+     "m": {
+      "en": "the book is on the table"
+     }
+    },
+    {
+     "t": "אני בבית",
+     "nq": "אֲנִי בַּבַּיִת",
+     "p": {
+      "en": "aní babáyit"
+     },
+     "m": {
+      "en": "I'm at home"
+     }
+    },
+    {
+     "t": "אני הולכת לים",
+     "nq": "אֲנִי הוֹלֶכֶת לַיָּם",
+     "p": {
+      "en": "aní holékhet layám"
+     },
+     "m": {
+      "en": "I'm going to the sea (said by a woman)"
+     }
+    },
+    {
+     "t": "מהעיר",
+     "nq": "מֵהָעִיר",
+     "p": {
+      "en": "meha'ír"
+     },
+     "m": {
+      "en": "from the city"
+     }
+    },
+    {
+     "t": "השמש חמה",
+     "nq": "הַשֶּׁמֶשׁ חַמָּה",
+     "p": {
+      "en": "hashémesh khamá"
+     },
+     "m": {
+      "en": "the sun is hot"
+     }
+    },
+    {
+     "t": "בעיר",
+     "nq": "בָּעִיר",
+     "p": {
+      "en": "ba'ír"
+     },
+     "m": {
+      "en": "in the city"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "How do you say 'the boy' (a known, specific boy)?"
+     },
+     "opts": [
+      "הילד",
+      "ילד",
+      "לילד",
+      "ההילד"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Definite → the article ה joined to the word."
+     }
+    },
+    {
+     "q": {
+      "en": "ב + הבית ="
+     },
+     "opts": [
+      "בהבית",
+      "בית",
+      "הבבית",
+      "בבית"
+     ],
+     "a": 3,
+     "why": {
+      "en": "After ב the letter ה drops and its 'a' sound stays: babáyit."
+     }
+    },
+    {
+     "q": {
+      "en": "ל + העיר ="
+     },
+     "opts": [
+      "להעיר",
+      "לעיר",
+      "לעירה",
+      "הלעיר"
+     ],
+     "a": 1,
+     "why": {
+      "en": "After ל the letter ה drops: la'ír."
+     }
+    },
+    {
+     "q": {
+      "en": "מ + הבית ="
+     },
+     "opts": [
+      "מהבית",
+      "מבית",
+      "ממבית",
+      "בהבית"
+     ],
+     "a": 0,
+     "why": {
+      "en": "With מ the article stays: מהבית (mehabáyit)."
+     }
+    },
+    {
+     "q": {
+      "en": "'The book is on the table' (a known book, a known table):"
+     },
+     "opts": [
+      "ספר על שולחן",
+      "ספר על השולחן",
+      "הספר על שולחן",
+      "הספר על השולחן"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Both nouns are definite, so both get ה."
+     }
+    },
+    {
+     "q": {
+      "en": "Does ירושלים (Jerusalem) take the article?"
+     },
+     "opts": [
+      "yes",
+      "no",
+      "only after ב",
+      "only at the start of a sentence"
+     ],
+     "a": 1,
+     "why": {
+      "en": "Names of cities and people take no article."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you read בבית meaning 'at home, in the house'?"
+     },
+     "opts": [
+      "behabáyit",
+      "bbáyit",
+      "babáyit",
+      "bebáyit"
+     ],
+     "a": 2,
+     "why": {
+      "en": "ב + ה → ba-: babáyit. Bebáyit means 'in a house'."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'a book' (any book)?"
+     },
+     "opts": [
+      "הספר",
+      "אספר",
+      "ספר",
+      "ספרים"
+     ],
+     "a": 2,
+     "why": {
+      "en": "Hebrew has no word for 'a': ספר alone means 'a book'."
+     }
+    }
+   ]
+  },
+  {
+   "id": "adjectives",
+   "level": "A1",
+   "title": {
+    "en": "Adjectives and agreement"
+   },
+   "text": {
+    "en": [
+     "In English the adjective comes before the noun: a good boy. In Hebrew it comes after: ילד טוב (yéled tov), literally 'boy good'.",
+     "English adjectives never change, but Hebrew adjectives agree with the noun in gender and number. So each adjective has 4 forms: טוב, טובה, טובים, טובות. The endings are the same as for nouns.",
+     "The adjective follows the noun's gender, not its ending: שולחנות גדולים (tables are masculine), מילים חדשות (words are feminine).",
+     "If the noun has the article, the adjective gets it too: הילד הטוב — the good boy. Without the second ה you get a whole sentence: הילד טוב — 'The boy is good.' Hebrew needs no word for 'is' here.",
+     "Adjectives ending in ־י take ־ית in the feminine: מרכזי → מרכזית (central), ישראלי → ישראלית (Israeli)."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Gender",
+      "Singular",
+      "Plural"
+     ]
+    },
+    "rows": [
+     [
+      {
+       "en": "masculine"
+      },
+      "טוֹב",
+      "טוֹבִים"
+     ],
+     [
+      {
+       "en": "feminine"
+      },
+      "טוֹבָה",
+      "טוֹבוֹת"
+     ],
+     [
+      {
+       "en": "masculine"
+      },
+      "גָּדוֹל",
+      "גְּדוֹלִים"
+     ],
+     [
+      {
+       "en": "feminine"
+      },
+      "גְּדוֹלָה",
+      "גְּדוֹלוֹת"
+     ],
+     [
+      {
+       "en": "masculine"
+      },
+      "חָדָשׁ",
+      "חֲדָשִׁים"
+     ],
+     [
+      {
+       "en": "feminine"
+      },
+      "חֲדָשָׁה",
+      "חֲדָשׁוֹת"
+     ],
+     [
+      {
+       "en": "masculine"
+      },
+      "מֶרְכָּזִי",
+      "מֶרְכָּזִיִּים"
+     ],
+     [
+      {
+       "en": "feminine"
+      },
+      "מֶרְכָּזִית",
+      "מֶרְכָּזִיּוֹת"
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "ילד טוב",
+     "nq": "יֶלֶד טוֹב",
+     "p": {
+      "en": "yéled tov"
+     },
+     "m": {
+      "en": "a good boy"
+     }
+    },
+    {
+     "t": "ילדה טובה",
+     "nq": "יַלְדָּה טוֹבָה",
+     "p": {
+      "en": "yaldá tová"
+     },
+     "m": {
+      "en": "a good girl"
+     }
+    },
+    {
+     "t": "בית גדול",
+     "nq": "בַּיִת גָּדוֹל",
+     "p": {
+      "en": "báyit gadól"
+     },
+     "m": {
+      "en": "a big house"
+     }
+    },
+    {
+     "t": "מילים חדשות",
+     "nq": "מִלִּים חֲדָשׁוֹת",
+     "p": {
+      "en": "milím khadashót"
+     },
+     "m": {
+      "en": "new words"
+     }
+    },
+    {
+     "t": "הבית הגדול",
+     "nq": "הַבַּיִת הַגָּדוֹל",
+     "p": {
+      "en": "habáyit hagadól"
+     },
+     "m": {
+      "en": "the big house"
+     }
+    },
+    {
+     "t": "הבית גדול",
+     "nq": "הַבַּיִת גָּדוֹל",
+     "p": {
+      "en": "habáyit gadól"
+     },
+     "m": {
+      "en": "The house is big."
+     }
+    },
+    {
+     "t": "תחנה מרכזית",
+     "nq": "תַּחֲנָה מֶרְכָּזִית",
+     "p": {
+      "en": "takhaná merkazít"
+     },
+     "m": {
+      "en": "central bus station"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "ילדה ___ (a good girl)"
+     },
+     "opts": [
+      "טובה",
+      "טובים",
+      "טוב",
+      "טובות"
+     ],
+     "a": 0,
+     "why": {
+      "en": "ילדה is feminine singular → טובה."
+     }
+    },
+    {
+     "q": {
+      "en": "ילדים ___ (small children)"
+     },
+     "opts": [
+      "קטנה",
+      "קטנות",
+      "קטן",
+      "קטנים"
+     ],
+     "a": 3,
+     "why": {
+      "en": "ילדים is masculine plural → קטנים."
+     }
+    },
+    {
+     "q": {
+      "en": "מילים ___ (new words)"
+     },
+     "opts": [
+      "חדשים",
+      "חדשות",
+      "חדשה",
+      "חדש"
+     ],
+     "a": 1,
+     "why": {
+      "en": "מילה is feminine, even though its plural ends in ־ים → חדשות."
+     }
+    },
+    {
+     "q": {
+      "en": "שולחנות ___ (big tables)"
+     },
+     "opts": [
+      "גדול",
+      "גדולות",
+      "גדולים",
+      "גדולה"
+     ],
+     "a": 2,
+     "why": {
+      "en": "שולחן is masculine → גדולים."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'the new car'?"
+     },
+     "opts": [
+      "מכונית החדשה",
+      "המכונית חדשה",
+      "המכונית החדשה",
+      "החדשה מכונית"
+     ],
+     "a": 2,
+     "why": {
+      "en": "When the noun has ה, the adjective gets ה too. המכונית חדשה means 'The car is new.'"
+     }
+    },
+    {
+     "q": {
+      "en": "What does הבית גדול mean?"
+     },
+     "opts": [
+      "The house is big.",
+      "the big house",
+      "a big house",
+      "big houses"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Without ה on the adjective it is a sentence: 'the house (is) big'."
+     }
+    },
+    {
+     "q": {
+      "en": "בחורה ___ (an Israeli young woman)"
+     },
+     "opts": [
+      "ישראליה",
+      "ישראלי",
+      "ישראלים",
+      "ישראלית"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Adjectives in ־י take ־ית in the feminine."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'a beautiful city'?"
+     },
+     "opts": [
+      "יפות עיר",
+      "עיר יפה",
+      "עיר יפים",
+      "יפה עיר"
+     ],
+     "a": 1,
+     "why": {
+      "en": "The adjective comes after the noun; עיר is feminine → יפה."
+     }
+    }
+   ]
+  },
+  {
+   "id": "pronouns_be",
+   "level": "A1",
+   "title": {
+    "en": "Pronouns and 'to be' in the present"
+   },
+   "text": {
+    "en": [
+     "Hebrew pronouns show gender not only in 'he / she' but also in 'you': אתה (atá) — you, to a man; את (at) — you, to a woman. Plural 'you' also has two forms: אתם (men or a mixed group), אתן (women only).",
+     "'I' and 'we' have no gender: אני, אנחנו. 'They' has two forms: הם (men or a mixed group) and הן (women only). In everyday speech people often use הם and אתם for women too.",
+     "As in English, there is no special polite 'you': you say אתה or את to anyone, even to a boss or a doctor.",
+     "In the present tense Hebrew has no verb 'to be', so there is no am, is or are: אני רופא — 'I (am a) doctor', הדירה קטנה — 'The apartment (is) small'.",
+     "'This is…' is זה (masculine), זאת (feminine), אלה (plural): זה ספר — this is a book, זאת מחברת — this is a notebook, אלה ילדים — these are children. 'This book' is different: הספר הזה. The word for 'this' comes after the noun, and both get ה."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Pronoun",
+      "Pronunciation",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "אֲנִי",
+      {
+       "en": "aní"
+      },
+      {
+       "en": "I"
+      }
+     ],
+     [
+      "אַתָּה / אַתְּ",
+      {
+       "en": "atá / at"
+      },
+      {
+       "en": "you (to a man / to a woman)"
+      }
+     ],
+     [
+      "הוּא / הִיא",
+      {
+       "en": "hu / hi"
+      },
+      {
+       "en": "he / she"
+      }
+     ],
+     [
+      "אֲנַחְנוּ",
+      {
+       "en": "anákhnu"
+      },
+      {
+       "en": "we"
+      }
+     ],
+     [
+      "אַתֶּם / אַתֶּן",
+      {
+       "en": "atém / atén"
+      },
+      {
+       "en": "you, plural (m / f)"
+      }
+     ],
+     [
+      "הֵם / הֵן",
+      {
+       "en": "hem / hen"
+      },
+      {
+       "en": "they (m / f)"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "אני מהנדס",
+     "nq": "אֲנִי מְהַנְדֵּס",
+     "p": {
+      "en": "aní mehandés"
+     },
+     "m": {
+      "en": "I'm an engineer (said by a man)"
+     }
+    },
+    {
+     "t": "את מישראל?",
+     "nq": "אַתְּ מִיִּשְׂרָאֵל?",
+     "p": {
+      "en": "at miyisraél?"
+     },
+     "m": {
+      "en": "Are you from Israel? (to a woman)"
+     }
+    },
+    {
+     "t": "הוא רופא",
+     "nq": "הוּא רוֹפֵא",
+     "p": {
+      "en": "hu rofé"
+     },
+     "m": {
+      "en": "he is a doctor"
+     }
+    },
+    {
+     "t": "היא מורה",
+     "nq": "הִיא מוֹרָה",
+     "p": {
+      "en": "hi morá"
+     },
+     "m": {
+      "en": "she is a teacher"
+     }
+    },
+    {
+     "t": "הדירה קטנה",
+     "nq": "הַדִּירָה קְטַנָּה",
+     "p": {
+      "en": "hadirá ktaná"
+     },
+     "m": {
+      "en": "the apartment is small"
+     }
+    },
+    {
+     "t": "זה הבית שלי",
+     "nq": "זֶה הַבַּיִת שֶׁלִּי",
+     "p": {
+      "en": "ze habáyit shelí"
+     },
+     "m": {
+      "en": "this is my house"
+     }
+    },
+    {
+     "t": "זאת אמא שלי",
+     "nq": "זֹאת אִמָּא שֶׁלִּי",
+     "p": {
+      "en": "zot íma shelí"
+     },
+     "m": {
+      "en": "this is my mom"
+     }
+    },
+    {
+     "t": "הספר הזה מעניין",
+     "nq": "הַסֵּפֶר הַזֶּה מְעַנְיֵן",
+     "p": {
+      "en": "haséfer hazé me'anyén"
+     },
+     "m": {
+      "en": "this book is interesting"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "How do you say 'you' to a woman?"
+     },
+     "opts": [
+      "היא",
+      "אתן",
+      "את",
+      "אתה"
+     ],
+     "a": 2,
+     "why": {
+      "en": "To a woman — את (at); to a man — אתה (atá)."
+     }
+    },
+    {
+     "q": {
+      "en": "'They' about a group of women only:"
+     },
+     "opts": [
+      "הם",
+      "אתן",
+      "הן",
+      "היא"
+     ],
+     "a": 2,
+     "why": {
+      "en": "Women only → הן (hen)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'we'?"
+     },
+     "opts": [
+      "אנחנו",
+      "אתם",
+      "הם",
+      "אני"
+     ],
+     "a": 0,
+     "why": {
+      "en": "אנחנו (anákhnu) has no gender."
+     }
+    },
+    {
+     "q": {
+      "en": "You are talking to an older man you don't know. Which word for 'you'?"
+     },
+     "opts": [
+      "את",
+      "הוא",
+      "אתם",
+      "אתה"
+     ],
+     "a": 3,
+     "why": {
+      "en": "There is no polite 'you': to one man you say אתה."
+     }
+    },
+    {
+     "q": {
+      "en": "A group of two men and a woman. 'They' ="
+     },
+     "opts": [
+      "היא",
+      "הם",
+      "הן",
+      "אתם"
+     ],
+     "a": 1,
+     "why": {
+      "en": "A mixed group takes the masculine form הם."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'I am a teacher' (a man speaking)?"
+     },
+     "opts": [
+      "אני מורה",
+      "אני הוא מורה",
+      "אני יש מורה",
+      "אני היה מורה"
+     ],
+     "a": 0,
+     "why": {
+      "en": "There is no 'am' in the present tense: just אני מורה."
+     }
+    },
+    {
+     "q": {
+      "en": "___ ספרים (These are books)"
+     },
+     "opts": [
+      "האלה",
+      "זאת",
+      "זה",
+      "אלה"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Plural → אלה."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'this girl'?"
+     },
+     "opts": [
+      "ילדה הזאת",
+      "הילדה הזאת",
+      "הילדה זאת",
+      "זאת ילדה"
+     ],
+     "a": 1,
+     "why": {
+      "en": "'This' comes after the noun, and both get ה. זאת ילדה means 'This is a girl.'"
+     }
+    }
+   ]
+  },
+  {
+   "id": "yesh_ein",
+   "level": "A1",
+   "title": {
+    "en": "יש / אין: 'there is' and 'to have'"
+   },
+   "text": {
+    "en": [
+     "יש (yesh) means 'there is / there are', and אין (eyn) means 'there isn't / there aren't'. They never change for gender or number: יש חלב — there is milk, יש ביצים — there are eggs, אין זמן — there is no time.",
+     "Hebrew has no verb 'to have'. Instead it says 'there is to me': יש לי — I have, אין לי — I don't have. The owner is marked with ל (to): יש לך, יש לו, יש לה… With a name: לדני יש מכונית — Dani has a car.",
+     "Questions need no 'do', only rising intonation: יש לך ילדים? — Do you have children?",
+     "In the past and the future, a form of the verb 'to be' replaces יש. It agrees with the thing you have, not with the owner: היה לי זמן (זמן, time, is masculine), הייתה לי בעיה (בעיה, problem, is feminine), היו לי שאלות (plural); יהיה לי זמן — I will have time. Negative: לא היה לי זמן — I didn't have time."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Who",
+      "'… has'",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "אני",
+      "יֵשׁ לִי",
+      {
+       "en": "I have"
+      }
+     ],
+     [
+      "אתה / את",
+      "יֵשׁ לְךָ / יֵשׁ לָךְ",
+      {
+       "en": "you have (m / f)"
+      }
+     ],
+     [
+      "הוא / היא",
+      "יֵשׁ לוֹ / יֵשׁ לָהּ",
+      {
+       "en": "he has / she has"
+      }
+     ],
+     [
+      "אנחנו",
+      "יֵשׁ לָנוּ",
+      {
+       "en": "we have"
+      }
+     ],
+     [
+      "אתם / אתן",
+      "יֵשׁ לָכֶם / יֵשׁ לָכֶן",
+      {
+       "en": "you have (plural, m / f)"
+      }
+     ],
+     [
+      "הם / הן",
+      "יֵשׁ לָהֶם / יֵשׁ לָהֶן",
+      {
+       "en": "they have (m / f)"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "יש לי שאלה",
+     "nq": "יֵשׁ לִי שְׁאֵלָה",
+     "p": {
+      "en": "yesh li she'elá"
+     },
+     "m": {
+      "en": "I have a question"
+     }
+    },
+    {
+     "t": "אין לי זמן",
+     "nq": "אֵין לִי זְמַן",
+     "p": {
+      "en": "eyn li zman"
+     },
+     "m": {
+      "en": "I don't have time"
+     }
+    },
+    {
+     "t": "יש פה חנות?",
+     "nq": "יֵשׁ פֹּה חֲנוּת?",
+     "p": {
+      "en": "yesh po khanút?"
+     },
+     "m": {
+      "en": "Is there a shop here?"
+     }
+    },
+    {
+     "t": "אין חלב",
+     "nq": "אֵין חָלָב",
+     "p": {
+      "en": "eyn khaláv"
+     },
+     "m": {
+      "en": "there's no milk"
+     }
+    },
+    {
+     "t": "יש לך ילדים?",
+     "nq": "יֵשׁ לְךָ יְלָדִים?",
+     "p": {
+      "en": "yesh lekhá yeladím?"
+     },
+     "m": {
+      "en": "Do you have children? (to a man)"
+     }
+    },
+    {
+     "t": "הייתה לי בעיה",
+     "nq": "הָיְתָה לִי בְּעָיָה",
+     "p": {
+      "en": "haytá li be'ayá"
+     },
+     "m": {
+      "en": "I had a problem"
+     }
+    },
+    {
+     "t": "יהיה לנו זמן מחר",
+     "nq": "יִהְיֶה לָנוּ זְמַן מָחָר",
+     "p": {
+      "en": "yihyé lánu zman makhár"
+     },
+     "m": {
+      "en": "we'll have time tomorrow"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "How do you say 'I have a car'?"
+     },
+     "opts": [
+      "אני יש מכונית",
+      "יש שלי מכונית",
+      "יש אני מכונית",
+      "יש לי מכונית"
+     ],
+     "a": 3,
+     "why": {
+      "en": "The owner is marked with ל: יש לי."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'she doesn't have time'?"
+     },
+     "opts": [
+      "אין לו זמן",
+      "אין לה זמן",
+      "לא יש לה זמן",
+      "היא אין זמן"
+     ],
+     "a": 1,
+     "why": {
+      "en": "'There isn't' = אין, 'to her' = לה."
+     }
+    },
+    {
+     "q": {
+      "en": "___ לי שאלות (I had questions)"
+     },
+     "opts": [
+      "היו",
+      "היה",
+      "יש",
+      "הייתה"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Past tense, and the thing you had is plural → היו."
+     }
+    },
+    {
+     "q": {
+      "en": "___ לי בעיה (I had a problem)"
+     },
+     "opts": [
+      "היה",
+      "תהיה",
+      "היו",
+      "הייתה"
+     ],
+     "a": 3,
+     "why": {
+      "en": "בעיה is feminine → הייתה."
+     }
+    },
+    {
+     "q": {
+      "en": "Does יש change for gender and number?"
+     },
+     "opts": [
+      "yes, in the feminine",
+      "no, never",
+      "only in questions",
+      "only in the plural"
+     ],
+     "a": 1,
+     "why": {
+      "en": "יש and אין never change."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'we have'?"
+     },
+     "opts": [
+      "יש לכם",
+      "יש להם",
+      "יש לנו",
+      "יש אנחנו"
+     ],
+     "a": 2,
+     "why": {
+      "en": "'To us' = לנו."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'Dani has a dog'?"
+     },
+     "opts": [
+      "של דני יש כלב",
+      "דני יש כלב",
+      "לדני יש כלב",
+      "יש דני כלב"
+     ],
+     "a": 2,
+     "why": {
+      "en": "The owner takes ל: לדני."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'I didn't have time'?"
+     },
+     "opts": [
+      "לא היה לי זמן",
+      "אין היה לי זמן",
+      "לא יש לי זמן",
+      "לא הייתי לי זמן"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Past tense: לא + היה (זמן is masculine) + לי."
+     }
+    }
+   ]
+  },
+  {
+   "id": "questions_negation",
+   "level": "A1",
+   "title": {
+    "en": "Questions and negation"
+   },
+   "text": {
+    "en": [
+     "Good news for English speakers: Hebrew has no helper 'do', neither in questions nor in negative sentences. A yes / no question is just a statement with rising intonation: אתה מדבר עברית. — You speak Hebrew. אתה מדבר עברית? — Do you speak Hebrew? (Formal written Hebrew may start such a question with האם.)",
+     "A question word goes at the start, as in English: מה (what), מי (who), איפה (where), לאן (where to), מאיפה (where from), מתי (when), למה (why), איך (how), כמה (how much, how many), איזה / איזו / אילו (which: m / f / plural).",
+     "A preposition always comes before the question word and never stays at the end, as it does in English 'Who do you live with?': עם מי אתה גר? (literally 'with whom you live?'), על מה? (about what?), של מי? (whose?).",
+     "To make a sentence negative, put לא (lo, 'not') before the verb or adjective: אני לא יודע — I don't know; זה לא טוב — it's not good. לא is also 'no' as an answer.",
+     "אין means 'there is no' (the opposite of יש): אין בעיה — no problem. For 'don't!' use אל + a future-tense form: אל תדאג — don't worry (to a man).",
+     "Hebrew uses a double negative, which standard English does not: אף אחד לא בא — nobody came (literally 'nobody didn't come'); לא קרה כלום — nothing happened."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Word",
+      "Pronunciation",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "מָה",
+      {
+       "en": "ma"
+      },
+      {
+       "en": "what"
+      }
+     ],
+     [
+      "מִי",
+      {
+       "en": "mi"
+      },
+      {
+       "en": "who"
+      }
+     ],
+     [
+      "אֵיפֹה / לְאָן / מֵאֵיפֹה",
+      {
+       "en": "éyfo / le'án / me'éyfo"
+      },
+      {
+       "en": "where / where to / where from"
+      }
+     ],
+     [
+      "מָתַי",
+      {
+       "en": "matáy"
+      },
+      {
+       "en": "when"
+      }
+     ],
+     [
+      "לָמָּה",
+      {
+       "en": "láma"
+      },
+      {
+       "en": "why"
+      }
+     ],
+     [
+      "אֵיךְ",
+      {
+       "en": "eykh"
+      },
+      {
+       "en": "how"
+      }
+     ],
+     [
+      "כַּמָּה",
+      {
+       "en": "káma"
+      },
+      {
+       "en": "how much, how many"
+      }
+     ],
+     [
+      "אֵיזֶה / אֵיזוֹ / אֵילוּ",
+      {
+       "en": "éyze / éyzo / éylu"
+      },
+      {
+       "en": "which (m / f / plural)"
+      }
+     ],
+     [
+      "לֹא",
+      {
+       "en": "lo"
+      },
+      {
+       "en": "not; no"
+      }
+     ],
+     [
+      "אֵין",
+      {
+       "en": "eyn"
+      },
+      {
+       "en": "there is no"
+      }
+     ],
+     [
+      "אַל",
+      {
+       "en": "al"
+      },
+      {
+       "en": "don't (+ future form)"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "איפה התחנה?",
+     "nq": "אֵיפֹה הַתַּחֲנָה?",
+     "p": {
+      "en": "éyfo hatakhaná?"
+     },
+     "m": {
+      "en": "Where is the bus stop?"
+     }
+    },
+    {
+     "t": "לאן את נוסעת?",
+     "nq": "לְאָן אַתְּ נוֹסַעַת?",
+     "p": {
+      "en": "le'án at nosá'at?"
+     },
+     "m": {
+      "en": "Where are you going? (to a woman)"
+     }
+    },
+    {
+     "t": "עם מי אתה גר?",
+     "nq": "עִם מִי אַתָּה גָּר?",
+     "p": {
+      "en": "im mi atá gar?"
+     },
+     "m": {
+      "en": "Who do you live with? (to a man)"
+     }
+    },
+    {
+     "t": "למה אתה עצוב?",
+     "nq": "לָמָּה אַתָּה עָצוּב?",
+     "p": {
+      "en": "láma atá atsúv?"
+     },
+     "m": {
+      "en": "Why are you sad? (to a man)"
+     }
+    },
+    {
+     "t": "של מי התיק הזה?",
+     "nq": "שֶׁל מִי הַתִּיק הַזֶּה?",
+     "p": {
+      "en": "shel mi hatík hazé?"
+     },
+     "m": {
+      "en": "Whose bag is this?"
+     }
+    },
+    {
+     "t": "אני לא יודעת",
+     "nq": "אֲנִי לֹא יוֹדַעַת",
+     "p": {
+      "en": "aní lo yodá'at"
+     },
+     "m": {
+      "en": "I don't know (said by a woman)"
+     }
+    },
+    {
+     "t": "אל תדאג",
+     "nq": "אַל תִּדְאַג",
+     "p": {
+      "en": "al tid'ág"
+     },
+     "m": {
+      "en": "don't worry (to a man)"
+     }
+    },
+    {
+     "t": "אף אחד לא ענה",
+     "nq": "אַף אֶחָד לֹא עָנָה",
+     "p": {
+      "en": "af ekhád lo aná"
+     },
+     "m": {
+      "en": "nobody answered"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "'Where are you going?' (to a man)"
+     },
+     "opts": [
+      "מאיפה אתה נוסע?",
+      "מתי אתה נוסע?",
+      "למה אתה נוסע?",
+      "לאן אתה נוסע?"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Direction → לאן (where to)."
+     }
+    },
+    {
+     "q": {
+      "en": "'With whom?' / 'Who with?'"
+     },
+     "opts": [
+      "את מי?",
+      "עם מי?",
+      "עם מה?",
+      "מי עם?"
+     ],
+     "a": 1,
+     "why": {
+      "en": "The preposition comes before the question word: עם מי."
+     }
+    },
+    {
+     "q": {
+      "en": "'Where are you from?' (to a group)"
+     },
+     "opts": [
+      "איפה אתם?",
+      "לאן אתם?",
+      "מאיפה אתם?",
+      "מתי אתם?"
+     ],
+     "a": 2,
+     "why": {
+      "en": "'Where from' = מאיפה."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you turn אתה רעב (you are hungry) into 'Are you hungry?'"
+     },
+     "opts": [
+      "add מה at the end",
+      "add לא before רעב",
+      "just raise your intonation: אתה רעב?",
+      "put עושה ('does') at the start"
+     ],
+     "a": 2,
+     "why": {
+      "en": "A yes / no question is made by intonation alone; Hebrew has no helper 'do'."
+     }
+    },
+    {
+     "q": {
+      "en": "'I don't understand' (a woman speaking)"
+     },
+     "opts": [
+      "אני לא מבינה",
+      "אני אל מבינה",
+      "לא אני מבינה",
+      "אני אין מבינה"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Before a verb, 'not' is לא."
+     }
+    },
+    {
+     "q": {
+      "en": "'Don't worry!' (to a man)"
+     },
+     "opts": [
+      "אין תדאג",
+      "לא דואג",
+      "אל דואג",
+      "אל תדאג"
+     ],
+     "a": 3,
+     "why": {
+      "en": "A prohibition is אל + a future form: אל תדאג."
+     }
+    },
+    {
+     "q": {
+      "en": "'There's no time'"
+     },
+     "opts": [
+      "לא יש זמן",
+      "אין זמן",
+      "אל זמן",
+      "לא זמן"
+     ],
+     "a": 1,
+     "why": {
+      "en": "'There is no' = אין."
+     }
+    },
+    {
+     "q": {
+      "en": "'Nobody came'"
+     },
+     "opts": [
+      "אף אחד לא בא",
+      "לא אף אחד בא",
+      "אין אחד בא",
+      "אף אחד בא"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Hebrew needs the double negative: אף אחד + לא."
+     }
+    }
+   ]
+  },
+  {
+   "id": "present_paal",
+   "level": "A1",
+   "title": {
+    "en": "Present tense: the פעל pattern"
+   },
+   "text": {
+    "en": [
+     "Hebrew verbs are built from a root of usually three consonants: כ-ת-ב carries the idea of 'writing'. The root is placed into a pattern called a binyan. There are 7 binyanim; the most common and simplest one is פעל (pa'ál, also called קל, 'light').",
+     "The English present has almost one form (write / writes). The Hebrew present behaves like an adjective: it has 4 forms for gender and number, but it does not change for person. כותב means 'I write' (a man speaking), 'you write' (to a man) and 'he writes'. That is why the pronoun is required: אני כותב, אתה כותב, הוא כותב.",
+     "There is also no separate '-ing' form: אני כותב means both 'I write' and 'I am writing'.",
+     "The פעל pattern: כּוֹתֵב (m), כּוֹתֶבֶת (f), כּוֹתְבִים (m pl), כּוֹתְבוֹת (f pl). The vowels are o – e: kotév, kotévet, kotvím, kotvót.",
+     "Some roots are 'weak' and look a little different. Roots ending in ־ה: קונה (m, koné), קונה (f, koná), קונים, קונות. Roots with a 'hollow' middle: גר, גרה (gará; in speech often gára), גרים, גרות. Roots ending in ח or ע: יודע, יודעת (yodá'at)."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "",
+      "כ-ת-ב write",
+      "ק-נ-ה buy",
+      "ג-ו-ר live"
+     ]
+    },
+    "rows": [
+     [
+      {
+       "en": "m. sg."
+      },
+      "כּוֹתֵב",
+      "קוֹנֶה",
+      "גָּר"
+     ],
+     [
+      {
+       "en": "f. sg."
+      },
+      "כּוֹתֶבֶת",
+      "קוֹנָה",
+      "גָּרָה"
+     ],
+     [
+      {
+       "en": "m. pl."
+      },
+      "כּוֹתְבִים",
+      "קוֹנִים",
+      "גָּרִים"
+     ],
+     [
+      {
+       "en": "f. pl."
+      },
+      "כּוֹתְבוֹת",
+      "קוֹנוֹת",
+      "גָּרוֹת"
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "אני כותבת מכתב",
+     "nq": "אֲנִי כּוֹתֶבֶת מִכְתָּב",
+     "p": {
+      "en": "aní kotévet mikhtáv"
+     },
+     "m": {
+      "en": "I'm writing a letter (said by a woman)"
+     }
+    },
+    {
+     "t": "הוא עובד בבנק",
+     "nq": "הוּא עוֹבֵד בַּבַּנְק",
+     "p": {
+      "en": "hu ovéd babánk"
+     },
+     "m": {
+      "en": "he works at the bank"
+     }
+    },
+    {
+     "t": "הם גרים בחיפה",
+     "nq": "הֵם גָּרִים בְּחֵיפָה",
+     "p": {
+      "en": "hem garím bekhéyfa"
+     },
+     "m": {
+      "en": "they live in Haifa"
+     }
+    },
+    {
+     "t": "היא קונה ירקות",
+     "nq": "הִיא קוֹנָה יְרָקוֹת",
+     "p": {
+      "en": "hi koná yerakót"
+     },
+     "m": {
+      "en": "she is buying vegetables"
+     }
+    },
+    {
+     "t": "אנחנו לומדים עברית",
+     "nq": "אֲנַחְנוּ לוֹמְדִים עִבְרִית",
+     "p": {
+      "en": "anákhnu lomdím ivrít"
+     },
+     "m": {
+      "en": "we are learning Hebrew"
+     }
+    },
+    {
+     "t": "את יודעת?",
+     "nq": "אַתְּ יוֹדַעַת?",
+     "p": {
+      "en": "at yodá'at?"
+     },
+     "m": {
+      "en": "Do you know? (to a woman)"
+     }
+    },
+    {
+     "t": "הן אוכלות ארוחת ערב",
+     "nq": "הֵן אוֹכְלוֹת אֲרוּחַת עֶרֶב",
+     "p": {
+      "en": "hen okhlót arukhát érev"
+     },
+     "m": {
+      "en": "they (women) are having dinner"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "היא ___ (she writes)"
+     },
+     "opts": [
+      "כותב",
+      "כותבות",
+      "כותבת",
+      "כותבים"
+     ],
+     "a": 2,
+     "why": {
+      "en": "'She', singular → כותבת."
+     }
+    },
+    {
+     "q": {
+      "en": "אנחנו ___ בתל אביב (we live; men or a mixed group)"
+     },
+     "opts": [
+      "גרים",
+      "גרות",
+      "גר",
+      "גרה"
+     ],
+     "a": 0,
+     "why": {
+      "en": "Plural, masculine → גרים."
+     }
+    },
+    {
+     "q": {
+      "en": "היא ___ לחם (she is buying)"
+     },
+     "opts": [
+      "קונת",
+      "קונים",
+      "קנתה",
+      "קונה"
+     ],
+     "a": 3,
+     "why": {
+      "en": "A root ending in ־ה: feminine קונה (koná)."
+     }
+    },
+    {
+     "q": {
+      "en": "את ___ עברית? (do you know; to a woman)"
+     },
+     "opts": [
+      "יודע",
+      "יודעת",
+      "ידעת",
+      "יודעים"
+     ],
+     "a": 1,
+     "why": {
+      "en": "Feminine singular → יודעת (yodá'at)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is the pronoun needed in the present tense?"
+     },
+     "opts": [
+      "the verb shows only gender and number, not the person",
+      "it is not needed",
+      "only in questions",
+      "only to be polite"
+     ],
+     "a": 0,
+     "why": {
+      "en": "כותב = I write / you write / he writes; only the pronoun tells you who."
+     }
+    },
+    {
+     "q": {
+      "en": "הם ___ בבנק (they work)"
+     },
+     "opts": [
+      "עובדת",
+      "עובד",
+      "עובדות",
+      "עובדים"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Plural, masculine → עובדים."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'I am writing' (a man speaking)?"
+     },
+     "opts": [
+      "אני כותבים",
+      "אני כותב",
+      "אני הוא כותב",
+      "אני כותבת"
+     ],
+     "a": 1,
+     "why": {
+      "en": "One present form covers 'I write' and 'I am writing'; a man says כותב."
+     }
+    },
+    {
+     "q": {
+      "en": "The feminine of שומע (hears) is…"
+     },
+     "opts": [
+      "שמעה",
+      "שומעית",
+      "שומעת",
+      "שומעה"
+     ],
+     "a": 2,
+     "why": {
+      "en": "A root ending in ע: שומעת (shomá'at)."
+     }
+    }
+   ]
+  },
+  {
+   "id": "prep_pronouns",
+   "level": "A2",
+   "title": {
+    "en": "Prepositions with pronoun endings: לי, שלי, איתי…"
+   },
+   "text": {
+    "en": [
+     "The most common prepositions are a single letter and are joined to the next word: ב — in, at; ל — to, for; מ — from. Others are separate words: על — on, about; עם — with; של — of (possession); אצל — at someone's place; בלי — without.",
+     "In English you say 'to me', 'with him', 'about us': a preposition plus a separate pronoun. Hebrew cannot do that; 'ל אני' is impossible. Instead, an ending is attached to the preposition: לי (to me), לו (to him), לנו (to us).",
+     "The endings are almost the same for all prepositions: ־י (me), ־ך (you: -khá to a man, -akh to a woman), ־ו (him), ־ה (her), ־נו (us), ־כם / ־כן (you, plural), ־הם / ־הן (them).",
+     "Some prepositions have their own base: עם → איתי, איתך, איתו; מ → ממני, ממך, ממנו, ממנה. על gets a י before the ending: עליי, עליך, עליו, עלינו.",
+     "'My, your, his…' are של + an ending, placed after the noun, and the noun keeps its ה: הבית שלי — my house (literally 'the house of me').",
+     "Note: ממנו means both 'from him' and 'from us'; the context tells you which."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Who",
+      "ל",
+      "של",
+      "עם",
+      "מ",
+      "על"
+     ]
+    },
+    "rows": [
+     [
+      "אני",
+      "לִי (li)",
+      "שֶׁלִּי (shelí)",
+      "אִתִּי (ití)",
+      "מִמֶּנִּי (miméni)",
+      "עָלַי (aláy)"
+     ],
+     [
+      "אתה",
+      "לְךָ (lekhá)",
+      "שֶׁלְּךָ (shelkhá)",
+      "אִתְּךָ (itkhá)",
+      "מִמְּךָ (mimkhá)",
+      "עָלֶיךָ (alékha)"
+     ],
+     [
+      "את",
+      "לָךְ (lakh)",
+      "שֶׁלָּךְ (shelákh)",
+      "אִתָּךְ (itákh)",
+      "מִמֵּךְ (mimékh)",
+      "עָלַיִךְ (aláyikh)"
+     ],
+     [
+      "הוא",
+      "לוֹ (lo)",
+      "שֶׁלּוֹ (sheló)",
+      "אִתּוֹ (itó)",
+      "מִמֶּנּוּ (miménu)",
+      "עָלָיו (aláv)"
+     ],
+     [
+      "היא",
+      "לָהּ (la)",
+      "שֶׁלָּהּ (shelá)",
+      "אִתָּהּ (itá)",
+      "מִמֶּנָּה (miména)",
+      "עָלֶיהָ (aléha)"
+     ],
+     [
+      "אנחנו",
+      "לָנוּ (lánu)",
+      "שֶׁלָּנוּ (shelánu)",
+      "אִתָּנוּ (itánu)",
+      "מִמֶּנּוּ (miménu)",
+      "עָלֵינוּ (aléynu)"
+     ],
+     [
+      "אתם",
+      "לָכֶם (lakhém)",
+      "שֶׁלָּכֶם (shelakhém)",
+      "אִתְּכֶם (itkhém)",
+      "מִכֶּם (mikém)",
+      "עֲלֵיכֶם (aleykhém)"
+     ],
+     [
+      "הם",
+      "לָהֶם (lahém)",
+      "שֶׁלָּהֶם (shelahém)",
+      "אִתָּם (itám)",
+      "מֵהֶם (mehém)",
+      "עֲלֵיהֶם (aleyhém)"
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "תודה לך",
+     "nq": "תּוֹדָה לְךָ",
+     "p": {
+      "en": "todá lekhá"
+     },
+     "m": {
+      "en": "thank you (to a man)"
+     }
+    },
+    {
+     "t": "זה שלי",
+     "nq": "זֶה שֶׁלִּי",
+     "p": {
+      "en": "ze shelí"
+     },
+     "m": {
+      "en": "it's mine"
+     }
+    },
+    {
+     "t": "בוא איתי",
+     "nq": "בּוֹא אִתִּי",
+     "p": {
+      "en": "bo ití"
+     },
+     "m": {
+      "en": "come with me (to a man)"
+     }
+    },
+    {
+     "t": "מה איתך?",
+     "nq": "מָה אִתָּךְ?",
+     "p": {
+      "en": "ma itákh?"
+     },
+     "m": {
+      "en": "How are you? (to a woman; literally 'what's with you?')"
+     }
+    },
+    {
+     "t": "אני חושבת עליך",
+     "nq": "אֲנִי חוֹשֶׁבֶת עָלֶיךָ",
+     "p": {
+      "en": "aní khoshévet alékha"
+     },
+     "m": {
+      "en": "I'm thinking about you (a woman to a man)"
+     }
+    },
+    {
+     "t": "הוא גדול ממני",
+     "nq": "הוּא גָּדוֹל מִמֶּנִּי",
+     "p": {
+      "en": "hu gadól miméni"
+     },
+     "m": {
+      "en": "he is older (bigger) than me"
+     }
+    },
+    {
+     "t": "קשה לנו",
+     "nq": "קָשֶׁה לָנוּ",
+     "p": {
+      "en": "kashé lánu"
+     },
+     "m": {
+      "en": "it's hard for us"
+     }
+    },
+    {
+     "t": "הבית שלנו קטן",
+     "nq": "הַבַּיִת שֶׁלָּנוּ קָטָן",
+     "p": {
+      "en": "habáyit shelánu katán"
+     },
+     "m": {
+      "en": "our house is small"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "'With me':"
+     },
+     "opts": [
+      "עימני",
+      "איתי",
+      "איתו",
+      "עם אני"
+     ],
+     "a": 1,
+     "why": {
+      "en": "עם + me → איתי (ití)."
+     }
+    },
+    {
+     "q": {
+      "en": "'From her':"
+     },
+     "opts": [
+      "ממנה",
+      "מהן",
+      "ממנו",
+      "מהיא"
+     ],
+     "a": 0,
+     "why": {
+      "en": "מ + her → ממנה (miména)."
+     }
+    },
+    {
+     "q": {
+      "en": "'About us' (to think about us): לחשוב ___"
+     },
+     "opts": [
+      "על אנחנו",
+      "עליו",
+      "עליהם",
+      "עלינו"
+     ],
+     "a": 3,
+     "why": {
+      "en": "על + us → עלינו (aléynu)."
+     }
+    },
+    {
+     "q": {
+      "en": "'Your house' (to a woman): הבית ___"
+     },
+     "opts": [
+      "שלכן",
+      "שלך",
+      "שלה",
+      "שלו"
+     ],
+     "a": 1,
+     "why": {
+      "en": "Written the same as for a man, but read shelákh."
+     }
+    },
+    {
+     "q": {
+      "en": "What can ממנו mean?"
+     },
+     "opts": [
+      "only 'from us'",
+      "only 'from him'",
+      "'from him' or 'from us'",
+      "'from them'"
+     ],
+     "a": 2,
+     "why": {
+      "en": "ממנו is shared by 'him' and 'us'."
+     }
+    },
+    {
+     "q": {
+      "en": "'Tell them' (men): תגיד ___"
+     },
+     "opts": [
+      "לו",
+      "לכם",
+      "להם",
+      "להן"
+     ],
+     "a": 2,
+     "why": {
+      "en": "ל + them (m) → להם."
+     }
+    },
+    {
+     "q": {
+      "en": "'You have' (to a group): יש ___"
+     },
+     "opts": [
+      "לכם",
+      "לך",
+      "להם",
+      "לנו"
+     ],
+     "a": 0,
+     "why": {
+      "en": "ל + you (plural) → לכם."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you say 'my book'?"
+     },
+     "opts": [
+      "שלי ספר",
+      "ספר לי",
+      "הספר לי",
+      "הספר שלי"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Possession: noun with ה + שלי after it."
+     }
+    }
+   ]
+  },
+  {
+   "id": "et",
+   "level": "A2",
+   "title": {
+    "en": "את: the marker of a definite object"
+   },
+   "text": {
+    "en": [
+     "Hebrew has a small word that English doesn't: את (et). It goes before a definite direct object, the person or thing the verb acts on directly, when it has ה, is a name, or is 'this…' or 'my…'. It is not translated: אני רואה את הים — I see the sea.",
+     "If the object is indefinite (English 'a', 'some' or no article), there is no את: אני קונה לחם — I'm buying bread; but אני קונה את הלחם הזה — I'm buying this bread.",
+     "את is used only for direct objects. If the verb takes a preposition, there is no את: אני מחכה לאוטובוס — I'm waiting for the bus.",
+     "With pronouns, את becomes אות־ plus an ending: אותי (me), אותך (you), אותו (him), אותה (her), אותנו (us), אתכם (you, plural), אותם (them). 'I love you' = אני אוהב אותך.",
+     "Don't mix them up: את (et), the object marker, and את (at), 'you' to a woman, are spelled the same but sound different. And אותך (you, as an object) is not איתך (with you)."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Who",
+      "Form",
+      "Meaning"
+     ]
+    },
+    "rows": [
+     [
+      "אני",
+      "אוֹתִי (otí)",
+      {
+       "en": "me"
+      }
+     ],
+     [
+      "אתה / את",
+      "אוֹתְךָ / אוֹתָךְ (otkhá / otákh)",
+      {
+       "en": "you (m / f)"
+      }
+     ],
+     [
+      "הוא / היא",
+      "אוֹתוֹ / אוֹתָהּ (otó / otá)",
+      {
+       "en": "him / her"
+      }
+     ],
+     [
+      "אנחנו",
+      "אוֹתָנוּ (otánu)",
+      {
+       "en": "us"
+      }
+     ],
+     [
+      "אתם / אתן",
+      "אֶתְכֶם / אֶתְכֶן (etkhém / etkhén)",
+      {
+       "en": "you, plural (m / f)"
+      }
+     ],
+     [
+      "הם / הן",
+      "אוֹתָם / אוֹתָן (otám / otán)",
+      {
+       "en": "them (m / f)"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "אני רואה את הים",
+     "nq": "אֲנִי רוֹאֶה אֶת הַיָּם",
+     "p": {
+      "en": "aní ro'é et hayám"
+     },
+     "m": {
+      "en": "I see the sea (said by a man)"
+     }
+    },
+    {
+     "t": "אני קונה לחם",
+     "nq": "אֲנִי קוֹנָה לֶחֶם",
+     "p": {
+      "en": "aní koná lékhem"
+     },
+     "m": {
+      "en": "I'm buying bread (said by a woman)"
+     }
+    },
+    {
+     "t": "אני אוהבת אותך",
+     "nq": "אֲנִי אוֹהֶבֶת אוֹתְךָ",
+     "p": {
+      "en": "aní ohévet otkhá"
+     },
+     "m": {
+      "en": "I love you (a woman to a man)"
+     }
+    },
+    {
+     "t": "ראית את דני?",
+     "nq": "רָאִיתָ אֶת דָּנִי?",
+     "p": {
+      "en": "ra'íta et Dáni?"
+     },
+     "m": {
+      "en": "Did you see Dani? (to a man)"
+     }
+    },
+    {
+     "t": "אני מכיר אותו",
+     "nq": "אֲנִי מַכִּיר אוֹתוֹ",
+     "p": {
+      "en": "aní makír otó"
+     },
+     "m": {
+      "en": "I know him (said by a man)"
+     }
+    },
+    {
+     "t": "אני מחפשת את המפתחות",
+     "nq": "אֲנִי מְחַפֶּשֶׂת אֶת הַמַּפְתְּחוֹת",
+     "p": {
+      "en": "aní mekhapéset et hamaftekhót"
+     },
+     "m": {
+      "en": "I'm looking for the keys (said by a woman)"
+     }
+    },
+    {
+     "t": "אנחנו מזמינים אתכם",
+     "nq": "אֲנַחְנוּ מַזְמִינִים אֶתְכֶם",
+     "p": {
+      "en": "anákhnu mazminím etkhém"
+     },
+     "m": {
+      "en": "we're inviting you (plural)"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "אני רואה ___ הבית (I see the house)"
+     },
+     "opts": [
+      "ל",
+      "את",
+      "על",
+      "של"
+     ],
+     "a": 1,
+     "why": {
+      "en": "A definite direct object → את."
+     }
+    },
+    {
+     "q": {
+      "en": "Which is correct for 'I'm buying bread' (any bread)?"
+     },
+     "opts": [
+      "את אני קונה לחם",
+      "אני את קונה לחם",
+      "אני קונה לחם",
+      "אני קונה את לחם"
+     ],
+     "a": 2,
+     "why": {
+      "en": "An indefinite object takes no את."
+     }
+    },
+    {
+     "q": {
+      "en": "'I love you' (a man to a woman):"
+     },
+     "opts": [
+      "אני אוהב לך",
+      "אני אוהב את",
+      "אני אוהב אותך",
+      "אני אוהב איתך"
+     ],
+     "a": 2,
+     "why": {
+      "en": "את + you → אותך."
+     }
+    },
+    {
+     "q": {
+      "en": "'I know him' (a man speaking):"
+     },
+     "opts": [
+      "אני מכיר אותו",
+      "אני מכיר איתו",
+      "אני מכיר את הוא",
+      "אני מכיר לו"
+     ],
+     "a": 0,
+     "why": {
+      "en": "את + him → אותו."
+     }
+    },
+    {
+     "q": {
+      "en": "'I saw Dani':"
+     },
+     "opts": [
+      "ראיתי דני",
+      "ראיתי אותו דני",
+      "ראיתי לדני",
+      "ראיתי את דני"
+     ],
+     "a": 3,
+     "why": {
+      "en": "A name is definite → את."
+     }
+    },
+    {
+     "q": {
+      "en": "'We're inviting you' (to a group; the standard form):"
+     },
+     "opts": [
+      "אנחנו מזמינים איתכם",
+      "אנחנו מזמינים אתכם",
+      "אנחנו מזמינים לכם",
+      "אנחנו מזמינים אותכם"
+     ],
+     "a": 1,
+     "why": {
+      "en": "The standard form is אתכם; אותכם is a common colloquial mistake."
+     }
+    },
+    {
+     "q": {
+      "en": "How is את read in את הספר?"
+     },
+     "opts": [
+      "et",
+      "ot",
+      "it",
+      "at"
+     ],
+     "a": 0,
+     "why": {
+      "en": "The object marker is read et."
+     }
+    },
+    {
+     "q": {
+      "en": "'She is looking for them' (men):"
+     },
+     "opts": [
+      "היא מחפשת להם",
+      "היא מחפשת איתם",
+      "היא מחפשת אותן",
+      "היא מחפשת אותם"
+     ],
+     "a": 3,
+     "why": {
+      "en": "את + them (m) → אותם."
+     }
+    }
+   ]
+  },
+  {
+   "id": "past_paal",
+   "level": "A2",
+   "title": {
+    "en": "Past tense: the פעל pattern"
+   },
+   "text": {
+    "en": [
+     "In the past tense the verb changes for person: the ending shows who did the action. So the pronoun is often dropped in the 1st and 2nd person: כתבתי — I wrote.",
+     "One Hebrew past form covers English 'wrote', 'was writing' and often 'have written': כתבתי מכתב — I wrote a letter / I have written a letter.",
+     "The base of פעל is כָּתַב (katáv, he wrote). The endings: ־תי (I), ־ת (you), no ending (he), ־ה (she), ־נו (we), ־תם / ־תן (you, plural), ־ו (they).",
+     "'I' and 'they' are the same for men and women: כתבתי, כתבו. Singular 'you' is also written the same — כתבת — but sounds different: katávta (to a man) / katávt (to a woman).",
+     "Stress: כָּתַבְתִּי (katávti) and כָּתַבְנוּ (katávnu) are stressed on the second-to-last syllable; כָּתְבָה (katvá) and כָּתְבוּ (katvú) on the last. Plural 'you' is ktavtém in the standard, but in speech people usually say katávtem."
+    ]
+   },
+   "table": {
+    "head": {
+     "en": [
+      "Person",
+      "Form",
+      "Pronunciation"
+     ]
+    },
+    "rows": [
+     [
+      "אני",
+      "כָּתַבְתִּי",
+      {
+       "en": "katávti"
+      }
+     ],
+     [
+      "אתה / את",
+      "כָּתַבְתָּ / כָּתַבְתְּ",
+      {
+       "en": "katávta / katávt"
+      }
+     ],
+     [
+      "הוא",
+      "כָּתַב",
+      {
+       "en": "katáv"
+      }
+     ],
+     [
+      "היא",
+      "כָּתְבָה",
+      {
+       "en": "katvá"
+      }
+     ],
+     [
+      "אנחנו",
+      "כָּתַבְנוּ",
+      {
+       "en": "katávnu"
+      }
+     ],
+     [
+      "אתם / אתן",
+      "כְּתַבְתֶּם / כְּתַבְתֶּן",
+      {
+       "en": "ktavtém / ktavtén (in speech: katávtem)"
+      }
+     ],
+     [
+      "הם / הן",
+      "כָּתְבוּ",
+      {
+       "en": "katvú"
+      }
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "t": "כתבתי מכתב",
+     "nq": "כָּתַבְתִּי מִכְתָּב",
+     "p": {
+      "en": "katávti mikhtáv"
+     },
+     "m": {
+      "en": "I wrote a letter"
+     }
+    },
+    {
+     "t": "אתמול עבדתי עד מאוחר",
+     "nq": "אֶתְמוֹל עָבַדְתִּי עַד מְאֻחָר",
+     "p": {
+      "en": "etmól avádti ad me'ukhár"
+     },
+     "m": {
+      "en": "yesterday I worked late"
+     }
+    },
+    {
+     "t": "היא גמרה את העבודה",
+     "nq": "הִיא גָּמְרָה אֶת הָעֲבוֹדָה",
+     "p": {
+      "en": "hi gamrá et ha'avodá"
+     },
+     "m": {
+      "en": "she finished the work"
+     }
+    },
+    {
+     "t": "למדנו עברית באולפן",
+     "nq": "לָמַדְנוּ עִבְרִית בָּאֻלְפָּן",
+     "p": {
+      "en": "lamádnu ivrít ba'ulpán"
+     },
+     "m": {
+      "en": "we studied Hebrew at the ulpan (a Hebrew school for adults)"
+     }
+    },
+    {
+     "t": "הם סגרו את החנות",
+     "nq": "הֵם סָגְרוּ אֶת הַחֲנוּת",
+     "p": {
+      "en": "hem sagrú et hakhanút"
+     },
+     "m": {
+      "en": "they closed the shop"
+     }
+    },
+    {
+     "t": "שמעת?",
+     "nq": "שָׁמַעְתָּ?",
+     "p": {
+      "en": "shamáta?"
+     },
+     "m": {
+      "en": "Did you hear? (to a man)"
+     }
+    },
+    {
+     "t": "מתי חזרת הביתה?",
+     "nq": "מָתַי חָזַרְתְּ הַבַּיְתָה?",
+     "p": {
+      "en": "matáy khazárt habáyta?"
+     },
+     "m": {
+      "en": "When did you get home? (to a woman)"
+     }
+    }
+   ],
+   "quiz": [
+    {
+     "q": {
+      "en": "אני ___ מכתב (I wrote)"
+     },
+     "opts": [
+      "כתבתי",
+      "כתבנו",
+      "כתב",
+      "כתבת"
+     ],
+     "a": 0,
+     "why": {
+      "en": "'I' → the ending ־תי."
+     }
+    },
+    {
+     "q": {
+      "en": "היא ___ את החנות (she closed)"
+     },
+     "opts": [
+      "סגרת",
+      "סגרו",
+      "סגר",
+      "סגרה"
+     ],
+     "a": 3,
+     "why": {
+      "en": "'She' → the ending ־ה."
+     }
+    },
+    {
+     "q": {
+      "en": "הם ___ אתמול (they worked)"
+     },
+     "opts": [
+      "עבד",
+      "עבדו",
+      "עבדתם",
+      "עבדנו"
+     ],
+     "a": 1,
+     "why": {
+      "en": "'They' → the ending ־ו."
+     }
+    },
+    {
+     "q": {
+      "en": "אנחנו ___ עברית (we studied)"
+     },
+     "opts": [
+      "למדנו",
+      "לומדים",
+      "למדו",
+      "למדתי"
+     ],
+     "a": 0,
+     "why": {
+      "en": "'We' → the ending ־נו."
+     }
+    },
+    {
+     "q": {
+      "en": "Without niqqud, how can you tell כתבת 'you (m)' from 'you (f)'?"
+     },
+     "opts": [
+      "by the letter י",
+      "by the ending ־ה",
+      "by a prefix",
+      "you can't: only by pronunciation and context"
+     ],
+     "a": 3,
+     "why": {
+      "en": "Both are written כתבת: katávta / katávt."
+     }
+    },
+    {
+     "q": {
+      "en": "Who can say כתבתי?"
+     },
+     "opts": [
+      "only a woman",
+      "both a man and a woman",
+      "only a man",
+      "only a group"
+     ],
+     "a": 1,
+     "why": {
+      "en": "In the past tense 'I' has the same form for both genders."
+     }
+    },
+    {
+     "q": {
+      "en": "את ___ הביתה? (did you come back; to a woman)"
+     },
+     "opts": [
+      "חזרה",
+      "חזר",
+      "חזרת",
+      "חזרתי"
+     ],
+     "a": 2,
+     "why": {
+      "en": "'You' → ־ת: חזרת (khazárt)."
+     }
+    },
+    {
+     "q": {
+      "en": "How is כתבו (they wrote) pronounced?"
+     },
+     "opts": [
+      "kotvím",
+      "katávnu",
+      "katvú",
+      "katavú"
+     ],
+     "a": 2,
+     "why": {
+      "en": "The stress is on the last syllable: katvú."
+     }
+    }
+   ]
+  }
+ ]
+}

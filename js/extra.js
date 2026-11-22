@@ -7,12 +7,13 @@
 
   /* generic multiple-choice runner used by grammar, verbs, letters, tests.
      qs: [{ask, big, bigCls, sub, opts:[str], a:index, why, say, optCls}] */
+  var TS = { he: /[\u05D0-\u05EA]/, ru: /[а-яё]/i, en: /[a-z]/i };
   function quiz(root, o) {
     var i = 0, ok = 0, wrong = [];
     function step() {
       root.innerHTML = '';
       root.appendChild(el('div.top', {},
-        el('button.icon-btn', { 'aria-label': 'Закрыть', onclick: function () { if (i === 0 || confirm('Закончить?')) HQ.go(o.back); } }, '✕'),
+        el('button.icon-btn', { 'aria-label': HQ.t('Закрыть'), onclick: function () { if (i === 0 || confirm(HQ.t('Закончить?'))) HQ.go(o.back); } }, '✕'),
         el('h1', {}, o.title, o.sub ? el('div.sub', { text: o.sub }) : null)));
       if (i >= o.qs.length) { finish(); return; }
       var q = o.qs[i];
@@ -21,21 +22,23 @@
       if (q.big) st.appendChild(el('div.hw' + (q.bigCls || (isHe(q.big) ? '.he' : '')) + (HQ.hsize(q.big) ? '.' + HQ.hsize(q.big) : ''), { text: q.big }));
       if (q.text) { var qt = HQ.rich(q.text, 'div'); qt.className = 'ru'; qt.style.fontSize = '1.2em'; st.appendChild(qt); }
       if (q.sub) st.appendChild(el('div.tr', { text: q.sub }));
-      if (q.say) st.appendChild(el('button.say', { onclick: function () { HQ.tts.speak(q.say, 'he'); } }, '🔊 Послушать'));
+      if (q.say) st.appendChild(el('button.say', { onclick: function () { HQ.tts.speak(q.say, 'he'); } }, HQ.t('🔊 Послушать')));
+      if (q.sayL) { st.appendChild(el('button.say', { onclick: function () { HQ.tts.sayText(q.sayL, HQ.lang().learn); } }, HQ.t('🔊 Послушать'))); setTimeout(function () { HQ.tts.sayText(q.sayL, HQ.lang().learn); }, 250); }
       root.appendChild(st);
       var box = el('div.opts'), after = el('div'), picked = false; root.appendChild(box); root.appendChild(after);
       if (q.cols) box.style.gridTemplateColumns = '1fr 1fr';
       q.opts.forEach(function (t, k) {
-        var b = el('button.opt' + (q.optCls || (isHe(t) ? '.he' : '')), { onclick: function () {
-          if (isHe(t) && !q.mute) HQ.tts.speak(t, 'he');
+        var tgt = q.sl ? TS[q.sl].test(t) : isHe(t), oc = isHe(t) ? '.he' : (tgt && HQ.lang().ui === 'he') ? '.tg' : '';
+        var b = el('button.opt' + (q.optCls || oc), { onclick: function () {
+          if (tgt && !q.mute) HQ.tts.sayText(t, q.sl || 'he');
           if (picked) return; picked = true;
           var good = k === q.a;
           Array.prototype.forEach.call(box.children, function (x, j) { if (j === q.a) x.classList.add('ok'); else if (x === b) x.classList.add('bad'); else x.classList.add('dim'); });
           if (good) ok++; else wrong.push(q);
           if (o.onAnswer) o.onAnswer(q, good);
           if (q.say && !isHe(t)) HQ.tts.speak(q.say, 'he');
-          after.appendChild(el('div.fb.' + (good ? 'ok' : 'bad'), {}, good ? 'Верно! 👍' : 'Почти! Правильно: ', good ? null : el('span' + (isHe(q.opts[q.a]) ? '.he' : ''), { text: q.opts[q.a] }), q.why ? el('span', { style: 'display:block;font-weight:500;margin-top:4px' }, HQ.rich(q.why)) : null));
-          after.appendChild(el('button.btn.primary', { onclick: function () { i++; step(); } }, i + 1 >= o.qs.length ? 'Результат ›' : 'Дальше ›'));
+          after.appendChild(el('div.fb.' + (good ? 'ok' : 'bad'), {}, good ? HQ.t('Верно! 👍') : HQ.t('Почти! Правильно: '), good ? null : el('span' + (isHe(q.opts[q.a]) ? '.he' : ''), { text: q.opts[q.a] }), q.why ? el('span', { style: 'display:block;font-weight:500;margin-top:4px' }, HQ.rich(q.why)) : null));
+          after.appendChild(el('button.btn.primary', { onclick: function () { i++; step(); } }, i + 1 >= o.qs.length ? HQ.t('Результат ›') : HQ.t('Дальше ›')));
         } }, t);
         box.appendChild(b);
       });
@@ -43,49 +46,68 @@
     function finish() {
       var pct = Math.round(ok / o.qs.length * 100);
       if (o.onDone) { var custom = o.onDone(pct, ok, wrong, root); if (custom) return; }
-      root.appendChild(el('div.card.center', {}, el('div.score' + (pct >= 80 ? '.ok' : ''), { text: pct + '%' }), el('div.muted', { style: 'margin-top:6px', text: ok + ' из ' + o.qs.length + ' правильно' }),
-        el('div', { style: 'font-weight:700;margin-top:10px', text: pct >= 90 ? 'Отлично! 🎉' : pct >= 70 ? 'Хорошо получается!' : 'Стоит перечитать объяснение и попробовать ещё раз' })));
-      root.appendChild(el('div.stack', {}, el('button.btn.primary', { onclick: function () { i = 0; ok = 0; wrong = []; if (o.reshuffle) o.qs = o.reshuffle(); step(); } }, 'Ещё раз'), el('button.btn', { onclick: function () { HQ.go(o.back); } }, 'Назад')));
+      root.appendChild(el('div.card.center', {}, el('div.score' + (pct >= 80 ? '.ok' : ''), { text: pct + '%' }), el('div.muted', { style: 'margin-top:6px', text: ok + HQ.t(' из ') + o.qs.length + HQ.t(' правильно') }),
+        el('div', { style: 'font-weight:700;margin-top:10px', text: pct >= 90 ? HQ.t('Отлично! 🎉') : pct >= 70 ? HQ.t('Хорошо получается!') : HQ.t('Стоит перечитать объяснение и попробовать ещё раз') })));
+      root.appendChild(el('div.stack', {}, el('button.btn.primary', { onclick: function () { i = 0; ok = 0; wrong = []; if (o.reshuffle) o.qs = o.reshuffle(); step(); } }, HQ.t('Ещё раз')), el('button.btn', { onclick: function () { HQ.go(o.back); } }, HQ.t('Назад'))));
     }
     step();
   }
   HQ.quiz = quiz;
 
   /* ================= grammar ================= */
+  function pick(o) { if (o == null || typeof o !== 'object' || Array.isArray(o)) return o; var u = HQ.lang().ui; return o[u] != null ? o[u] : o[Object.keys(o)[0]]; }
+  /* the trilingual course files -> the lesson shape used by the original Russian course */
+  function normalize(raw) {
+    if (Array.isArray(raw)) return raw;
+    return raw.lessons.map(function (l) {
+      return { id: l.id, level: l.level, title: pick(l.title), text: pick(l.text) || [],
+        table: l.table ? { head: pick(l.table.head), rows: l.table.rows.map(function (r) { return r.map(pick); }) } : null,
+        examples: (l.examples || []).map(function (x) { return { he: x.t, nq: x.nq || '', tr: x.p ? pick(x.p) || '' : '', ru: pick(x.m) || '' }; }),
+        quiz: (l.quiz || []).map(function (q) { return { q: pick(q.q), opts: q.opts, a: q.a, why: pick(q.why) }; }) };
+    });
+  }
+  var gfile = 'grammar';
+  function gkey(id) { return (gfile === 'grammar' ? '' : gfile + ':') + id; }
   V.grammar = function (root, a) {
-    HQ.wait(root, HQ.loadExtra('grammar'), function (G) {
+    gfile = HQ.grammarFile() || 'grammar';
+    var learn = HQ.lang().learn, isT = function (c) { return typeof c === 'string' && TS[learn].test(c) && (learn !== 'en' || HQ.lang().ui === 'he' || !TS.ru.test(c)); };
+    HQ.wait(root, HQ.loadExtra(gfile).then(normalize), function (G) {
       var les = a[0] ? G.filter(function (l) { return l.id === a[0]; })[0] : null;
       if (!les) { glist(root, G); return; }
       if (a[1] === 'quiz') {
-        quiz(root, { title: les.title, sub: 'Упражнение', back: '/grammar/' + les.id,
-          qs: les.quiz.map(function (q) { return { text: q.q, opts: q.opts, a: q.a, why: q.why, mute: false }; }),
-          onDone: function (pct) { St.grammar(les.id, pct); } });
+        quiz(root, { title: les.title, sub: HQ.t('Упражнение'), back: '/grammar/' + les.id,
+          qs: les.quiz.map(function (q) { return { text: q.q, opts: q.opts, a: q.a, why: q.why, mute: false, sl: learn }; }),
+          onDone: function (pct) { St.grammar(gkey(les.id), pct); } });
         return;
       }
-      root.appendChild(HQ.top(les.title, 'Грамматика · ' + les.level, '/grammar'));
+      root.appendChild(HQ.top(les.title, HQ.t('Грамматика · ') + les.level, '/grammar'));
       var c = el('div.card.prose'); les.text.forEach(function (p) { c.appendChild(HQ.rich(p, 'p')); }); root.appendChild(c);
       if (les.table) {
         var t = el('table.tb'), tr = el('tr'); les.table.head.forEach(function (h) { tr.appendChild(el('th', { text: h })); }); t.appendChild(tr);
-        les.table.rows.forEach(function (r) { var x = el('tr'); r.forEach(function (cell) { x.appendChild(el('td' + (isHe(cell) ? '.tap' : ''), isHe(cell) ? { onclick: function () { HQ.tts.speak(cell, 'he'); } } : {}, isHe(cell) ? el('span.he', { text: cell }) : cell)); }); t.appendChild(x); });
+        les.table.rows.forEach(function (r) { var x = el('tr'); r.forEach(function (cell) { var tg = isT(cell); x.appendChild(el('td' + (tg ? '.tap' : ''), tg ? { onclick: function () { HQ.tts.sayText(cell, learn); } } : {}, tg ? el('span' + HQ.tc(), { text: cell }) : cell)); }); t.appendChild(x); });
         root.appendChild(el('div.card', { style: 'overflow-x:auto' }, t));
       }
       if (les.examples && les.examples.length) {
-        var e = el('div.card', {}, el('div', { style: 'font-weight:800', text: 'Примеры' }));
-        les.examples.forEach(function (x) { e.appendChild(el('div.ex', {}, el('button.sp', { onclick: function () { HQ.tts.speak(x.nq || x.he, 'he'); } }, '🔊'), el('div.b', {}, el('div.he', { text: (St.set('nq') && x.nq) ? x.nq : x.he }), el('div.tr', { text: x.tr }), el('div.ru', {}, HQ.rich(x.ru))))); });
+        var e = el('div.card', {}, el('div', { style: 'font-weight:800', text: HQ.t('Примеры') }));
+        les.examples.forEach(function (x) {
+          var shown = learn === 'he' ? ((St.set('nq') && x.nq) ? x.nq : x.he) : learn === 'ru' && !St.set('nq') ? HQ.noAcc(x.he) : x.he;
+          e.appendChild(el('div.ex', {}, el('button.sp', { onclick: function () { HQ.tts.sayText(learn === 'he' ? (x.nq || x.he) : x.he, learn); } }, '🔊'),
+            el('div.b', {}, el('div' + HQ.tc(), { text: shown }), x.tr ? el('div.tr', { text: x.tr }) : null, el('div.ru' + HQ.mc(), {}, HQ.rich(x.ru)))));
+        });
         root.appendChild(e);
       }
-      var best = St.grammar(les.id);
-      root.appendChild(el('button.btn.primary', { onclick: function () { HQ.go('/grammar/' + les.id + '/quiz'); } }, 'Упражнение (' + les.quiz.length + ' вопросов)' + (best != null ? ' · лучший ' + best + '%' : '')));
+      var best = St.grammar(gkey(les.id));
+      root.appendChild(el('button.btn.primary', { onclick: function () { HQ.go('/grammar/' + les.id + '/quiz'); } }, HQ.t('Упражнение (') + les.quiz.length + HQ.t(' вопросов)') + (best != null ? HQ.t(' · лучший ') + best + '%' : '')));
       var idx = G.indexOf(les);
-      if (G[idx + 1]) root.appendChild(el('button.btn', { style: 'margin-top:10px', onclick: function () { HQ.go('/grammar/' + G[idx + 1].id); } }, 'Следующий урок: ' + G[idx + 1].title + ' ›'));
+      if (G[idx + 1]) root.appendChild(el('button.btn', { style: 'margin-top:10px', onclick: function () { HQ.go('/grammar/' + G[idx + 1].id); } }, HQ.t('Следующий урок: ') + G[idx + 1].title + ' ›'));
     });
   };
   function glist(root, G) {
-    root.appendChild(HQ.top('Грамматика', HQ.plural(G.length, 'урок', 'урока', 'уроков'), '/'));
+    root.appendChild(HQ.top(HQ.t('Грамматика'), HQ.n(G.length, 'урок', 'урока', 'уроков'), '/'));
     var lv = null;
     G.forEach(function (l, i) {
-      if (l.level !== lv) { lv = l.level; root.appendChild(el('div.grp', { text: 'Уровень ' + lv })); }
-      var b = St.grammar(l.id);
+      if (l.level !== lv) { lv = l.level; root.appendChild(el('div.grp', { text: HQ.t('Уровень ') + lv })); }
+      var b = St.grammar(gkey(l.id));
       root.appendChild(el('button.catrow', { onclick: function () { HQ.go('/grammar/' + l.id); } },
         el('div.ring', { style: '--p:' + (b || 0), 'data-t': b != null ? b + '%' : (i + 1) }), el('div.t', { text: l.title }), el('div.n', { text: '›' })));
     });
@@ -101,7 +123,7 @@
       if (a[0] === 'quiz') { conjQuiz(root, C, a[1] != null ? [C[+a[1]]] : C, a[1] != null ? '/conj/' + a[1] : '/conj'); return; }
       var v = a[0] != null ? C[+a[0]] : null;
       if (!v) {
-        root.appendChild(HQ.top('Спряжение глаголов', HQ.plural(C.length, 'глагол', 'глагола', 'глаголов'), '/'));
+        root.appendChild(HQ.top('Спряжение глаголов', HQ.n(C.length, 'глагол', 'глагола', 'глаголов'), '/'));
         root.appendChild(el('button.btn.primary', { style: 'margin-bottom:14px', onclick: function () { HQ.go('/conj/quiz'); } }, 'Тренировка форм (10 вопросов)'));
         var b = null;
         C.map(function (x, i) { return [x, i]; }).sort(function (p, q) { return p[0].binyan < q[0].binyan ? -1 : p[0].binyan > q[0].binyan ? 1 : p[1] - q[1]; }).forEach(function (p) {
@@ -200,6 +222,43 @@
       return qs;
     }
     quiz(root, { title: hand ? 'Письменные буквы' : 'Алфавит', sub: 'Проверка', back: back, qs: make(), reshuffle: make });
+  }
+
+  /* ================= alphabet of Russian / English ================= */
+  V.abc = function (root, a) {
+    var L = HQ.lang(), f = 'letters-' + L.learn;
+    HQ.wait(root, HQ.loadExtra(f), function (A) {
+      if (a[0] === 'quiz') { abcQuiz(root, A, a[1]); return; }
+      root.appendChild(HQ.top(HQ.t('Алфавит'), HQ.n(A.length, 'буква', 'буквы', 'букв'), '/'));
+      var view = el('div.stage', {}, el('div.muted', { text: HQ.t('Нажмите на букву ниже') })); root.appendChild(view);
+      var grid = el('div.lgrid'); root.appendChild(grid);
+      A.forEach(function (l) {
+        grid.appendChild(el('button.lcell', { onclick: function () {
+          view.innerHTML = '';
+          view.appendChild(el('div.hw.tg', { style: 'font-size:3.6em;line-height:1.1', text: l.ch }));
+          view.appendChild(el('div.tr' + HQ.mc(), { text: pick(l.name) || '' }));
+          view.appendChild(el('div.nt' + HQ.mc(), { text: pick(l.sound) || '' }));
+          if (l.ex) view.appendChild(el('button.say', { onclick: function () { HQ.tts.sayText(l.ex.w, L.learn); } }, '🔊 ', el('span.tg', { text: l.ex.w }), ' — ', el('span' + HQ.mc(), { text: l.ex[L.ui] || '' })));
+          HQ.tts.sayText(l.say || l.ch, L.learn);
+          view.scrollIntoView({ block: 'nearest' });
+        } }, el('div.g.tg', { text: l.ch }), el('div.n' + HQ.mc(), { text: pick(l.name) || '' })));
+      });
+      root.appendChild(el('div.label', { text: HQ.t('Проверка') }));
+      root.appendChild(el('div.stack', {},
+        el('button.btn.primary', { onclick: function () { HQ.go('/abc/quiz/sound'); } }, HQ.t('На слух: какая буква прозвучала?')),
+        el('button.btn', { onclick: function () { HQ.go('/abc/quiz/word'); } }, HQ.t('С какой буквы начинается слово?'))));
+    });
+  };
+  function abcQuiz(root, A, kind) {
+    var L = HQ.lang();
+    function make() {
+      return HQ.sample(A.filter(function (l) { return kind !== 'word' || l.ex; }), 10).map(function (l) {
+        var o = HQ.shuffle([l].concat(HQ.sample(A.filter(function (x) { return x !== l; }), 3))).map(function (x) { return x.ch; });
+        if (kind === 'word') return { ask: HQ.t('С какой буквы начинается слово?'), big: l.ex.w, bigCls: '.tg', sub: l.ex[L.ui] || '', opts: o, a: o.indexOf(l.ch), cols: true, mute: true };
+        return { ask: HQ.t('Какая буква прозвучала?'), text: '🔊', opts: o, a: o.indexOf(l.ch), cols: true, mute: true, why: pick(l.name), sayL: l.say || l.ch };
+      });
+    }
+    quiz(root, { title: HQ.t('Алфавит'), sub: HQ.t('Проверка'), back: '/abc', qs: make(), reshuffle: make });
   }
 
   /* ================= placement tests ================= */

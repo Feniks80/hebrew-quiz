@@ -42,6 +42,7 @@ a{color:var(--brand);text-decoration:none}
 #app{max-width:680px;margin:0 auto;padding:14px 16px 96px;padding:calc(14px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(96px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
 .he{font-family:"Rubik","Noto Sans Hebrew","Arial Hebrew","David",sans-serif;direction:rtl;unicode-bidi:isolate;color:var(--he)}
 .hand{font-family:"HQHand","Rubik",sans-serif;direction:rtl}
+.tg{direction:ltr;unicode-bidi:isolate;color:var(--he)}
 .muted{color:var(--muted)} .center{text-align:center} .hide{display:none!important}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 
@@ -145,7 +146,8 @@ a{color:var(--brand);text-decoration:none}
 .opt.dim{opacity:.55}
 .fb{border-radius:16px;padding:12px 14px;margin:12px 0;font-weight:600;font-size:.92em;text-align:center}
 .fb.ok{background:var(--ok-soft);color:var(--ok)} .fb.bad{background:var(--bad-soft);color:var(--bad)}
-.fb .he{font-size:1.35em;color:inherit;display:block;margin-top:2px}
+.fb .he,.fb .tg{font-size:1.35em;color:inherit;display:block;margin-top:2px}
+.fb .tg + span{display:block}
 /* build */
 .slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;direction:rtl;min-height:66px;margin:12px 0;padding:10px;border-radius:16px;background:var(--surface2);border:2px dashed var(--line)}
 .slots.ok{border-color:var(--ok);background:var(--ok-soft)} .slots.bad{border-color:var(--bad);background:var(--bad-soft)}

@@ -79,9 +79,15 @@ if "b2" in decks:
         c["items"] = [it for it in c["items"] if it["he"] not in taught]
 
 manifest = {"decks": {}, "sections": site["sections"], "built": time.strftime("%Y-%m-%d")}
+
+# trilingual fields: content/i18n/<deck>.json  {"<id>": {"en","ra","rh"}, "_deck": {...}, "_cats": {...}}
+I18N = {}
+for f in glob.glob(C("i18n", "*.json")):
+    I18N[os.path.splitext(os.path.basename(f))[0]] = load(f)
 total = 0
 for did, d in decks.items():
     used, cats, olds = set(), [], {}
+    tr = I18N.get(did, {})
     for c in d["cats"]:
         seen, items = set(), []
         for it in c["items"]:
@@ -93,8 +99,12 @@ for did, d in decks.items():
             while h in used:
                 h = hashlib.md5((h + "x").encode()).hexdigest()[:6]
             used.add(h)
-            items.append([h, it["he"], it.get("nq") or 0, it["tr"], it["ru"], emoji(it.get("em")),
-                          it.get("g") or 0, it.get("note") or 0])
+            row = [h, it["he"], it.get("nq") or 0, it["tr"], it["ru"], emoji(it.get("em")),
+                   it.get("g") or 0, it.get("note") or 0]
+            x = tr.get(h)
+            if x and x.get("en") and x.get("ra"):
+                row += [x["en"], x["ra"], x.get("rh") or 0]
+            items.append(row)
             if it.get("_old"):
                 olds[h] = it["_old"]
         if items:
@@ -102,19 +112,26 @@ for did, d in decks.items():
     n = sum(len(c["items"]) for c in cats)
     total += n
     write_js(f"deck-{did}.js", "deck", did, {"id": did, "title": d["title"], "level": d["level"], "cats": cats, "old": olds})
-    manifest["decks"][did] = {"title": d["title"], "level": d["level"], "n": n,
-                              "cats": [{"id": c["id"], "title": c["title"], "group": c["group"], "n": len(c["items"])} for c in cats]}
+    nt = sum(1 for c in cats for a in c["items"] if len(a) > 8)
+    dt, ct = tr.get("_deck") or {}, tr.get("_cats") or {}
+    manifest["decks"][did] = {"title": d["title"], "level": d["level"], "n": n, "nt": nt,
+                              "ti": {"en": dt.get("en"), "he": dt.get("he")} if dt else 0,
+                              "cats": [{"id": c["id"], "title": c["title"], "group": c["group"], "n": len(c["items"]),
+                                        "nt": sum(1 for a in c["items"] if len(a) > 8),
+                                        "ti": ct.get(c["id"]) or 0} for c in cats]}
     print(f"deck {did:18s} {len(cats):3d} cats {n:5d} items  ({d['_patched']} patched)")
 
 extras = {}
 for name, src in (("grammar", "grammar.json"), ("conj", "verbs_conj.json"), ("letters", "letters.json"),
                   ("test-level", "test_level.json"), ("test-idioms", "test_idioms.json"),
-                  ("hand", "handwriting.json")):
+                  ("hand", "handwriting.json"), ("grammar-ru", "grammar_ru.json"), ("grammar-en", "grammar_en.json"),
+                  ("grammar-he-en", "grammar_he_en.json"), ("letters-ru", "letters_ru.json"), ("letters-en", "letters_en.json"),
+                  ("ui", "i18n/ui.json")):
     obj = load(C(src))
     if obj is None:
         continue
     write_js(f"{name}.js", "extra", name, obj)
-    extras[name] = len(obj)
+    extras[name] = len(obj.get("lessons", obj)) if isinstance(obj, dict) and "lessons" in obj else len(obj)
 manifest["extras"] = extras
 manifest["total"] = total
 write_js("manifest.js", "manifest", "manifest", manifest)
