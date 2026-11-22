@@ -18,6 +18,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -26,6 +27,8 @@ import android.webkit.WebViewClient;
 
 import org.json.JSONArray;
 
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener {
@@ -33,6 +36,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     // The whole app is one self-contained HTML file packed into the APK
     // (CI copies hebrew-quiz.html into assets), so it works with no network.
     private static final String APP_URL = "file:///android_asset/hebrew-quiz.html";
+
+    private static final int REQ_SAVE_FILE = 41;
+    private static final int REQ_OPEN_FILE = 42;
+    private String pendingSaveText;
+    private ValueCallback<Uri[]> pendingFileCallback;
 
     private WebView webView;
     private TextToSpeech tts;
@@ -87,7 +95,25 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                 return handleUrl(request.getUrl());
             }
         });
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            // <input type="file"> in the page: lets the user pick a saved progress file
+            @Override
+            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback,
+                                             FileChooserParams params) {
+                if (pendingFileCallback != null) pendingFileCallback.onReceiveValue(null);
+                pendingFileCallback = callback;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                try {
+                    startActivityForResult(Intent.createChooser(i, "Файл с прогрессом"), REQ_OPEN_FILE);
+                } catch (ActivityNotFoundException e) {
+                    pendingFileCallback = null;
+                    return false;
+                }
+                return true;
+            }
+        });
 
         if (savedInstanceState == null) {
             webView.loadUrl(APP_URL);
@@ -124,6 +150,30 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                 @Override public void onDone(String utteranceId) {}
                 @Override public void onError(String utteranceId) {}
             });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_OPEN_FILE) {
+            if (pendingFileCallback != null) {
+                Uri[] result = (resultCode == RESULT_OK && data != null && data.getData() != null)
+                        ? new Uri[]{data.getData()} : null;
+                pendingFileCallback.onReceiveValue(result);
+                pendingFileCallback = null;
+            }
+        } else if (requestCode == REQ_SAVE_FILE) {
+            String text = pendingSaveText;
+            pendingSaveText = null;
+            boolean ok = false;
+            if (resultCode == RESULT_OK && data != null && data.getData() != null && text != null) {
+                try (OutputStream os = getContentResolver().openOutputStream(data.getData())) {
+                    if (os != null) { os.write(text.getBytes(StandardCharsets.UTF_8)); ok = true; }
+                } catch (Exception ignored) { }
+            }
+            final String js = "window.HQ&&HQ.onFileSaved&&HQ.onFileSaved(" + ok + ")";
+            webView.post(() -> webView.evaluateJavascript(js, null));
         }
     }
 
@@ -265,6 +315,36 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                 arr.put(k);
             }
             return arr.toString();
+        }
+
+        /** Opens the Android share sheet (WhatsApp, Telegram, e-mail…) with the text. */
+        @JavascriptInterface
+        public void share(String text) {
+            runOnUiThread(() -> {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Учим иврит — код прогресса");
+                i.putExtra(Intent.EXTRA_TEXT, text);
+                try { startActivity(Intent.createChooser(i, "Отправить код прогресса")); }
+                catch (Exception ignored) { }
+            });
+        }
+
+        /** Asks where to save a text file (e.g. Downloads or Google Drive) and writes it there. */
+        @JavascriptInterface
+        public void saveFile(String name, String text) {
+            runOnUiThread(() -> {
+                pendingSaveText = text;
+                Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TITLE, name);
+                try { startActivityForResult(i, REQ_SAVE_FILE); }
+                catch (Exception e) {
+                    pendingSaveText = null;
+                    webView.evaluateJavascript("window.HQ&&HQ.onFileSaved&&HQ.onFileSaved(false)", null);
+                }
+            });
         }
     }
 }

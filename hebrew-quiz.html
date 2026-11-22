@@ -645,6 +645,16 @@ HQ.reg("manifest","manifest",{"decks":{"b2":{"title":"Иврит — бытов�
     root.firstChild.style.marginBottom = '4px';
     root.appendChild(hero);
     HQ.voiceNote(root);
+    var lbk = St.set('lastBackup');
+    if (learned >= 20 && (!lbk || Date.now() - lbk > 14 * 864e5) && St.set('backupNag') !== HQ.today()) {
+      var nag = el('div.note.info', {},
+        el('b', { text: '💾 Сохраните прогресс' }),
+        el('div', { text: 'Выучено уже ' + HQ.plural(learned, 'слово', 'слова', 'слов') + '. Отправьте код себе в мессенджер — тогда прогресс не пропадёт при переустановке или смене телефона.' }),
+        el('div.row', { style: 'margin-top:10px' },
+          el('button.btn.small.primary', { onclick: function () { HQ.go('/settings/backup'); } }, 'Сохранить'),
+          el('button.btn.small', { onclick: function () { St.set('backupNag', HQ.today()); nag.remove(); } }, 'Позже')));
+      root.appendChild(nag);
+    }
     var framed = false; try { framed = window.top !== window; } catch (e) { framed = true; }
     if (HQ.ios && !HQ.standalone && !framed && /^https?:/.test(location.protocol) && !St.set('iosHint')) {
       var hint = el('div.note.info', {},
@@ -770,6 +780,42 @@ HQ.reg("manifest","manifest",{"decks":{"b2":{"title":"Иврит — бытов�
     opts.forEach(function (o) { s.appendChild(el('button' + (cur === o[0] ? '.on' : ''), { onclick: function () { St.set(key, o[0]); HQ.render(); } }, o[1])); });
     return s;
   }
+  /* restore from a pasted code or from the text of a saved file */
+  function restore(text, note) {
+    var m = String(text || '').replace(/\s+/g, '').match(/HQ[12]:[A-Za-z0-9+\/=]+/);
+    if (!m) { note('warn', 'Код не найден. Проверьте, что он скопирован полностью.'); return; }
+    if (!confirm('Восстановить прогресс? Текущий прогресс на этом устройстве будет заменён.')) return;
+    var n = St.importCode(m[0]);
+    if (n <= 0) { note('warn', 'Код не распознан. Проверьте, что он скопирован полностью.'); return; }
+    note('ok', 'Готово, прогресс восстановлен.'); setTimeout(function () { location.hash = '/'; location.reload(); }, 1200);
+  }
+  HQ.backup = {
+    text: function () {
+      var c = St.exportCode();
+      return 'Учим иврит — код прогресса (' + new Date().toLocaleDateString('ru-RU') + ', выучено слов: ' + St.totalLearned() + ').\n' +
+        'Чтобы восстановить: Настройки → Сохранить и перенести прогресс → Вставить код.\n\n' + c + '\n';
+    },
+    share: function () {
+      var t = HQ.backup.text(), A = window.AndroidStore;
+      if (A && typeof A.share === 'function') { try { A.share(t); St.set('lastBackup', Date.now()); return true; } catch (e) { } }
+      if (navigator.share) { navigator.share({ title: 'Учим иврит — прогресс', text: t }).then(function () { St.set('lastBackup', Date.now()); }, function () { }); return true; }
+      return false;
+    },
+    /* true = saved, 'ask' = the system file dialog was opened, false = failed */
+    saveFile: function () {
+      var t = HQ.backup.text(), name = 'ivrit-progress-' + HQ.today() + '.txt', A = window.AndroidStore;
+      if (A && typeof A.saveFile === 'function') { try { A.saveFile(name, t); return 'ask'; } catch (e) { } }
+      try {
+        var url = URL.createObjectURL(new Blob([t], { type: 'text/plain;charset=utf-8' })), link = el('a', { href: url, download: name });
+        document.body.appendChild(link); link.click(); setTimeout(function () { URL.revokeObjectURL(url); link.remove(); }, 2000);
+        St.set('lastBackup', Date.now()); return true;
+      } catch (e) { return false; }
+    }
+  };
+  HQ.onFileSaved = function (ok) {
+    if (ok) St.set('lastBackup', Date.now());
+    alert(ok ? 'Файл с прогрессом сохранён.' : 'Файл не сохранён.');
+  };
   V.settings = function (root, a) {
     root.appendChild(HQ.top('Настройки', '', function () { HQ.back('/'); }));
     root.lastChild.lastChild.remove();
@@ -830,35 +876,58 @@ HQ.reg("manifest","manifest",{"decks":{"b2":{"title":"Иврит — бытов�
     else v.appendChild(el('div.muted', { style: 'font-size:.8em', html: '<b>Если звука нет (Android):</b> Настройки телефона → Общие настройки → Язык и ввод → Преобразование текста в речь → Google → ⚙ → Установить голосовые данные → עברית (иврит). Потом закройте и снова откройте приложение. Громкость — «мультимедиа».' }));
     root.appendChild(v);
 
-    /* progress code */
-    var p = el('div.card.stack');
+    /* progress backup */
+    var p = el('div.card.stack', { id: 'backup' });
     p.appendChild(el('div', { style: 'font-weight:800', text: '💾 Сохранить и перенести прогресс' }));
-    p.appendChild(el('div.muted', { style: 'font-size:.82em', text: 'Код прогресса можно отправить себе в WhatsApp и вставить на другом устройстве или после переустановки.' }));
+    p.appendChild(el('div.muted', { style: 'font-size:.82em', text: 'Перед переустановкой приложения или переходом на другой телефон сохраните прогресс: отправьте код себе в WhatsApp или Telegram, или сохраните файл. Потом восстановите его здесь же.' }));
+    var lb = St.set('lastBackup');
+    p.appendChild(el('div.muted', { style: 'font-size:.82em;font-weight:600', text: lb ? 'Последнее сохранение: ' + new Date(lb).toLocaleDateString('ru-RU') : 'Прогресс ещё ни разу не сохранялся.' }));
+    var msg = el('div');
+    function note(cls, t) { msg.className = 'note ' + cls; msg.textContent = t; }
+    p.appendChild(el('button.btn.primary', { onclick: function () {
+      if (HQ.backup.share()) note('ok', 'Выберите, куда отправить, например «Избранное» в Telegram или чат с собой в WhatsApp.');
+      else { showCode(); note('info', 'Скопируйте код и отправьте его себе в любой мессенджер.'); }
+    } }, '📤 Отправить код себе'));
+    p.appendChild(el('button.btn.soft', { onclick: function () {
+      var r = HQ.backup.saveFile();
+      if (r === 'ask') note('info', 'Выберите папку, например «Загрузки» или Google Диск.');
+      else if (r) note('ok', 'Файл сохранён в «Загрузки».');
+      else note('warn', 'Не получилось сохранить файл. Используйте «Отправить код себе».');
+    } }, '💾 Сохранить в файл'));
     var out = el('div.stack');
-    p.appendChild(el('button.btn.soft', { id: 'pc-export-btn', onclick: function () {
+    function showCode() {
       out.innerHTML = ''; var ta = el('textarea', { id: 'progresscode', readonly: '' }); ta.value = St.exportCode(); out.appendChild(ta);
-      var cb = el('button.btn.primary', { onclick: function () {
+      St.set('lastBackup', Date.now());
+      var cb = el('button.btn', { onclick: function () {
         var done = function () { cb.textContent = 'Скопировано ✓'; setTimeout(function () { cb.textContent = '📋 Скопировать'; }, 2000); };
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); document.execCommand('copy'); done(); });
         else { ta.select(); try { document.execCommand('copy'); } catch (e) { } done(); }
       } }, '📋 Скопировать'); out.appendChild(cb); ta.select();
-    } }, 'Получить код прогресса'));
+    }
+    p.appendChild(el('button.btn', { id: 'pc-export-btn', onclick: showCode }, 'Показать код прогресса'));
     p.appendChild(out);
+    p.appendChild(msg);
+
+    p.appendChild(el('div.label', { text: 'Восстановить' }));
+    var file = el('input', { type: 'file', accept: '.txt,text/plain', style: 'display:none' });
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function () { restore(String(r.result || ''), note); file.value = ''; };
+      r.onerror = function () { note('warn', 'Не удалось прочитать файл.'); };
+      r.readAsText(f);
+    });
+    p.appendChild(file);
+    p.appendChild(el('button.btn', { onclick: function () { file.click(); } }, '📂 Загрузить из файла'));
     var inp = el('div.stack');
     p.appendChild(el('button.btn', { onclick: function () {
-      inp.innerHTML = ''; var ta = el('textarea', { id: 'importcode', placeholder: 'Вставьте код (начинается с HQ…)' }), msg = el('div');
+      inp.innerHTML = ''; var ta = el('textarea', { id: 'importcode', placeholder: 'Вставьте код (начинается с HQ…)' });
       inp.appendChild(ta);
-      inp.appendChild(el('button.btn.primary', { onclick: function () {
-        if (!/^HQ[12]:/.test(ta.value.replace(/\s+/g, ''))) { msg.className = 'note warn'; msg.textContent = 'Код не распознан. Проверьте, что он скопирован полностью.'; return; }
-        if (!confirm('Восстановить прогресс из кода? Текущий прогресс на этом устройстве будет заменён.')) return;
-        var n = St.importCode(ta.value);
-        if (n <= 0) { msg.className = 'note warn'; msg.textContent = 'Код не распознан. Проверьте, что он скопирован полностью.'; return; }
-        msg.className = 'note ok'; msg.textContent = 'Готово, прогресс восстановлен.'; setTimeout(function () { location.hash = '/'; location.reload(); }, 1200);
-      } }, 'Восстановить'));
-      inp.appendChild(msg);
-    } }, 'Восстановить из кода'));
+      inp.appendChild(el('button.btn.primary', { onclick: function () { restore(ta.value, note); } }, 'Восстановить'));
+    } }, 'Вставить код'));
     p.appendChild(inp);
     root.appendChild(p);
+    if (a[0] === 'backup') setTimeout(function () { p.scrollIntoView({ block: 'start' }); }, 30);
 
     root.appendChild(el('button.btn.bad', { onclick: function () { if (confirm('Стереть весь прогресс на этом устройстве?')) { St.reset(); HQ.go('/'); } } }, 'Сбросить прогресс'));
     root.appendChild(el('div.foot', { html: 'Учим иврит · © Shimon Donen, 2026<br>Шрифты Rubik и Gveret Levin — SIL Open Font License' }));
