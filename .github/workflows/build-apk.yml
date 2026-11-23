@@ -61,6 +61,7 @@ jobs:
           KS_B64: ${{ secrets.KS_B64 }}
           KS_PASS: ${{ secrets.KS_PASS }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.KEY_PASS }}
         run: |
           if [ -n "$KS_B64" ]; then
             # tolerate spaces / line breaks picked up when the secrets were pasted
@@ -73,11 +74,14 @@ jobs:
             else
               echo "::error::KS_PASS does not open the keystore (check the secret value)"
             fi
-            if keytool -list -keystore "$RUNNER_TEMP/release.jks" -storepass "$P" -alias "$A" >/dev/null 2>&1; then
-              echo "KEY_ALIAS found in the keystore: yes"
-            else
-              echo "::warning::KEY_ALIAS not found with this password"
-            fi
+            # take the real alias from the keystore (KEY_ALIAS may differ in case or spacing)
+            REAL=$(keytool -list -keystore "$RUNNER_TEMP/release.jks" -storepass "$P" 2>/dev/null | awk -F, '/PrivateKeyEntry/ {print $1; exit}')
+            if [ -n "$REAL" ]; then echo "Key alias in the keystore found: yes"; else REAL="$A"; echo "::warning::no private key entry found"; fi
+            [ "$REAL" = "$A" ] && echo "KEY_ALIAS secret matches exactly: yes" || echo "KEY_ALIAS secret differs from the real alias (using the real one)"
+            KP=$(printf '%s' "$KEY_PASS" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            [ -n "$KP" ] || KP="$P"
+            echo "::add-mask::$P"; echo "::add-mask::$KP"
+            { echo "KS_PASS_C=$P"; echo "KEY_PASS_C=$KP"; echo "KEY_ALIAS_C=$REAL"; } >> "$GITHUB_ENV"
             echo "KS_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
             echo "SIGNED=1" >> "$GITHUB_ENV"
           else

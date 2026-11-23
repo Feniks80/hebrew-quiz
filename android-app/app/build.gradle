@@ -22,9 +22,9 @@ android {
             def ksPath = System.getenv("KS_PATH")
             if (ksPath) {
                 storeFile file(ksPath)
-                storePassword((System.getenv("KS_PASS") ?: "").trim())
-                keyAlias((System.getenv("KEY_ALIAS") ?: "").trim())
-                keyPassword((System.getenv("KEY_PASS") ?: "").trim())
+                storePassword((System.getenv("KS_PASS_C") ?: System.getenv("KS_PASS") ?: "").trim())
+                keyAlias((System.getenv("KEY_ALIAS_C") ?: System.getenv("KEY_ALIAS") ?: "").trim())
+                keyPassword((System.getenv("KEY_PASS_C") ?: System.getenv("KEY_PASS") ?: "").trim())
             }
         }
     }
