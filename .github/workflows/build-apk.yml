@@ -59,9 +59,25 @@ jobs:
       - name: Decode signing key
         env:
           KS_B64: ${{ secrets.KS_B64 }}
+          KS_PASS: ${{ secrets.KS_PASS }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           if [ -n "$KS_B64" ]; then
-            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            # tolerate spaces / line breaks picked up when the secrets were pasted
+            printf '%s' "$KS_B64" | tr -d ' \r\n\t' | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "Keystore fingerprint (file sha256): $(sha256sum "$RUNNER_TEMP/release.jks" | cut -c1-16)"
+            P=$(printf '%s' "$KS_PASS" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            A=$(printf '%s' "$KEY_ALIAS" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            if keytool -list -keystore "$RUNNER_TEMP/release.jks" -storepass "$P" >/dev/null 2>&1; then
+              echo "KS_PASS opens the keystore: yes"
+            else
+              echo "::error::KS_PASS does not open the keystore (check the secret value)"
+            fi
+            if keytool -list -keystore "$RUNNER_TEMP/release.jks" -storepass "$P" -alias "$A" >/dev/null 2>&1; then
+              echo "KEY_ALIAS found in the keystore: yes"
+            else
+              echo "::warning::KEY_ALIAS not found with this password"
+            fi
             echo "KS_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
             echo "SIGNED=1" >> "$GITHUB_ENV"
           else
