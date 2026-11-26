@@ -142,7 +142,26 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     }
 
     @Override
+    private int ttsTries = 0;
+
+    /** Locale for the app's language codes; Hebrew falls back to the old 'iw' code. */
+    private static Locale[] localesFor(String lang) {
+        if ("ru".equals(lang)) return new Locale[]{new Locale("ru", "RU"), new Locale("ru")};
+        if ("en".equals(lang)) return new Locale[]{Locale.US, Locale.UK, Locale.ENGLISH};
+        return new Locale[]{new Locale("he", "IL"), new Locale("iw", "IL"), new Locale("he"), new Locale("iw")};
+    }
+
     public void onInit(int status) {
+        if (status != TextToSpeech.SUCCESS) {
+            // the engine may still be starting right after installation: try again a few times
+            if (ttsTries++ < 3 && webView != null) {
+                webView.postDelayed(() -> {
+                    try { if (tts != null) tts.shutdown(); } catch (Exception ignored) {}
+                    tts = new TextToSpeech(getApplicationContext(), MainActivity.this);
+                }, 1500);
+            }
+            return;
+        }
         if (status == TextToSpeech.SUCCESS) {
             ttsReady = true;
             tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -217,15 +236,10 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             if (!ttsReady || tts == null || text == null || text.isEmpty()) return false;
 
             if (!(lang == null ? currentLang == null : lang.equals(currentLang))) {
-                int result;
-                if ("ru".equals(lang)) {
-                    result = tts.setLanguage(new Locale("ru", "RU"));
-                } else {
-                    result = tts.setLanguage(new Locale("he", "IL"));
-                    if (result < 0) {
-                        // Older Android labels Hebrew as 'iw'.
-                        result = tts.setLanguage(new Locale("iw", "IL"));
-                    }
+                int result = TextToSpeech.LANG_NOT_SUPPORTED;
+                for (Locale loc : localesFor(lang)) {
+                    result = tts.setLanguage(loc);
+                    if (result >= 0) break;
                 }
                 if (result < 0) {
                     currentLang = null;
@@ -251,13 +265,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         @JavascriptInterface
         public boolean hasLanguage(String lang) {
             if (!ttsReady || tts == null) return false;
-            Locale loc = "ru".equals(lang)
-                    ? new Locale("ru", "RU") : new Locale("he", "IL");
-            int r = tts.isLanguageAvailable(loc);
-            if (r >= TextToSpeech.LANG_AVAILABLE) return true;
-            if (!"ru".equals(lang)) {
-                r = tts.isLanguageAvailable(new Locale("iw", "IL"));
-                return r >= TextToSpeech.LANG_AVAILABLE;
+            for (Locale loc : localesFor(lang)) {
+                if (tts.isLanguageAvailable(loc) >= TextToSpeech.LANG_AVAILABLE) return true;
             }
             return false;
         }
