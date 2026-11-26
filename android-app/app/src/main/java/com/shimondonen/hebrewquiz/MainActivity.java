@@ -141,7 +141,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         return true;
     }
 
-    @Override
     private int ttsTries = 0;
 
     /** Locale for the app's language codes; Hebrew falls back to the old 'iw' code. */
@@ -151,6 +150,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         return new Locale[]{new Locale("he", "IL"), new Locale("iw", "IL"), new Locale("he"), new Locale("iw")};
     }
 
+    @Override
     public void onInit(int status) {
         if (status != TextToSpeech.SUCCESS) {
             // the engine may still be starting right after installation: try again a few times
