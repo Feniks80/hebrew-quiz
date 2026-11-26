@@ -92,6 +92,13 @@
   HQ.deckN = function (id) { var m = HQ.manifest.decks[id]; if (!m) return 0; return HQ.native() || (HQ.lang().learn === 'he' && HQ.lang().ui === 'ru') ? m.n : (m.nt || 0); };
   HQ.catN = function (id, ci) { var m = HQ.manifest.decks[id], c = m && m.cats[ci]; return c ? (HQ.native() ? c.n : (c.nt || 0)) : 0; };
 
+  /* ---------- automatic move to the next question (setting 'auto': off | ok | all) ----------
+     go() runs after a pause unless the screen changed meanwhile (stillHere() returns false) */
+  HQ.autoNext = function (ok, stillHere, go) {
+    var m = HQ.store.set('auto');
+    if (m === 'off' || (m === 'ok' && !ok)) return;
+    setTimeout(function () { if (stillHere()) go(); }, ok ? 900 : 2200);
+  };
   /* ---------- interface strings: HQ.t('Русский текст {0}', x) ---------- */
   HQ.t = function (s) {
     var u = HQ.store ? HQ.store.set('ui') : 'ru', D = HQ.extra.ui, r = s;
@@ -163,7 +170,7 @@
   var KEY = 'hq2', OLD = /^(hz-state|he100-state|he-block-|hq-prog|hq2-prog|he-test-state|he-test-idioms-state)/;
   var S = { v: 2, set: {}, w: {}, m: {}, ex: {}, day: {}, gr: {}, mig: {} };
   try { var raw = localStorage.getItem(KEY); if (raw) { var p = JSON.parse(raw); for (var k in S) if (p[k] != null) S[k] = p[k]; } } catch (e) { }
-  var DEF = { nq: true, dir: 'mix', rate: 0.8, mode: 'simple', theme: 'auto', size: 'm', ui: 'ru', learn: 'he' };
+  var DEF = { nq: true, dir: 'mix', rate: 0.8, mode: 'simple', theme: 'auto', size: 'm', ui: 'ru', learn: 'he', auto: 'off' };
   var saveT = null;
   function save() { if (saveT || frozen) return; saveT = setTimeout(function () { saveT = null; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }, 150); }
   var frozen = false;

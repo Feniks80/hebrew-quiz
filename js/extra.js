@@ -39,6 +39,7 @@
           if (q.say && !isHe(t)) HQ.tts.speak(q.say, 'he');
           after.appendChild(el('div.fb.' + (good ? 'ok' : 'bad'), {}, good ? HQ.t('Верно! 👍') : HQ.t('Почти! Правильно: '), good ? null : el('span' + (isHe(q.opts[q.a]) ? '.he' : ''), { text: q.opts[q.a] }), q.why ? el('span', { style: 'display:block;font-weight:500;margin-top:4px' }, HQ.rich(q.why)) : null));
           after.appendChild(el('button.btn.primary', { onclick: function () { i++; step(); } }, i + 1 >= o.qs.length ? HQ.t('Результат ›') : HQ.t('Дальше ›')));
+          var qi = i; HQ.autoNext(good, function () { return i === qi && document.body.contains(after); }, function () { i++; step(); });
         } }, t);
         box.appendChild(b);
       });

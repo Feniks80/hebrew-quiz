@@ -283,6 +283,9 @@
     c.appendChild(el('div.label', { text: HQ.t('Направление в упражнениях') }));
     var LN = { he: HQ.t('Иврит'), ru: HQ.t('Русский'), en: HQ.t('Английский') }, Lp = HQ.lang(), ar = Lp.ui === 'he' ? ' ← ' : ' → ';
     c.appendChild(seg('dir', [['mix', HQ.t('Вперемешку')], ['he-ru', LN[Lp.learn] + ar + LN[Lp.ui]], ['ru-he', LN[Lp.ui] + ar + LN[Lp.learn]]]));
+    c.appendChild(el('div.label', { text: HQ.t('Переход к следующему вопросу') }));
+    c.appendChild(seg('auto', [['off', HQ.t('Кнопкой «Дальше»')], ['ok', HQ.t('Сам, после верного')], ['all', HQ.t('Сам, всегда')]]));
+    c.appendChild(el('div.muted', { style: 'font-size:.78em', text: HQ.t('«Сам»: после верного ответа следующий вопрос появляется через секунду. После ошибки в режиме «всегда» — через 2 секунды, чтобы успеть увидеть правильный ответ.') }));
     c.appendChild(el('div.label', { text: HQ.t('Скорость речи') }));
     c.appendChild(seg('rate', [[0.55, HQ.t('Медленно')], [0.8, HQ.t('Спокойно')], [1, HQ.t('Обычно')]]));
     c.appendChild(el('div.label', { text: HQ.t('Размер текста') }));

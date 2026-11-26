@@ -73,6 +73,7 @@
   function nextBtn(host, s, ok) {
     var last = s.i + 1 >= s.items.length;
     host.appendChild(el('button.btn.primary', { onclick: function () { next(s); } }, last ? HQ.t('Результат ›') : HQ.t('Дальше ›')));
+    var i = s.i; HQ.autoNext(ok, function () { return HQ.session === s && s.i === i && !s.done && location.hash === '#/run'; }, function () { next(s); });
   }
   function feedback(host, ok, it, showAnswer) {
     host.appendChild(el('div.fb.' + (ok ? 'ok' : 'bad'), {},
@@ -209,7 +210,7 @@
       if (a.it === it) {
         a.node.classList.add('gone', 'ok'); node.classList.add('gone', 'ok'); solved++;
         record(s, it, !wrong[it.id], 1);
-        if (solved === group.length) { after.appendChild(el('div.fb.ok', { text: HQ.t('Все пары найдены! 👍') })); after.appendChild(el('button.btn.primary', { onclick: function () { next(s); } }, (s.i + 1) * 5 >= s.items.length ? HQ.t('Результат ›') : HQ.t('Дальше ›'))); }
+        if (solved === group.length) { after.appendChild(el('div.fb.ok', { text: HQ.t('Все пары найдены! 👍') })); after.appendChild(el('button.btn.primary', { onclick: function () { next(s); } }, (s.i + 1) * 5 >= s.items.length ? HQ.t('Результат ›') : HQ.t('Дальше ›'))); var gi = s.i; HQ.autoNext(true, function () { return HQ.session === s && s.i === gi && !s.done && location.hash === '#/run'; }, function () { next(s); }); }
       } else {
         wrong[a.it.id] = 1; wrong[it.id] = 1;
         [a.node, node].forEach(function (n) { n.classList.add('bad', 'shake'); setTimeout(function () { n.classList.remove('bad', 'shake'); }, 450); });
