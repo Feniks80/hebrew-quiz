@@ -326,6 +326,13 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             return arr.toString();
         }
 
+        /** versionName of the installed app, shown in the page footer. */
+        @JavascriptInterface
+        public String appVersion() {
+            try { return getPackageManager().getPackageInfo(getPackageName(), 0).versionName; }
+            catch (Exception e) { return ""; }
+        }
+
         /** Opens the Android share sheet (WhatsApp, Telegram, e-mail…) with the text. */
         @JavascriptInterface
         public void share(String text) {

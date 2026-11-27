@@ -99,6 +99,12 @@
     if (m === 'off' || (m === 'ok' && !ok)) return;
     setTimeout(function () { if (stillHere()) go(); }, ok ? 900 : 2200);
   };
+  /* ---------- version shown in footers: content build + Android app version ---------- */
+  HQ.version = function () {
+    var v = (HQ.manifest && HQ.manifest.ver) || '', A = window.AndroidStore, app = '';
+    try { if (A && typeof A.appVersion === 'function') app = A.appVersion() || ''; } catch (e) { }
+    return HQ.t('версия') + ' ' + v + (app ? ' · ' + HQ.t('приложение') + ' ' + app : '');
+  };
   /* ---------- interface strings: HQ.t('Русский текст {0}', x) ---------- */
   HQ.t = function (s) {
     var u = HQ.store ? HQ.store.set('ui') : 'ru', D = HQ.extra.ui, r = s;

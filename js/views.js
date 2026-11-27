@@ -70,7 +70,7 @@
       root.appendChild(el('button.btn.soft', { onclick: function () { St.set('mode', 'full'); HQ.render(); } }, HQ.t('Показать продвинутые разделы (B2, инженерный)')));
     }
     var tot = 0; for (var dk in M.decks) tot += HQ.deckN(dk);
-    root.appendChild(el('div.foot', { html: '© Shimon Donen, 2026 · ' + tot + HQ.t(' слов и фраз · обновлено ') + M.built }));
+    root.appendChild(el('div.foot', {}, '© Shimon Donen, 2026 · ' + tot + HQ.t(' слов и фраз'), el('br'), HQ.version()));
   };
   /* which hub tiles exist for the current language pair */
   HQ.grammarFile = function () {
@@ -393,6 +393,7 @@
 
     root.appendChild(el('button.btn.bad', { onclick: function () { if (confirm(HQ.t('Стереть весь прогресс на этом устройстве?'))) { St.reset(); HQ.go('/'); } } }, HQ.t('Сбросить прогресс')));
     root.appendChild(el('div.foot', { html: HQ.t('Учим иврит · © Shimon Donen, 2026<br>Шрифты Rubik и Gveret Levin — SIL Open Font License') }));
+    root.appendChild(el('div.foot', { style: 'margin-top:0' }, HQ.version()));
     if (a[0] === 'voice') setTimeout(function () { v.scrollIntoView({ block: 'start' }); }, 30);
   };
 

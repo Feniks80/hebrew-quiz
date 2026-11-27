@@ -78,7 +78,8 @@ if "b2" in decks:
     for c in decks["b2"]["cats"]:
         c["items"] = [it for it in c["items"] if it["he"] not in taught]
 
-manifest = {"decks": {}, "sections": site["sections"], "built": time.strftime("%Y-%m-%d")}
+manifest = {"decks": {}, "sections": site["sections"], "built": time.strftime("%Y-%m-%d"),
+            "ver": time.strftime("%Y.%m.%d.%H%M", time.gmtime())}
 
 # trilingual fields: content/i18n/<deck>.json  {"<id>": {"en","ra","rh"}, "_deck": {...}, "_cats": {...}}
 I18N = {}
@@ -130,6 +131,12 @@ for name, src in (("grammar", "grammar.json"), ("conj", "verbs_conj.json"), ("le
     obj = load(C(src))
     if obj is None:
         continue
+    if name == "conj":                      # extra verb tables live in verbs_conj_add*.json
+        known = {v["inf"] for v in obj}
+        for f in sorted(glob.glob(C("verbs_conj_add*.json"))):
+            for v in load(f) or []:
+                if v.get("inf") and v["inf"] not in known:
+                    obj.append(v); known.add(v["inf"])
     write_js(f"{name}.js", "extra", name, obj)
     extras[name] = len(obj.get("lessons", obj)) if isinstance(obj, dict) and "lessons" in obj else len(obj)
 manifest["extras"] = extras
