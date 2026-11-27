@@ -262,29 +262,102 @@
     quiz(root, { title: HQ.t('Алфавит'), sub: HQ.t('Проверка'), back: '/abc', qs: make(), reshuffle: make });
   }
 
+  /* ================= numbers by ear (Hebrew) ================= */
+  var NF = ['אפס', 'אחת', 'שתיים', 'שלוש', 'ארבע', 'חמש', 'שש', 'שבע', 'שמונה', 'תשע', 'עשר'],
+    NM = ['אפס', 'אחד', 'שניים', 'שלושה', 'ארבעה', 'חמישה', 'שישה', 'שבעה', 'שמונה', 'תשעה', 'עשרה'],
+    TF = ['', '', 'שתים', 'שלוש', 'ארבע', 'חמש', 'שש', 'שבע', 'שמונה', 'תשע'],
+    TM = ['', 'אחד', 'שנים', 'שלושה', 'ארבעה', 'חמישה', 'שישה', 'שבעה', 'שמונה', 'תשעה'],
+    TENS = ['', '', 'עשרים', 'שלושים', 'ארבעים', 'חמישים', 'שישים', 'שבעים', 'שמונים', 'תשעים'],
+    HUN = ['', 'מאה', 'מאתיים', 'שלוש מאות', 'ארבע מאות', 'חמש מאות', 'שש מאות', 'שבע מאות', 'שמונה מאות', 'תשע מאות'],
+    THO = ['', 'אלף', 'אלפיים', 'שלושת אלפים', 'ארבעת אלפים', 'חמשת אלפים', 'ששת אלפים', 'שבעת אלפים', 'שמונת אלפים', 'תשעת אלפים'];
+  /* Hebrew number words 0..9999; m = masculine (with masculine nouns), otherwise feminine (counting) */
+  function heNum(n, m) {
+    if (n === 0) return 'אפס';
+    var parts = [], t = Math.floor(n / 1000), h = Math.floor(n % 1000 / 100), r = n % 100;
+    if (t) parts.push(THO[t]);
+    if (h) parts.push(HUN[h]);
+    if (r) {
+      if (r <= 10) parts.push((m ? NM : NF)[r]);
+      else if (r < 20) parts.push(m ? TM[r - 10] + ' עשר' : (r === 11 ? 'אחת' : TF[r - 10]) + ' עשרה');
+      else { parts.push(TENS[Math.floor(r / 10)]); if (r % 10) parts.push((m ? NM : NF)[r % 10]); }
+    }
+    if (parts.length > 1) parts[parts.length - 1] = 'ו' + parts[parts.length - 1];
+    return parts.join(' ');
+  }
+  HQ.heNum = heNum;
+  var R = function (a, b) { return a + Math.floor(Math.random() * (b - a + 1)); };
+  function numQ(kind) {
+    var say, show, alt = [];
+    if (kind === 'price') {
+      var sh = R(2, 399), ag = [0, 0, 50, 90, 90, 20][R(0, 5)];
+      say = (sh === 1 ? 'שקל אחד' : sh === 2 ? 'שני שקלים' : heNum(sh, true) + ' שקלים') + (ag ? ' ו' + heNum(ag, false) + ' אגורות' : '');
+      var fmt = function (s, g) { return '₪' + s + (g ? '.' + (g < 10 ? '0' : '') + g : ''); };
+      show = fmt(sh, ag); alt = [fmt(sh + 10, ag), fmt(Math.max(1, sh - 1), ag), fmt(sh, ag ? 0 : 50), fmt(Math.floor(sh / 10) + (sh % 10) * 10 || sh + 2, ag)];
+    } else if (kind === 'time') {
+      var hh = R(1, 12), mm = [0, 15, 30, 45, 10, 20, 40, 5][R(0, 7)];
+      var hw = hh === 12 ? 'שתים עשרה' : hh === 11 ? 'אחת עשרה' : NF[hh];
+      say = 'השעה ' + (mm === 0 ? hw : mm === 15 ? hw + ' ורבע' : mm === 30 ? hw + ' וחצי' : mm === 45 ? 'רבע ל' + (hh === 12 ? 'אחת' : hh === 11 ? 'שתים עשרה' : hh === 10 ? 'אחת עשרה' : NF[hh + 1]) : hw + ' ו' + (mm === 10 ? 'עשרה' : heNum(mm, false)));
+      var tf = function (h, m) { return h + ':' + (m < 10 ? '0' : '') + m; };
+      show = tf(hh, mm); alt = [tf(hh % 12 + 1, mm), tf(hh, (mm + 15) % 60), tf(hh === 1 ? 12 : hh - 1, mm), tf(hh, (mm + 30) % 60)];
+    } else if (kind === 'queue') {
+      var q = R(11, 199); say = 'מספר ' + heNum(q, false);
+      show = '№ ' + q; alt = ['№ ' + (q + 1), '№ ' + (q + 10), '№ ' + (Math.floor(q / 10) + (q % 10) * 10), '№ ' + (q - 1)];
+    } else {
+      var d = '05' + R(0, 8) + String(R(1000000, 9999999)), g = [d.slice(0, 3), d.slice(3, 6), d.slice(6)];
+      say = g.map(function (x) { return x.split('').map(function (c) { return NF[+c]; }).join(' '); }).join(', ');
+      show = g.join('-');
+      var sw = function (s, i) { var a2 = s.split(''); var t2 = a2[i]; a2[i] = a2[i + 1]; a2[i + 1] = t2; return a2.join(''); }, ch = function (s, i) { var a2 = s.split(''); a2[i] = String((+a2[i] + R(1, 8)) % 10); return a2.join(''); };
+      var mk = function (s) { return s.slice(0, 3) + '-' + s.slice(3, 6) + '-' + s.slice(6); };
+      alt = [mk(sw(d, 5)), mk(ch(d, 8)), mk(sw(d, 7)), mk(ch(d, 4))];
+    }
+    var opts = [show]; alt.forEach(function (x) { if (opts.indexOf(x) < 0 && opts.length < 4) opts.push(x); });
+    while (opts.length < 4) opts.push(show.replace(/\d(?=\D*$)/, function (c) { return String((+c + opts.length) % 10); }));
+    opts = HQ.shuffle(opts);
+    return { ask: HQ.t({ price: 'Сколько стоит?', time: 'Который час?', queue: 'Какой номер вызывают?', phone: 'Какой номер телефона?' }[kind]), text: '🔊', opts: opts, a: opts.indexOf(show), cols: kind !== 'phone', mute: true, sayL: say, why: say, optCls: '.tg' };
+  }
+  V.numbers = function (root, a) {
+    var kinds = ['price', 'time', 'queue', 'phone'];
+    if (a[0] === 'go') {
+      var k = kinds.indexOf(a[1]) >= 0 ? [a[1]] : kinds;
+      var make = function () { var qs = []; for (var i = 0; i < 20; i++) qs.push(numQ(k[i % k.length])); return HQ.shuffle(qs); };
+      quiz(root, { title: HQ.t('Числа на слух'), sub: HQ.t('Послушайте и выберите'), back: '/numbers', qs: make(), reshuffle: make });
+      return;
+    }
+    root.appendChild(HQ.top(HQ.t('Числа на слух'), '', '/'));
+    root.appendChild(el('div.note.info', { text: HQ.t('Голос называет цену, время, номер очереди или телефона — выберите, что вы услышали. Нажмите «Послушать», чтобы повторить.') }));
+    var st = el('div.stack'); root.appendChild(st);
+    st.appendChild(el('button.btn.primary', { onclick: function () { HQ.go('/numbers/go/all'); } }, HQ.t('Всё вперемешку (20 вопросов)')));
+    [['price', '💰 Цены'], ['time', '🕐 Время'], ['queue', '🎫 Номер очереди'], ['phone', '📞 Номер телефона']].forEach(function (x) {
+      st.appendChild(el('button.btn', { onclick: function () { HQ.go('/numbers/go/' + x[0]); } }, HQ.t(x[1])));
+    });
+  };
+
   /* ================= placement tests ================= */
   var TH = { gr: ['Приветствие и общение', 'phrases'], fd: ['Еда и магазин', 'shopping'], bd: ['Тело и здоровье', 'health'], hm: ['Дом и быт', 'home'], ct: ['Город и транспорт', 'city'], pp: ['Люди и эмоции', 'people'], tm: ['Время и числа', 'core'], en: ['Инженерный иврит', 'engineer'],
     ev: ['Бытовые идиомы', 'b2'], sl: ['Разговорный сленг', 'b2'], pg: ['Поговорки', 'b2'], id: ['Образные выражения', 'b2'] };
   var LV = ['A0', 'A1', 'A2', 'B1', 'B2'];
   V.test = function (root, a) {
-    var which = a[0] === 'idioms' ? 'idioms' : 'level', back = '/test/' + which;
-    HQ.wait(root, HQ.loadExtra('test-' + which), function (Q) {
+    var which = ['idioms', 'engineer', 'daily'].indexOf(a[0]) >= 0 ? a[0] : 'level', back = '/test/' + which;
+    HQ.wait(root, HQ.loadExtra('test-' + which), function (D) {
+      /* level/idioms are plain arrays; newer tests are {title, themes, q} */
+      var Q = Array.isArray(D) ? D : D.q, title = Array.isArray(D) ? (which === 'level' ? 'Проверка уровня' : 'Идиомы и сленг') : D.title;
+      if (!Array.isArray(D) && D.themes) for (var tk in D.themes) TH[tk] = D.themes[tk];
       if (a[1] !== 'go') {
-        root.appendChild(HQ.top(which === 'level' ? 'Проверка уровня' : 'Идиомы и сленг', '', '/'));
+        root.appendChild(HQ.top(title, '', '/'));
         root.appendChild(el('div.card.prose', {},
-          el('p', { html: which === 'level' ? '<b>' + Q.length + ' вопроса</b> по 8 темам, от простых слов (A1) до сложных (B2). Около 12 минут, без таймера.' : '<b>' + Q.length + ' выражения</b>: бытовые идиомы, сленг, поговорки. Нужно понять переносный смысл.' }),
+          el('p', { html: which === 'level' ? '<b>' + Q.length + ' вопроса</b> по 8 темам, от простых слов (A1) до сложных (B2). Около 12 минут, без таймера.' : which === 'idioms' ? '<b>' + Q.length + ' выражения</b>: бытовые идиомы, сленг, поговорки. Нужно понять переносный смысл.' : '<b>' + HQ.n(Q.length, 'вопрос', 'вопроса', 'вопросов') + '</b>, без таймера. Выберите правильный перевод.' }),
           el('p', { text: 'В конце вы увидите результат по каждой теме и что стоит подучить.' })));
         var ex = St.exam('test/' + which);
         if (ex) root.appendChild(el('div.note.info', { text: 'Прошлый результат: ' + ex.last + '% · лучший: ' + ex.best + '%' }));
         root.appendChild(el('button.btn.primary', { onclick: function () { HQ.go(back + '/go'); } }, 'Начать ›'));
         return;
       }
-      var lvl = which === 'level', ans = [];
+      var lvl = which === 'level', six = which !== 'idioms', ans = [];
       var qs = Q.map(function (q) {
-        var th = q[0], he = lvl ? q[2] : q[1], tr = lvl ? q[3] : q[2], right = lvl ? q[4] : q[3], wr = lvl ? q[5] : q[4], o = HQ.shuffle([right].concat(wr));
-        return { ask: TH[th] ? TH[th][0] : '', big: he, sub: tr, say: he, opts: o, a: o.indexOf(right), th: th, lv: lvl ? q[1] : '' };
+        var th = q[0], he = six ? q[2] : q[1], tr = six ? q[3] : q[2], right = six ? q[4] : q[3], wr = six ? q[5] : q[4], o = HQ.shuffle([right].concat(wr));
+        return { ask: TH[th] ? TH[th][0] : '', big: he, sub: tr, say: he, opts: o, a: o.indexOf(right), th: th, lv: six ? q[1] : '' };
       });
-      quiz(root, { title: lvl ? 'Проверка уровня' : 'Идиомы и сленг', back: back, qs: qs,
+      quiz(root, { title: title, back: back, qs: qs,
         onAnswer: function (q, good) { ans.push({ th: q.th, lv: q.lv, ok: good }); },
         onDone: function (pct, ok, wrong, host) {
           St.exam('test/' + which, pct);
@@ -300,13 +373,13 @@
             lvl ? el('div', { style: 'font-weight:800;font-size:1.2em;margin-top:10px', text: 'Ваш уровень: ' + overall }) : null));
           var c = el('div.card', {}, el('div', { style: 'font-weight:800;margin-bottom:4px', text: 'По темам' }));
           rows.slice().sort(function (x, y) { return x.good / x.n - y.good / y.n; }).forEach(function (r) {
-            c.appendChild(el('div.lrow', {}, el('div.t', { text: TH[r.t][0] }), el('div.bar', {}, el('i', { style: 'width:' + (r.good / r.n * 100) + '%' })), el('div.n', { text: (lvl ? LV[r.lv] + ' · ' : '') + r.good + '/' + r.n })));
+            c.appendChild(el('div.lrow', {}, el('div.t', { text: TH[r.t] ? TH[r.t][0] : r.t }), el('div.bar', {}, el('i', { style: 'width:' + (r.good / r.n * 100) + '%' })), el('div.n', { text: (lvl ? LV[r.lv] + ' · ' : '') + r.good + '/' + r.n })));
           });
           host.appendChild(c);
           var weak = rows.slice().sort(function (x, y) { return x.good / x.n - y.good / y.n; }).filter(function (r) { return r.good < r.n; }).slice(0, 3), seen = {};
           if (weak.length) {
             host.appendChild(el('div.label', { text: 'Рекомендуем подучить' }));
-            weak.forEach(function (r) { var d = TH[r.t][1], m = HQ.manifest.decks[d]; if (!m || seen[d]) return; seen[d] = 1; host.appendChild(el('button.catrow', { onclick: function () { HQ.go('/deck/' + d); } }, el('div.t', { text: m.title }), el('div.n', { text: 'Открыть ›' }))); });
+            weak.forEach(function (r) { var d = TH[r.t] && TH[r.t][1], m = HQ.manifest.decks[d]; if (!m || seen[d]) return; seen[d] = 1; host.appendChild(el('button.catrow', { onclick: function () { HQ.go('/deck/' + d); } }, el('div.t', { text: m.title }), el('div.n', { text: 'Открыть ›' }))); });
           }
           host.appendChild(el('div.stack', { style: 'margin-top:12px' }, el('button.btn.primary', { onclick: function () { HQ.go(back); } }, 'Готово')));
           return true;

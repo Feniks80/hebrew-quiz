@@ -82,7 +82,8 @@
     var L = HQ.lang(), M = HQ.manifest;
     if (it.type === 'deck') return !!M.decks[it.id] && HQ.deckN(it.id) > 0;
     if (it.type === 'grammar') return !!HQ.grammarFile();
-    if (it.type === 'conj' || it.type === 'test') return HQ.native();
+    if (it.type === 'conj' || it.type === 'test') return HQ.native() && (it.type !== 'test' || !!(M.extras || {})['test-' + it.id]);
+    if (it.type === 'numbers') return L.learn === 'he';
     if (it.type === 'letters') return L.learn === 'he' ? HQ.native() : (it.id === 'print' && !!(M.extras || {})['letters-' + L.learn]);
     return true;
   };
@@ -93,6 +94,7 @@
     else if (it.type === 'grammar') path = '/grammar';
     else if (it.type === 'conj') path = '/conj';
     else if (it.type === 'test') path = '/test/' + it.id;
+    else if (it.type === 'numbers') path = '/numbers';
     else if (it.type === 'mistakes') { path = '/mistakes'; num = String(St.mistakes().length || ''); }
     else if (it.type === 'stats') path = '/stats';
     var icon = it.type === 'letters' && it.id === 'print' ? { he: 'א', ru: 'Аа', en: 'Aa' }[HQ.lang().learn] : it.icon;

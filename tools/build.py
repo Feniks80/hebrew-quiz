@@ -124,7 +124,7 @@ for did, d in decks.items():
 
 extras = {}
 for name, src in (("grammar", "grammar.json"), ("conj", "verbs_conj.json"), ("letters", "letters.json"),
-                  ("test-level", "test_level.json"), ("test-idioms", "test_idioms.json"),
+                  ("test-level", "test_level.json"), ("test-idioms", "test_idioms.json"), ("test-engineer", "test_engineer.json"), ("test-daily", "test_daily.json"),
                   ("hand", "handwriting.json"), ("grammar-ru", "grammar_ru.json"), ("grammar-en", "grammar_en.json"),
                   ("grammar-he-en", "grammar_he_en.json"), ("letters-ru", "letters_ru.json"), ("letters-en", "letters_en.json"),
                   ("ui", "i18n/ui.json")):
@@ -138,7 +138,7 @@ for name, src in (("grammar", "grammar.json"), ("conj", "verbs_conj.json"), ("le
                 if v.get("inf") and v["inf"] not in known:
                     obj.append(v); known.add(v["inf"])
     write_js(f"{name}.js", "extra", name, obj)
-    extras[name] = len(obj.get("lessons", obj)) if isinstance(obj, dict) and "lessons" in obj else len(obj)
+    extras[name] = len(obj["lessons"]) if isinstance(obj, dict) and "lessons" in obj else len(obj["q"]) if isinstance(obj, dict) and "q" in obj else len(obj)
 manifest["extras"] = extras
 manifest["total"] = total
 write_js("manifest.js", "manifest", "manifest", manifest)
