@@ -1998,6 +1998,242 @@ core	feelings	אני מפחדת	я боюсь (ж)
 core	feelings	אני מצטער	мне жаль, простите (м)
 core	feelings	אני מצטערת	мне жаль, простите (ж)
 core	feelings	אין לי כוח	у меня нет сил
+core	cooking	לקלף	чистить (овощи, фрукты)
+core	cooking	לקצוץ	мелко резать, рубить
+core	cooking	לגרד	тереть (на тёрке)
+core	cooking	פומפייה	тёрка
+core	cooking	להרתיח	вскипятить, довести до кипения
+core	cooking	לצלות	жарить (на гриле), запекать
+core	cooking	לסנן	процеживать
+core	cooking	מסננת	дуршлаг, сито
+core	cooking	לטעום	пробовать (на вкус)
+core	cooking	להוסיף	добавлять
+core	cooking	לשפוך	наливать, выливать
+core	cooking	להשרות	замачивать
+core	cooking	להקציף	взбивать
+core	cooking	מתכון	рецепт
+core	cooking	לבשל מרק	варить суп
+core	cooking	לטגן בצל	жарить лук
+core	cooking	לאפות עוגה	печь торт (пирог)
+core	cooking	לחתוך לקוביות	резать кубиками
+core	cooking	על אש קטנה	на маленьком огне
+core	cooking	על אש גבוהה	на сильном огне
+core	cooking	עשר דקות על אש קטנה	десять минут на маленьком огне
+core	cooking	לחמם את התנור	разогреть духовку
+core	cooking	מאה ושמונים מעלות	сто восемьдесят градусов
+core	cooking	לשים במקרר	поставить в холодильник
+core	cooking	מכסה	крышка
+core	cooking	קרש חיתוך	разделочная доска
+core	cooking	מגש	поднос, противень
+core	cooking	תבנית	форма (для выпечки)
+core	cooking	מצקת	половник
+core	cooking	סיר לחץ	скороварка
+core	cooking	מלח ופלפל	соль и перец
+core	cooking	קורט מלח	щепотка соли
+core	cooking	כוס קמח	стакан муки
+core	cooking	כף שמן	ложка (растительного) масла
+core	cooking	חצי כוס סוכר	полстакана сахара
+core	cooking	בצק	тесто
+core	cooking	רוטב	соус
+core	cooking	האוכל נשרף	еда подгорела
+digital	phone	וואטסאפ	WhatsApp (ватсап)
+digital	phone	הודעה קולית	голосовое сообщение
+digital	phone	לשלוח הודעה קולית	отправить голосовое сообщение
+digital	phone	מסרון	SMS (эсэмэска)
+digital	phone	להטעין	заряжать (телефон)
+digital	phone	להטעין את הטלפון	зарядить телефон
+digital	phone	הסוללה נגמרה	батарея села
+digital	phone	לשלוח תמונה	отправить фото
+digital	phone	לשלוח מיקום	отправить геолокацию
+digital	phone	להעביר הודעה	переслать сообщение
+digital	phone	שיחה שלא נענתה	пропущенный звонок
+digital	phone	שיחת וידאו	видеозвонок
+digital	phone	אנשי קשר	контакты (в телефоне) (мн.)
+digital	phone	להוריד אפליקציה	скачать приложение
+digital	phone	רמקול	громкая связь, динамик
+digital	phone	להשתיק	выключить звук
+digital	phone	צלצול	звонок (мелодия звонка)
+digital	phone	מצב טיסה	режим полёта
+digital	phone	הטלפון נתקע	телефон завис
+digital	phone	לכבות ולהדליק	выключить и включить (перезагрузить)
+digital	phone	המסך נשבר	экран разбился
+digital	phone	עדכון תוכנה	обновление (программы)
+digital	phone	תשלח לי בוואטסאפ	пришли мне в WhatsApp (м)
+digital	phone	תשלחי לי בוואטסאפ	пришли мне в WhatsApp (ж)
+digital	phone	אני לא מבינה בטלפונים	я не разбираюсь в телефонах (ж)
+digital	phone	אתה יכול לעזור לי עם הטלפון?	можешь помочь мне с телефоном? (к мужчине)
+digital	phone	את יכולה לעזור לי עם הטלפון?	можешь помочь мне с телефоном? (к женщине)
+digital	phone	אני לא מוצאת את ההודעה	я не могу найти сообщение (ж)
+digital	phone	אין לי מקום בטלפון	в телефоне нет места (память заполнена)
+digital	phone	אני מקליטה הודעה	я записываю сообщение (ж)
+digital	ravkav	לטעון את הכרטיס	пополнить (зарядить) карту
+digital	ravkav	איפה טוענים רב-קו?	где пополняют Рав-Кав?
+digital	ravkav	מכונת טעינה	автомат пополнения (Рав-Кав)
+digital	ravkav	כרטיס אישי	именная (персональная) карта
+digital	ravkav	פרופיל אזרח ותיק	профиль «пожилой гражданин» (на Рав-Каве)
+digital	ravkav	נסיעה חינם	бесплатная поездка
+digital	ravkav	חופשי חודשי	месячный проездной (безлимитный)
+digital	ravkav	ערך צבור	сумма на карте (накопленная стоимость)
+digital	ravkav	אין לי מספיק כסף בכרטיס	на карте недостаточно денег
+digital	ravkav	הכרטיס לא עובד	карта не работает
+digital	ravkav	תיקוף	валидация (прикладывание карты)
+digital	ravkav	לתקף את הכרטיס	приложить карту к валидатору
+digital	ravkav	כמה עולה נסיעה?	сколько стоит поездка?
+digital	ravkav	מוביט	Moovit (приложение для автобусов)
+digital	ravkav	לחפש קו במוביט	найти маршрут в Moovit
+digital	ravkav	באיזה קו לנסוע?	каким маршрутом (номером) ехать?
+digital	ravkav	קו ישיר	прямой маршрут (без пересадки)
+digital	ravkav	להחליף אוטובוס	пересесть на другой автобус
+digital	ravkav	תחנת אוטובוס	автобусная остановка
+digital	ravkav	התחנה הבאה	следующая остановка
+digital	ravkav	כפתור עצירה	кнопка остановки (в автобусе)
+digital	ravkav	דלת אחורית	задняя дверь
+digital	ravkav	לעלות לאוטובוס	сесть в автобус
+digital	ravkav	לרדת מהאוטובוס	выйти из автобуса
+digital	ravkav	זמן הגעה	время прибытия
+digital	ravkav	האוטובוס מאחר	автобус опаздывает
+digital	ravkav	האוטובוס מלא	автобус переполнен
+digital	ravkav	הנהג לא עצר	водитель не остановился
+digital	ravkav	פספסתי את האוטובוס	я опоздал(а) на автобус
+digital	ravkav	אני מחכה לאוטובוס	я жду автобус (ж)
+digital	ravkav	אוטובוס בין-עירוני	междугородний автобус
+digital	pension	חשבון בנק	банковский счёт
+digital	pension	כמה יש לי בחשבון?	сколько у меня на счёте?
+digital	pension	אפליקציית הבנק	приложение банка
+digital	pension	מוקד הבנק	горячая линия банка
+digital	pension	לקבוע תור בבנק	записаться на приём в банк
+digital	pension	ביט	Bit (приложение для переводов)
+digital	pension	לשלם בביט	заплатить через Bit
+digital	pension	פייבוקס	PayBox (приложение для переводов)
+digital	pension	במזומן	наличными
+digital	pension	שטר	купюра
+digital	pension	הכרטיס נבלע בכספומט	банкомат проглотил карту
+digital	pension	לחסום את הכרטיס	заблокировать карту
+digital	pension	הכנסה	доход
+digital	pension	הוצאות	расходы (мн.)
+digital	pension	הקצבה נכנסה	пенсия (пособие) поступила
+digital	pension	הקצבה לא נכנסה החודש	пенсия не пришла в этом месяце
+digital	pension	מתי נכנסת הקצבה?	когда приходит пенсия (пособие)?
+digital	pension	מכתב מביטוח לאומי	письмо из Битуах леуми
+digital	pension	אני זכאית להנחה	мне положена скидка (ж)
+digital	pension	להעביר כסף לנכדה	перевести деньги внучке
+digital	pension	לשלם ארנונה	платить арнону
+digital	pension	חוב בארנונה	долг по арноне
+digital	pension	הכסף לא הגיע	деньги не пришли
+digital	pension	לשלם בהוראת קבע	платить постоянным поручением (автоплатежом)
+digital	pension	להפקיד כסף בבנק	положить деньги в банк
+digital	pension	לבדוק את היתרה	проверить остаток на счёте
+digital	pension	אני רוצה לדבר עם בנקאית	я хочу поговорить с сотрудницей банка (ж)
+digital	pension	אני צריכה עזרה עם החשבון	мне нужна помощь со счётом (ж)
+digital	pension	חיוב כפול	двойное списание
+digital	pension	עמלה על משיכה	комиссия за снятие денег
+digital	scam	לא למסור את הקוד לאף אחד	никому не называть код
+digital	scam	אני לא מוסרת את הקוד	я не называю код (ж)
+digital	scam	אני אתקשר לבנק בעצמי	я сама позвоню в банк
+digital	scam	אני אתקשר בעצמי	я сама перезвоню (позвоню)
+digital	scam	הבנק אף פעם לא מבקש סיסמה	банк никогда не просит пароль
+digital	scam	זאת הונאה	это мошенничество
+digital	scam	ניסיון הונאה	попытка мошенничества
+digital	scam	נוכלים	мошенники (мн.)
+digital	scam	אני לא נותנת פרטים בטלפון	я не даю данные по телефону (ж)
+digital	scam	אני לא מאשרת שום דבר בטלפון	я ничего не подтверждаю по телефону (ж)
+digital	scam	אני לא מעבירה כסף	я не перевожу деньги (ж)
+digital	scam	אני לא לוחצת על קישורים	я не нажимаю на ссылки (ж)
+digital	scam	לא ללחוץ על הקישור	не нажимать на ссылку
+digital	scam	הודעה חשודה	подозрительное сообщение
+digital	scam	זה נשמע לי חשוד	это кажется мне подозрительным
+digital	scam	מספר לא מוכר	незнакомый номер
+digital	scam	אני לא מכירה אותך	я вас не знаю (ж, к мужчине)
+digital	scam	מאיפה יש לך את המספר שלי?	откуда у вас мой номер? (к мужчине)
+digital	scam	אני צריכה לבדוק את זה	мне нужно это проверить (ж)
+digital	scam	אני אתייעץ עם המשפחה	я посоветуюсь с семьёй
+digital	scam	אני אבדוק עם הבן שלי	я проверю с сыном
+digital	scam	תשלח לי את זה בכתב	пришлите мне это письменно (к мужчине)
+digital	scam	אני מנתקת	я кладу трубку (ж)
+digital	scam	אני לא צריכה כלום, תודה	мне ничего не нужно, спасибо (ж)
+digital	scam	לחסום מספר	заблокировать номер
+digital	scam	להתקשר למשטרה	позвонить в полицию
+digital	scam	לדווח על הונאה	сообщить о мошенничестве
+digital	scam	החשבון שלך נחסם	ваш счёт заблокирован
+digital	scam	זכית בפרס	вы выиграли приз (к мужчине)
+digital	scam	חבילה ממתינה לך	вас ждёт посылка (к мужчине)
+digital	scam	פרטי כרטיס אשראי	данные кредитной карты
+digital	scam	מספר תעודת זהות	номер удостоверения личности
+emergency	call101	אני צריכה אמבולנס	мне нужна скорая (ж)
+emergency	call101	אני צריך אמבולנס	мне нужна скорая (м)
+emergency	call101	בעלי נפל	мой муж упал
+emergency	call101	היא נפלה	она упала
+emergency	call101	הוא לא בהכרה	он без сознания
+emergency	call101	היא לא בהכרה	она без сознания
+emergency	call101	היא לא מגיבה	она не реагирует
+emergency	call101	יש לו קשיי נשימה	ему трудно дышать
+emergency	call101	יש לי קשיי נשימה	мне трудно дышать
+emergency	call101	יש לו כאבים בחזה	у него боли в груди
+emergency	call101	הוא מדמם	у него кровотечение
+emergency	call101	היא קיבלה מכה בראש	она ударилась головой
+emergency	call101	אני לבד בבית	я одна (один) дома
+emergency	call101	אני גרה ברחוב...	я живу на улице… (ж)
+emergency	call101	אני גר ברחוב...	я живу на улице… (м)
+emergency	call101	דירה מספר...	квартира номер…
+emergency	call101	כניסה ב'	подъезд «бет» (второй подъезд)
+emergency	call101	הקוד בכניסה הוא...	код на входе…
+emergency	call101	הדלת פתוחה	дверь открыта
+emergency	call101	בואו מהר, בבקשה	приезжайте скорее, пожалуйста
+emergency	call101	מה הכתובת המדויקת?	какой точный адрес?
+emergency	call101	באיזו עיר?	в каком городе?
+emergency	call101	בן כמה הוא?	сколько ему лет?
+emergency	call101	בת כמה היא?	сколько ей лет?
+emergency	call101	הוא בהכרה?	он в сознании?
+emergency	call101	היא בהכרה?	она в сознании?
+emergency	call101	הוא נושם?	он дышит?
+emergency	call101	היא נושמת?	она дышит?
+emergency	call101	אל תנתקי	не кладите трубку (ж)
+emergency	call101	אל תנתק	не кладите трубку (м)
+emergency	call101	האמבולנס בדרך	скорая уже едет
+emergency	er	כמה זמן מחכים?	сколько придётся ждать?
+emergency	er	זמן המתנה	время ожидания
+emergency	er	מחכים לתוצאות	ждём результатов
+emergency	er	מלווה	сопровождающий (м)
+emergency	er	אלונקה	носилки
+emergency	er	לעשות צילום	сделать снимок (рентген)
+emergency	er	עירוי	капельница
+emergency	er	חמצן	кислород
+emergency	er	תפרים	швы (мн.)
+emergency	er	שבר	перелом
+emergency	er	להשאיר להשגחה	оставить под наблюдением
+emergency	er	מוניטור	монитор (аппарат)
+emergency	er	אשפוז	госпитализация
+emergency	er	מאשפזים אותה	её кладут в больницу
+emergency	er	מחלקה פנימית	терапевтическое отделение
+emergency	er	טיפול נמרץ	реанимация (интенсивная терапия)
+emergency	er	שעות ביקור	часы посещения
+emergency	er	שחרור	выписка (из больницы)
+emergency	er	מתי משחררים אותי?	когда меня выпишут?
+emergency	alarm	פיקוד העורף	Командование тыла
+emergency	alarm	הנחיות	указания, инструкции (мн.)
+emergency	alarm	התרעה	оповещение (о тревоге)
+emergency	alarm	זמן התגוננות	время, чтобы добежать до укрытия
+emergency	alarm	דקה וחצי	полторы минуты
+emergency	alarm	מרחב מוגן	защищённое помещение
+emergency	alarm	להיכנס למרחב המוגן	войти в защищённое помещение
+emergency	alarm	לסגור את הדלת והחלון	закрыть дверь и окно
+emergency	alarm	להישאר במרחב המוגן עד להודעה	оставаться в защищённом помещении до сообщения, что можно выйти
+emergency	alarm	אפשר לצאת	можно выходить
+emergency	alarm	מקלט ציבורי	общественное бомбоубежище
+emergency	alarm	חדר פנימי בלי חלונות	внутренняя комната без окон
+emergency	alarm	לשכב על הקרקע	лечь на землю (если тревога застала на улице)
+emergency	alarm	להגן על הראש בידיים	защитить голову руками
+emergency	alarm	שכנה, בואי איתי לממ"ד	соседка, пойдём со мной в мамад
+emergency	alarm	יש מקום בממ"ד?	в мамаде есть место?
+emergency	alarm	ערכת חירום	аварийный (тревожный) набор
+emergency	alarm	טיל	ракета
+emergency	alarm	רקטה	ракета (реактивный снаряд)
+emergency	alarm	כטב"ם	беспилотник (дрон)
+emergency	alarm	יירוט	перехват (ракеты)
+emergency	alarm	רסיסים	осколки (мн.)
+emergency	alarm	נפילת רסיסים	падение осколков
+emergency	alarm	פיצוץ	взрыв
+emergency	alarm	שמענו פיצוץ	мы слышали взрыв
 engineer	c0	מבט תלת מימד	3Д вид
 engineer	c0	יציאה חירום	Аварийный выход
 engineer	c0	פקוח עליון	Авторский надзор
@@ -3586,6 +3822,110 @@ engineer_phrases	money	צריך לעדכן את ההסכם	нужно обнов
 engineer_phrases	money	שכר טרחה	гонорар (оплата услуг)
 engineer_phrases	money	המחיר סופי?	цена окончательная?
 engineer_phrases	money	אפשר לקבל הנחה?	можно получить скидку?
+engineer_phrases	rfi	בהמשך לפנייתנו	в продолжение нашего обращения
+engineer_phrases	rfi	בהמשך לפנייתנו הקודמת	в продолжение нашего предыдущего обращения
+engineer_phrases	rfi	תזכורת חוזרת	повторное напоминание
+engineer_phrases	rfi	מעבירים שוב לטיפולכם	повторно направляем вам для рассмотрения
+engineer_phrases	rfi	נבקש לקבל את הנתונים הבאים	просим предоставить следующие данные
+engineer_phrases	rfi	נבקש לקבל תוכניות אדריכלות מעודכנות	просим предоставить актуальные архитектурные чертежи
+engineer_phrases	rfi	נבקש לקבל את דוח הקרקע	просим предоставить геотехнический отчёт
+engineer_phrases	rfi	נבקש הבהרה	просим разъяснения
+engineer_phrases	rfi	ממתינים להבהרה	ждём разъяснения
+engineer_phrases	rfi	נודה לתשובתכם עד יום חמישי	будем признательны за ваш ответ до четверга
+engineer_phrases	rfi	נודה לתשובתכם בהקדם	будем признательны за скорейший ответ
+engineer_phrases	rfi	אודה לתשובתכם	буду признателен (признательна) за ваш ответ
+engineer_phrases	rfi	אשמח לתשובה בהקדם	буду рад(а) скорому ответу
+engineer_phrases	rfi	טרם התקבלה תשובה	ответ пока не получен
+engineer_phrases	rfi	טרם התקבלה התייחסותכם	ваши комментарии пока не получены
+engineer_phrases	rfi	אני עדיין ממתין לתשובתכם	я всё ещё жду вашего ответа (м)
+engineer_phrases	rfi	אני עדיין ממתינה לתשובתכם	я всё ещё жду вашего ответа (ж)
+engineer_phrases	rfi	מצורפת שאלה הנדסית	прилагается инженерный вопрос (RFI)
+engineer_phrases	rfi	נבקש את התייחסותכם לשאלות המצורפות	просим ответить на прилагаемые вопросы
+engineer_phrases	rfi	נא להבהיר את הנקודות הבאות	просим разъяснить следующие пункты
+engineer_phrases	rfi	חסר פרט עיגון	отсутствует узел анкеровки
+engineer_phrases	rfi	נא להשלים מידות	просим дополнить размеры
+engineer_phrases	rfi	נא להשלים את החסר	просим восполнить недостающее
+engineer_phrases	rfi	חסרים נתונים לתכנון	не хватает исходных данных для проектирования
+engineer_phrases	rfi	נא לציין את המפלס	просим указать отметку
+engineer_phrases	rfi	נא לציין את העומסים	просим указать нагрузки
+engineer_phrases	rfi	מהו העומס על התקרה?	какая нагрузка на перекрытие?
+engineer_phrases	rfi	נא לאשר את המידה	просим подтвердить размер
+engineer_phrases	rfi	נא לאשר שהמידות סופיות	просим подтвердить, что размеры окончательные
+engineer_phrases	rfi	האם ניתן להזיז את הפתח?	можно ли сдвинуть проём?
+engineer_phrases	rfi	לפי הבנתנו	насколько мы понимаем
+engineer_phrases	rfi	נא לאשר את הבנתנו	просим подтвердить наше понимание
+engineer_phrases	rfi	נא לבדוק ולהשיב	просим проверить и ответить
+engineer_phrases	rfi	הנושא דחוף	вопрос срочный
+engineer_phrases	rfi	הנושא מעכב את הייצור	вопрос задерживает производство
+engineer_phrases	rfi	התכנון מעוכב עד לקבלת תשובה	проектирование приостановлено до получения ответа
+engineer_phrases	rfi	לא נוכל להתקדם ללא התשובה	мы не сможем продвинуться без ответа
+engineer_phrases	rfi	במידה ולא תתקבל תשובה עד יום ראשון	если ответ не будет получен до воскресенья
+engineer_phrases	rfi	נמשיך לפי ההנחה ש...	продолжим, исходя из предположения, что ...
+engineer_phrases	protocol	סיכום ישיבת תיאום	протокол координационного совещания
+engineer_phrases	protocol	נוכחים	присутствовали (мн.)
+engineer_phrases	protocol	תפוצה	рассылка (список адресатов)
+engineer_phrases	protocol	רשם:	протокол вёл (м)
+engineer_phrases	protocol	רשמה:	протокол вела (ж)
+engineer_phrases	protocol	נושאים לטיפול	вопросы к исполнению
+engineer_phrases	protocol	באחריות	ответственный (графа протокола)
+engineer_phrases	protocol	תאריך יעד	целевой срок
+engineer_phrases	protocol	בטיפול	в работе
+engineer_phrases	protocol	בוצע	выполнено
+engineer_phrases	protocol	המשך טיפול	продолжить работу (статус пункта)
+engineer_phrases	protocol	לידיעה	к сведению (графа протокола)
+engineer_phrases	protocol	לתשומת לב	обратить внимание
+engineer_phrases	protocol	הוחלט ש...	решено, что ...
+engineer_phrases	protocol	סוכם ש...	договорились, что ...
+engineer_phrases	protocol	יועבר לאישור	будет передано на утверждение
+engineer_phrases	protocol	אושר בישיבה	утверждено на совещании
+engineer_phrases	protocol	בישיבה הבאה	на следующем совещании
+engineer_phrases	protocol	יידון בישיבה הבאה	будет обсуждено на следующем совещании
+engineer_phrases	protocol	הישיבה הבאה תתקיים ביום שני	следующее совещание состоится в понедельник
+engineer_phrases	protocol	נושאים פתוחים	открытые вопросы
+engineer_phrases	protocol	נקודות פתוחות מהישיבה הקודמת	открытые пункты с прошлого совещания
+engineer_phrases	protocol	הנושא נסגר	вопрос закрыт
+engineer_phrases	protocol	הנושא הוצג בישיבה	вопрос был представлен на совещании
+engineer_phrases	protocol	הנושא ייבדק	вопрос будет проверен
+engineer_phrases	protocol	המתכנן יעביר תוכניות מעודכנות	проектировщик передаст обновлённые чертежи
+engineer_phrases	protocol	הקבלן יבדוק ויעדכן	подрядчик проверит и сообщит
+engineer_phrases	protocol	יש לעדכן את לוח הזמנים	необходимо обновить график
+engineer_phrases	protocol	אני אחראי על הנושא	я отвечаю за этот вопрос (м)
+engineer_phrases	protocol	אני אחראית על הנושא	я отвечаю за этот вопрос (ж)
+engineer_phrases	protocol	הערות לסיכום יש להעביר תוך שבוע	замечания к протоколу просим направить в течение недели
+engineer_phrases	protocol	אחרת הסיכום ייחשב כמאושר	иначе протокол будет считаться утверждённым
+engineer_phrases	claims	שינוי בהיקף העבודה	изменение объёма работ
+engineer_phrases	claims	תוספת מחיר	доплата (увеличение цены)
+engineer_phrases	claims	דרישה לתשלום	требование об оплате
+engineer_phrases	claims	מחלוקת	разногласие, спор
+engineer_phrases	claims	אנו חולקים על	мы не согласны с ... (оспариваем)
+engineer_phrases	claims	אנו חולקים על חישוב הכמויות	мы оспариваем расчёт объёмов
+engineer_phrases	claims	אני לא מסכים עם החישוב	я не согласен с расчётом (м)
+engineer_phrases	claims	אני לא מסכימה עם החישוב	я не согласна с расчётом (ж)
+engineer_phrases	claims	בכל הכבוד	при всём уважении
+engineer_phrases	claims	לא סוכם כך	так не договаривались
+engineer_phrases	claims	לפי ההסכם	согласно соглашению
+engineer_phrases	claims	בהתאם לחוזה	в соответствии с договором
+engineer_phrases	claims	נבקש לשקול מחדש	просим пересмотреть
+engineer_phrases	claims	עיכוב שלא באחריותנו	задержка не по нашей вине
+engineer_phrases	claims	פיצוי על העיכוב	компенсация за задержку
+engineer_phrases	claims	מדובר בשינוי מהותי	речь идёт о существенном изменении
+engineer_phrases	claims	העבודה אינה כלולה בהצעה	эта работа не включена в предложение
+engineer_phrases	claims	השינוי מחייב תמחור מחדש	изменение требует пересчёта стоимости
+engineer_phrases	claims	נגיש חשבון עבור העבודה הנוספת	выставим счёт за дополнительную работу
+engineer_phrases	claims	העבודה בוצעה לפי הוראת המפקח	работа выполнена по указанию технадзора
+engineer_phrases	claims	הכמויות בפועל גבוהות מהמתוכנן	фактические объёмы выше запланированных
+engineer_phrases	claims	לא קיבלנו הוראה בכתב	мы не получали письменного указания
+engineer_phrases	claims	עבודה נוספת תבוצע רק לאחר אישור בכתב	дополнительные работы выполняются только после письменного утверждения
+engineer_phrases	claims	הדרישה אינה מוצדקת	требование необоснованно
+engineer_phrases	claims	אנו דוחים את הטענה	мы отклоняем претензию
+engineer_phrases	claims	איננו מקבלים את ההפחתה בחשבון	мы не принимаем сокращение суммы счёта
+engineer_phrases	claims	לא נוכל לספוג את העלות	мы не сможем взять эти расходы на себя
+engineer_phrases	claims	אנו מבינים את עמדתכם, אך	мы понимаем вашу позицию, однако
+engineer_phrases	claims	לצערנו, איננו יכולים להסכים	к сожалению, мы не можем согласиться
+engineer_phrases	claims	נבקש לקבל את עמדתכם בכתב	просим изложить вашу позицию письменно
+engineer_phrases	claims	נבקש לקיים פגישה בנושא	просим провести встречу по этому вопросу
+engineer_phrases	claims	נשמח להיפגש כדי להגיע להסכמה	будем рады встретиться, чтобы прийти к согласию
+engineer_phrases	claims	מבלי לגרוע מזכויותינו	без ущерба для наших прав
 engineer_plus	precast	אלמנט טרומי	сборный (заводской) элемент
 engineer_plus	precast	לוח"ד	пустотная преднапряжённая плита (лухад)
 engineer_plus	precast	לוח חלול דרוך	пустотная преднапряжённая плита (полное название)
@@ -3844,6 +4184,149 @@ engineer_plus	factory	פגם	дефект
 engineer_plus	factory	פסילה	отбраковка
 engineer_plus	factory	אלמנט פסול	бракованный элемент
 engineer_plus	factory	תיקון פגמים	устранение дефектов
+engineer_site	erection	מפעיל מנוף	оператор крана
+engineer_site	erection	עגורנאי	крановщик (официальный термин)
+engineer_site	erection	מענב	строп
+engineer_site	erection	שרשרת הרמה	цепной строп
+engineer_site	erection	כבל פלדה	стальной канат (трос)
+engineer_site	erection	משא	груз (на крюке)
+engineer_site	erection	וו המנוף	крюк крана
+engineer_site	erection	זרוע המנוף	стрела крана
+engineer_site	erection	כושר הרמה	грузоподъёмность
+engineer_site	erection	טבלת עומסים	таблица грузоподъёмности (крана)
+engineer_site	erection	רדיוס עבודה	вылет стрелы (рабочий радиус)
+engineer_site	erection	משקל האלמנט	масса элемента
+engineer_site	erection	תוכנית הרמה	схема (план) подъёма
+engineer_site	erection	חבל הכוונה	оттяжка (направляющий канат)
+engineer_site	erection	תמיכה אלכסונית	подкос (монтажный)
+engineer_site	erection	פילוס	выравнивание по уровню (нивелирование)
+engineer_site	erection	לפלס	выравнивать по уровню
+engineer_site	erection	אנכיות	вертикальность
+engineer_site	erection	רצף הרכבה	последовательность монтажа
+engineer_site	erection	צוות הרכבה	монтажная бригада
+engineer_site	erection	הנחת לוחות	укладка плит
+engineer_site	erection	אורך הישענות	длина опирания
+engineer_site	erection	יציקת חיבור	замоноличивание стыка
+engineer_site	erection	דייס	цементный раствор для заливки (grout)
+engineer_site	erection	ריתוך באתר	сварка на монтаже
+engineer_site	erection	יצוק באתר	монолитный (бетонируемый на месте) (м)
+engineer_site	erection	הרכבה ישירות מהמשאית	монтаж с колёс (прямо с грузовика)
+engineer_site	erection	תרים לאט	поднимай медленно (м)
+engineer_site	erection	תוריד לאט	опускай медленно (м)
+engineer_site	erection	עצור!	стоп! (м)
+engineer_site	erection	יש סטייה בציר	есть отклонение по оси
+engineer_site	erection	האלמנט לא נכנס	элемент не встаёт на место
+engineer_site	erection	המנוף לא מגיע	кран не достаёт (не хватает вылета)
+engineer_site	erection	צריך מנוף גדול יותר	нужен кран побольше
+engineer_site	erection	רוח חזקה, מפסיקים להרים	сильный ветер — прекращаем подъём
+engineer_site	delivery	אספקה	поставка
+engineer_site	delivery	לוח זמנים לאספקה	график поставок
+engineer_site	delivery	מועד אספקה	срок поставки
+engineer_site	delivery	שעות פריקה	часы разгрузки
+engineer_site	delivery	פריקה	разгрузка
+engineer_site	delivery	העמסה	погрузка
+engineer_site	delivery	לפרוק	разгружать
+engineer_site	delivery	להעמיס	грузить
+engineer_site	delivery	סדר העמסה	порядок погрузки
+engineer_site	delivery	מוביל	перевозчик
+engineer_site	delivery	חברת הובלה	транспортная компания
+engineer_site	delivery	סדרן	диспетчер (перевозок)
+engineer_site	delivery	משאית מנוף	грузовик с краном-манипулятором
+engineer_site	delivery	מטען חריג	негабаритный груз
+engineer_site	delivery	רכב ליווי	машина сопровождения
+engineer_site	delivery	הובלת לילה	ночная перевозка
+engineer_site	delivery	קשירת מטען	крепление груза (на машине)
+engineer_site	delivery	רצועות קשירה	стяжные ремни (мн.)
+engineer_site	delivery	משקל כולל	общий вес
+engineer_site	delivery	אישור קבלה	подтверждение получения
+engineer_site	delivery	נזק בהובלה	повреждение при перевозке
+engineer_site	delivery	תיאום אספקה	согласование поставки
+engineer_site	delivery	אחסון זמני באתר	временное складирование на площадке
+engineer_site	delivery	החזרת אלמנט למפעל	возврат элемента на завод
+engineer_site	delivery	האספקה מתעכבת	поставка задерживается
+engineer_site	delivery	המשאית תקועה בפקק	грузовик застрял в пробке
+engineer_site	delivery	מתי המשאית יוצאת מהמפעל?	когда грузовик выезжает с завода?
+engineer_site	delivery	כמה אלמנטים על המשאית?	сколько элементов на грузовике?
+engineer_site	delivery	איפה המשאית יכולה לעמוד?	где может встать грузовик?
+engineer_site	delivery	תפרקו כאן	разгружайте здесь (мн.)
+engineer_site	delivery	לא לפרוק לפני בדיקה	не разгружать до проверки
+engineer_site	delivery	האלמנטים הגיעו פגומים	элементы прибыли повреждёнными
+engineer_site	delivery	חסר אלמנט במשלוח	в партии не хватает элемента
+engineer_site	delivery	תחתום על תעודת המשלוח	распишись в накладной (м)
+engineer_site	delivery	אני צריך לראות את תעודת המשלוח	мне нужно увидеть накладную (м)
+engineer_site	delivery	אני צריכה לראות את תעודת המשלוח	мне нужно увидеть накладную (ж)
+engineer_site	qa	דו"ח אי התאמה	акт (отчёт) о несоответствии
+engineer_site	qa	תעודת התאמה	сертификат соответствия
+engineer_site	qa	תו תקן	знак соответствия стандарту
+engineer_site	qa	מכון התקנים	Институт стандартов Израиля
+engineer_site	qa	מעבדה מוסמכת	аккредитованная лаборатория
+engineer_site	qa	בדיקת קוביות	испытание контрольных кубов
+engineer_site	qa	קבלת אלמנט	приёмка элемента
+engineer_site	qa	סטיית מידות	отклонение размеров
+engineer_site	qa	סטייה מותרת	допустимое отклонение
+engineer_site	qa	סדק שערה	волосяная трещина
+engineer_site	qa	פינה שבורה	отбитый угол (скол)
+engineer_site	qa	קן חצץ	раковина (гравийное гнездо)
+engineer_site	qa	בועות אוויר	воздушные поры (мн.)
+engineer_site	qa	זיון חשוף	оголённая арматура
+engineer_site	qa	מישוריות	плоскостность
+engineer_site	qa	תיקון בטון	ремонт бетона
+engineer_site	qa	חומר תיקון	ремонтный состав
+engineer_site	qa	בדיקה חזותית	визуальный осмотр
+engineer_site	qa	בדיקה לא הורסת	неразрушающий контроль
+engineer_site	qa	פטיש שמידט	склерометр (молоток Шмидта)
+engineer_site	qa	קידוח גלעין	отбор керна
+engineer_site	qa	דו"ח מעבדה	лабораторный отчёт
+engineer_site	qa	תוצאות בדיקה	результаты испытаний
+engineer_site	qa	תאריך יציקה	дата бетонирования
+engineer_site	qa	עקיבות	прослеживаемость
+engineer_site	qa	רשימת תיוג	чек-лист
+engineer_site	qa	תוכנית בקרת איכות	план контроля качества
+engineer_site	qa	מנהל איכות	менеджер по качеству
+engineer_site	qa	הבטחת איכות	обеспечение качества (QA)
+engineer_site	qa	פעולה מתקנת	корректирующее действие
+engineer_site	qa	האלמנט עומד בדרישות	элемент соответствует требованиям
+engineer_site	qa	האלמנט לא תואם את התוכנית	элемент не соответствует чертежу
+engineer_site	qa	האלמנט נפסל	элемент забракован
+engineer_site	qa	צריך לתקן לפני ההרכבה	нужно исправить до монтажа
+engineer_site	qa	רוחב הסדק גדול מהמותר	ширина трещины больше допустимой
+engineer_site	qa	צריך לשלוח דגימות למעבדה	нужно отправить образцы в лабораторию
+engineer_site	qa	אני לא מאשר את האלמנט	я не принимаю этот элемент (м)
+engineer_site	qa	אני לא מאשרת את האלמנט	я не принимаю этот элемент (ж)
+engineer_site	safety	רתמה	страховочная привязь
+engineer_site	safety	קו חיים	анкерная линия (страховочный трос)
+engineer_site	safety	נקודת עיגון	точка крепления (страховки)
+engineer_site	safety	רשת בטיחות	страховочная сетка
+engineer_site	safety	משקפי מגן	защитные очки
+engineer_site	safety	כפפות עבודה	рабочие перчатки
+engineer_site	safety	אטמי אוזניים	беруши
+engineer_site	safety	עוזר בטיחות	помощник по технике безопасности
+engineer_site	safety	מפקח עבודה	государственный инспектор труда
+engineer_site	safety	הפסקת עבודה	остановка работ
+engineer_site	safety	אזור מסוכן	опасная зона
+engineer_site	safety	אזור הרמה	зона подъёма груза
+engineer_site	safety	פתח ברצפה	проём в перекрытии
+engineer_site	safety	כיסוי פתחים	закрытие проёмов
+engineer_site	safety	סכנת נפילה	опасность падения
+engineer_site	safety	נפילת חפצים	падение предметов
+engineer_site	safety	הסמכה לעבודה בגובה	допуск к работе на высоте
+engineer_site	safety	במה מתרוממת	подъёмная платформа (подъёмник)
+engineer_site	safety	סל אדם	люлька (для подъёма людей краном)
+engineer_site	safety	שילוט אזהרה	предупреждающие знаки
+engineer_site	safety	סרט סימון	сигнальная лента
+engineer_site	safety	מפגע בטיחותי	нарушение техники безопасности (опасный фактор)
+engineer_site	safety	כמעט תאונה	опасное происшествие без последствий (near miss)
+engineer_site	safety	פינוי נפגע	эвакуация пострадавшего
+engineer_site	safety	קווי חשמל עיליים	воздушные линии электропередачи
+engineer_site	safety	מרחק בטיחות	безопасное расстояние
+engineer_site	safety	סקר סיכונים	оценка рисков
+engineer_site	safety	תסקיר	акт техосвидетельствования (крана, подъёмных средств)
+engineer_site	safety	בודק מוסמך	аттестованный инспектор (подъёмного оборудования)
+engineer_site	safety	חבישת קסדה חובה	ношение каски обязательно
+engineer_site	safety	שים קסדה!	надень каску! (м)
+engineer_site	safety	שימי קסדה!	надень каску! (ж)
+engineer_site	safety	תתרחק מהמשא!	отойди от груза! (м)
+engineer_site	safety	אין לעבוד בלי רתמה	запрещено работать без страховочной привязи
 everyday	c0	בשר	мясо
 everyday	c0	דג	рыба
 everyday	c0	עוף	курица
@@ -4404,6 +4887,114 @@ home	c3	שכונה שקטה	тихий район
 home	c3	קרוב למרכז	близко к центру
 home	c3	תחבורה ציבורית בקרבת מקום	общественный транспорт рядом
 home	c3	דמי ועד	оплата за ваад
+meds	dosage	פעמיים ביום	два раза в день
+meds	dosage	פעם ביום	один раз в день
+meds	dosage	כל שמונה שעות	каждые восемь часов
+meds	dosage	בבוקר ובערב	утром и вечером
+meds	dosage	אחרי האוכל	после еды
+meds	dosage	לפני האוכל	перед едой
+meds	dosage	עם האוכל	во время еды
+meds	dosage	על בטן ריקה	на пустой желудок, натощак
+meds	dosage	לפני השינה	перед сном
+meds	dosage	כל יום באותה שעה	каждый день в одно и то же время
+meds	dosage	לפי הצורך	по необходимости
+meds	dosage	כדור אחד	одна таблетка
+meds	dosage	שני כדורים	две таблетки
+meds	dosage	חצי כדור	полтаблетки
+meds	dosage	לא יותר משלושה כדורים ביום	не больше трёх таблеток в день
+meds	dosage	לבלוע עם מים	проглотить, запивая водой
+meds	dosage	לא ללעוס	не разжёвывать
+meds	dosage	לקחת תרופה	принимать лекарство
+meds	dosage	קחי כדור אחד בבוקר	принимайте одну таблетку утром (ж)
+meds	dosage	במשך שבוע	в течение недели
+meds	dosage	עד סוף הטיפול	до конца курса лечения
+meds	dosage	אם שכחת מנה	если вы забыли принять дозу (ж)
+meds	dosage	אל תיקחי מנה כפולה	не принимайте двойную дозу (ж)
+meds	dosage	אל תיקח מנה כפולה	не принимайте двойную дозу (м)
+meds	dosage	שכחתי לקחת את הכדור	я забыл(а) принять таблетку
+meds	dosage	מתי לקחת את זה?	когда это принимать?
+meds	dosage	לא לשתות אלכוהול	не пить алкоголь
+meds	dosage	לשמור במקרר	хранить в холодильнике
+meds	dosage	לנער לפני השימוש	взбалтывать перед употреблением
+meds	dosage	תופעות לוואי	побочные эффекты (мн.)
+meds	dosage	יש לי רגישות לפניצילין	у меня аллергия на пенициллин
+meds	forms	כדור	таблетка
+meds	forms	כמוסה	капсула
+meds	forms	טיפות לאוזניים	ушные капли
+meds	forms	טיפות לאף	капли в нос
+meds	forms	סירופ	сироп
+meds	forms	חיסון נגד שפעת	прививка от гриппа
+meds	forms	משאף	ингалятор
+meds	forms	נרות	свечи (лекарственные)
+meds	forms	תרסיס	спрей
+meds	forms	תרסיס לאף	спрей для носа
+meds	forms	קרם	крем
+meds	forms	אבקה	порошок
+meds	forms	מזרק	шприц
+meds	forms	תחבושת אלסטית	эластичный бинт
+meds	forms	תרופה גנרית	дженерик (аналог лекарства)
+meds	forms	תרופת מרשם	рецептурное лекарство
+meds	forms	תרופה להורדת חום	жаропонижающее
+meds	forms	תרופה לסוכרת	лекарство от диабета
+meds	forms	כדורי שינה	снотворное (таблетки для сна)
+meds	forms	תרופות קבועות	постоянные лекарства (мн.)
+meds	forms	קופסת תרופות	коробочка для лекарств (таблетница)
+meds	forms	אריזה	упаковка
+meds	forms	עלון לצרכן	инструкция-вкладыш к лекарству
+meds	forms	רוקחת	фармацевт (ж)
+meds	referral	הפניה לצילום	направление на снимок (рентген)
+meds	referral	הפניה לרופא מומחה	направление к врачу-специалисту
+meds	referral	להביא את ההפניה	принести направление
+meds	referral	ההפניה בתוקף	направление действительно
+meds	referral	לקבל התחייבות מהקופה	получить гарантийное письмо от больничной кассы
+meds	referral	לקבוע תור לבדיקת דם	записаться на анализ крови
+meds	referral	בדיקת דם בצום	анализ крови натощак
+meds	referral	לבוא בצום	прийти натощак
+meds	referral	מותר לשתות מים	воду пить можно
+meds	referral	הכנה לבדיקה	подготовка к обследованию
+meds	referral	תוצאות	результаты (мн.)
+meds	referral	התוצאות מוכנות?	результаты готовы?
+meds	referral	התוצאות תקינות	результаты в норме
+meds	referral	תקין	в норме, нормальный (м)
+meds	referral	אפשר לראות את התוצאות באפליקציה	результаты можно посмотреть в приложении
+meds	referral	צילום חזה	рентген грудной клетки
+meds	referral	בדיקת עיניים	проверка зрения
+meds	referral	קרדיולוג	кардиолог
+meds	referral	אורתופד	ортопед
+meds	referral	רופא עור	дерматолог
+meds	referral	רופא אף אוזן גרון	лор-врач
+meds	referral	רופאת משפחה	семейный врач (ж)
+meds	referral	אני רוצה לקבוע תור לקרדיולוג	я хочу записаться к кардиологу (м)
+meds	referral	אני רוצה לקבוע תור לקרדיולוג	я хочу записаться к кардиологу (ж)
+meds	referral	תור דחוף	срочная запись к врачу
+meds	referral	רשימת המתנה	лист ожидания
+meds	referral	חוות דעת שנייה	второе мнение (другого врача)
+meds	aids	משקפי קריאה	очки для чтения
+meds	aids	עדשות מגע	контактные линзы
+meds	aids	מכשיר שמיעה	слуховой аппарат
+meds	aids	סוללה למכשיר שמיעה	батарейка для слухового аппарата
+meds	aids	בדיקת שמיעה	проверка слуха
+meds	aids	תדבר יותר חזק, בבקשה	говорите громче, пожалуйста (к мужчине)
+meds	aids	תדברי יותר חזק, בבקשה	говорите громче, пожалуйста (к женщине)
+meds	aids	אני לא רואה טוב	я плохо вижу (ж)
+meds	aids	אני לא רואה טוב	я плохо вижу (м)
+meds	aids	שכחתי את המשקפיים	я забыл(а) очки
+meds	aids	מד לחץ דם	тонометр
+meds	aids	למדוד לחץ דם	измерить давление
+meds	aids	הלחץ שלי עלה	у меня поднялось давление
+meds	aids	סוכר בדם	сахар в крови
+meds	aids	רמת סוכר	уровень сахара
+meds	aids	סוכר נמוך	низкий сахар
+meds	aids	סוכר גבוה	высокий сахар
+meds	aids	מד סוכר	глюкометр
+meds	aids	זריקת אינסולין	укол инсулина
+meds	aids	הליכון	ходунки
+meds	aids	מקל הליכה	трость
+meds	aids	כיסא גלגלים	инвалидная коляска
+meds	aids	ידית אחיזה	поручень (в ванной, у кровати)
+meds	aids	לחצן מצוקה	тревожная кнопка (для пожилых)
+meds	aids	גרבי לחץ	компрессионные чулки (мн.)
+meds	aids	חיתולים למבוגרים	подгузники для взрослых
 offices	kupat-holim	קופת חולים	больничная касса
 offices	kupat-holim	מזכירות	регистратура (секретариат)
 offices	kupat-holim	מרפאה	поликлиника
